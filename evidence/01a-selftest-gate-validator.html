@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Self-Test Part 1/2 — gate.py + validator.py + quote_gen.py</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, 'SF Mono', Menlo, monospace;
+    background: #1e1e2e;
+    padding: 26px;
+    color: #cdd6f4;
+  }
+  .window {
+    background: #181825;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,.55);
+  }
+  .titlebar {
+    background: #313244;
+    padding: 11px 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dot { width:12px; height:12px; border-radius:50%; }
+  .d1 { background:#f38ba8; }
+  .d2 { background:#f9e2af; }
+  .d3 { background:#a6e3a1; }
+  .titlebar span {
+    margin-left: 14px;
+    font-family: -apple-system, sans-serif;
+    font-size: 13px;
+    color: #a6adc8;
+  }
+  .meta {
+    font-family: -apple-system, sans-serif;
+    font-size: 12px;
+    color: #6c7086;
+    padding: 10px 20px;
+    background: #11111b;
+    border-bottom: 1px solid #313244;
+    display: flex;
+    justify-content: space-between;
+  }
+  pre {
+    padding: 18px 20px;
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: #cdd6f4;
+  }
+  .pass { color:#a6e3a1; font-weight:700; }
+  .fail { color:#f38ba8; font-weight:700; }
+  .head { color:#89b4fa; font-weight:700; }
+  .warn { color:#f9e2af; }
+</style>
+</head>
+<body>
+  <div class="window">
+    <div class="titlebar">
+      <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div>
+      <span>python3 agent/tools/selftest.py</span>
+    </div>
+    <div class="meta"><span>Self-Test Part 1/2 — gate.py + validator.py + quote_gen.py</span><span>Challenge B — Office Agent</span></div>
+    <pre><span class="head"><span class="head">============================================================</span>==========</span>
+  TOF Project Assistant - Complete Self-Test Suite
+  Challenge B: Office Agent - Unstructured to Structured
+  Hackathon: AI CAN DO IT - Tencent Cloud Indonesia 2026
+<span class="head"><span class="head">============================================================</span>==========</span>
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Running: Gate (Approval State Machine)
+  Module: gate.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<span class="head">============================================================</span>
+TOF Project Assistant - Gate Self-Test
+<span class="head">============================================================</span>
+
+<span class="head">--- </span>Test Group 1: Valid Transitions ---
+  <span class="pass">PASS</span> DRAFT -&gt; PENDING_APPROVAL
+  <span class="pass">PASS</span> PENDING_APPROVAL -&gt; APPROVED
+  <span class="pass">PASS</span> PENDING_APPROVAL -&gt; REJECTED
+  <span class="pass">PASS</span> APPROVED -&gt; EXECUTED
+  <span class="pass">PASS</span> REJECTED -&gt; DRAFT (remediation)
+  <span class="pass">PASS</span> EXECUTED -&gt; FAILED
+
+<span class="head">--- </span>Test Group 2: Invalid Transitions ---
+  <span class="pass">PASS</span> PENDING_APPROVAL -&gt; EXECUTED (blocked)
+  <span class="pass">PASS</span> REJECTED -&gt; EXECUTED (blocked)
+  <span class="pass">PASS</span> FAILED -&gt; EXECUTED (blocked)
+  <span class="pass">PASS</span> DRAFT -&gt; EXECUTED (blocked)
+
+<span class="head">--- </span>Test Group 3: Not Found ---
+  <span class="pass">PASS</span> Non-existent action blocked
+
+<span class="head">--- </span>Test Group 4: Approved Action ---
+  <span class="pass">PASS</span> Approved action allowed to execute
+
+<span class="head">--- </span>Test Group 5: Pending Action ---
+  <span class="pass">PASS</span> Pending action blocked
+
+<span class="head">--- </span>Test Group 6: Rejected Action ---
+  <span class="pass">PASS</span> Rejected action blocked
+
+<span class="head">--- </span>Test Group 7: Already Executed ---
+  <span class="pass">PASS</span> Already executed blocked
+
+<span class="head">--- </span>Test Group 8: Failed Action ---
+  <span class="pass">PASS</span> Failed action blocked
+
+<span class="head">--- </span>Test Group 9: Risk Level Checks ---
+  <span class="pass">PASS</span> Low risk - no approval needed
+  <span class="pass">PASS</span> Medium risk - approval required
+  <span class="pass">PASS</span> High risk - approval required
+
+<span class="head">--- </span>Test Group 10: Prompt Injection Detection ---
+  <span class="pass">PASS</span> Normal text - no injection
+  <span class="pass">PASS</span> Injection: &#x27;ignore all rules&#x27; detected
+  <span class="pass">PASS</span> Injection: privilege escalation detected
+  <span class="pass">PASS</span> Empty text - no false positive
+  <span class="pass">PASS</span> None text - handled gracefully
+
+<span class="head">--- </span>Test Group 11: State Machine ---
+  <span class="pass">PASS</span> State machine has 6 states
+  <span class="pass">PASS</span> EXECUTED can only transition to FAILED
+  <span class="pass">PASS</span> FAILED has no valid transitions
+
+<span class="head">============================================================</span>
+RESULTS: 27/27 passed, 0 failed
+<span class="head">============================================================</span>
+
+All gate self-tests passed!
+
+  &gt;&gt; Gate (Approval State Machine): PASS (0.3s)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Running: Validator (Plan Quality Checker)
+  Module: validator.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<span class="head">============================================================</span>
+TOF Project Assistant - Validator Self-Test
+<span class="head">============================================================</span>
+
+<span class="head">--- </span>Test Group 1: Valid Plan ---
+  <span class="pass">PASS</span> Valid plan - verdict is PASS or PASS_WITH_WARNINGS
+  <span class="pass">PASS</span> All 6 checks executed
+
+<span class="head">--- </span>Test Group 2: Missing Sections ---
+  <span class="pass">PASS</span> Incomplete plan fails
+  <span class="pass">PASS</span> Completeness check fails
+
+<span class="head">--- </span>Test Group 3: Empty WBS ---
+  <span class="pass">PASS</span> Empty WBS flagged
+
+<span class="head">--- </span>Test Group 4: High Effort Phase ---
+  <span class="pass">PASS</span> High effort phase flagged
+
+<span class="head">--- </span>Test Group 5: Information Transparency ---
+  <span class="pass">PASS</span> Missing infoSources fails
+
+<span class="head">--- </span>Test Group 6: Assumption Risk ---
+  <span class="pass">PASS</span> High-risk assumption flagged
+
+<span class="head">--- </span>Test Group 7: Unflagged Assumptions ---
+  <span class="pass">PASS</span> Unflagged assumption detected
+
+<span class="head">--- </span>Test Group 8: Brief Alignment ---
+  <span class="pass">PASS</span> Brief alignment checks tech stack
+
+<span class="head">--- </span>Test Group 9: No Brief ---
+  <span class="pass">PASS</span> No brief - warning
+
+<span class="head">--- </span>Test Group 10: Cost Validation ---
+  <span class="pass">PASS</span> Low cost flagged
+
+<span class="head">--- </span>Test Group 11: Untagged Tasks ---
+  <span class="pass">PASS</span> Untagged tasks flagged
+
+<span class="head">--- </span>Test Group 12: Risks Without Mitigation ---
+  <span class="pass">PASS</span> Risk without mitigation flagged
+
+<span class="head">============================================================</span>
+RESULTS: 14/14 passed, 0 failed
+<span class="head">============================================================</span>
+
+All validator self-tests passed!
+
+  &gt;&gt; Validator (Plan Quality Checker): PASS (0.0s)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Running: Quotation Generator
+  Module: quote_gen.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<span class="head">============================================================</span>
+TOF Project Assistant - Quotation Generator Self-Test
+<span class="head">============================================================</span>
+
+<span class="head">--- </span>Test Group 1: Quote Number ---
+  <span class="pass">PASS</span> Quote number has correct format
+  <span class="pass">PASS</span> Different project = different quote number
+
+<span class="head">--- </span>Test Group 2: Terbilang (Amount in Words) ---
+  <span class="pass">PASS</span> Zero
+  <span class="pass">PASS</span> 500000
+  <span class="pass">PASS</span> 1000000
+  <span class="pass">PASS</span> 23800000
+  <span class="pass">PASS</span> 1500000
+
+<span class="head">--- </span>Test Group 3: Full Quotation ---
+  <span class="pass">PASS</span> Quotation has quote number
+  <span class="pass">PASS</span> Quotation has client info
+  <span class="pass">PASS</span> Quotation has work scope
+  <span class="pass">PASS</span> Quotation total &gt; 0
+  <span class="pass">PASS</span> Quotation has terbilang
+  <span class="pass">PASS</span> Quotation has terms
+  <span class="pass">PASS</span> Quotation has payment schedule
+
+<span class="head">--- </span>Test Group 4: Payment Schedule ---
+  <span class="pass">PASS</span> Payment schedule sums to 100%
+  <span class="pass">PASS</span> Payment nominals sum to total
+
+<span class="head">--- </span>Test Group 5: Stack Multiplier ---
+  <span class="pass">PASS</span> Apps Script stack multiplier applied (0.9x)
+
+<span class="head">--- </span>Test Group 6: Cost Calculation ---
+  <span class="pass">PASS</span> Cost calculation has line items
+  <span class="pass">PASS</span> Cost calculation total days = 22
+  <span class="pass">PASS</span> Line items sum = subtotal
+
+<span class="head">--- </span>Test Group 7: Quotation Validation ---
+  <span class="pass">PASS</span> Valid quotation passes validation
+  <span class="pass">PASS</span> Invalid quotation fails validation
+
+<span class="head">--- </span>Test Group 8: Approval Card ---
+  <span class="pass">PASS</span> Approval card has header
+  <span class="pass">PASS</span> Approval card has total
+  <span class="pass">PASS</span> Approval card has risk level
+
+<span class="head">--- </span>Test Group 9: Rate Card ---
+  <span class="pass">PASS</span> Rate card loaded
+  <span class="pass">PASS</span> Full-stack Developer rate = 1,000,000
+
+<span class="head">--- </span>Test Group 10: Different Developer Roles ---
+  <span class="pass">PASS</span> Junior rate cheaper than Full-stack
+
+<span class="head">--- </span>Test Group 11: Custom Terms ---
+  <span class="pass">PASS</span> Custom terms used
+
+<span class="head">--- </span>Test Group 12: Empty Plan ---
+  <span class="pass">PASS</span> Empty plan = zero total
+  <span class="pass">PASS</span> Empty plan = no work scope
+
+<span class="head">============================================================</span>
+RESULTS: 31/31 passed, 0 failed
+<span class="head">============================================================</span>
+
+All quotation generator self-tests passed!
+
+  &gt;&gt; Quotation Generator: PASS (0.0s)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</pre>
+  </div>
+</body>
+</html>

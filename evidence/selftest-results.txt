@@ -1,0 +1,252 @@
+======================================================================
+  TOF Project Assistant - Complete Self-Test Suite
+  Challenge B: Office Agent - Unstructured to Structured
+  Hackathon: AI CAN DO IT - Tencent Cloud Indonesia 2026
+======================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Running: Gate (Approval State Machine)
+  Module: gate.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+============================================================
+TOF Project Assistant - Gate Self-Test
+============================================================
+
+--- Test Group 1: Valid Transitions ---
+  [PASS] DRAFT -> PENDING_APPROVAL
+  [PASS] PENDING_APPROVAL -> APPROVED
+  [PASS] PENDING_APPROVAL -> REJECTED
+  [PASS] APPROVED -> EXECUTED
+  [PASS] REJECTED -> DRAFT (remediation)
+  [PASS] EXECUTED -> FAILED
+
+--- Test Group 2: Invalid Transitions ---
+  [PASS] PENDING_APPROVAL -> EXECUTED (blocked)
+  [PASS] REJECTED -> EXECUTED (blocked)
+  [PASS] FAILED -> EXECUTED (blocked)
+  [PASS] DRAFT -> EXECUTED (blocked)
+
+--- Test Group 3: Not Found ---
+  [PASS] Non-existent action blocked
+
+--- Test Group 4: Approved Action ---
+  [PASS] Approved action allowed to execute
+
+--- Test Group 5: Pending Action ---
+  [PASS] Pending action blocked
+
+--- Test Group 6: Rejected Action ---
+  [PASS] Rejected action blocked
+
+--- Test Group 7: Already Executed ---
+  [PASS] Already executed blocked
+
+--- Test Group 8: Failed Action ---
+  [PASS] Failed action blocked
+
+--- Test Group 9: Risk Level Checks ---
+  [PASS] Low risk - no approval needed
+  [PASS] Medium risk - approval required
+  [PASS] High risk - approval required
+
+--- Test Group 10: Prompt Injection Detection ---
+  [PASS] Normal text - no injection
+  [PASS] Injection: 'ignore all rules' detected
+  [PASS] Injection: privilege escalation detected
+  [PASS] Empty text - no false positive
+  [PASS] None text - handled gracefully
+
+--- Test Group 11: State Machine ---
+  [PASS] State machine has 6 states
+  [PASS] EXECUTED can only transition to FAILED
+  [PASS] FAILED has no valid transitions
+
+============================================================
+RESULTS: 27/27 passed, 0 failed
+============================================================
+
+All gate self-tests passed!
+
+  >> Gate (Approval State Machine): PASS (0.2s)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Running: Validator (Plan Quality Checker)
+  Module: validator.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+============================================================
+TOF Project Assistant - Validator Self-Test
+============================================================
+
+--- Test Group 1: Valid Plan ---
+  [PASS] Valid plan - verdict is PASS or PASS_WITH_WARNINGS
+  [PASS] All 6 checks executed
+
+--- Test Group 2: Missing Sections ---
+  [PASS] Incomplete plan fails
+  [PASS] Completeness check fails
+
+--- Test Group 3: Empty WBS ---
+  [PASS] Empty WBS flagged
+
+--- Test Group 4: High Effort Phase ---
+  [PASS] High effort phase flagged
+
+--- Test Group 5: Information Transparency ---
+  [PASS] Missing infoSources fails
+
+--- Test Group 6: Assumption Risk ---
+  [PASS] High-risk assumption flagged
+
+--- Test Group 7: Unflagged Assumptions ---
+  [PASS] Unflagged assumption detected
+
+--- Test Group 8: Brief Alignment ---
+  [PASS] Brief alignment checks tech stack
+
+--- Test Group 9: No Brief ---
+  [PASS] No brief - warning
+
+--- Test Group 10: Cost Validation ---
+  [PASS] Low cost flagged
+
+--- Test Group 11: Untagged Tasks ---
+  [PASS] Untagged tasks flagged
+
+--- Test Group 12: Risks Without Mitigation ---
+  [PASS] Risk without mitigation flagged
+
+============================================================
+RESULTS: 14/14 passed, 0 failed
+============================================================
+
+All validator self-tests passed!
+
+  >> Validator (Plan Quality Checker): PASS (0.0s)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Running: Quotation Generator
+  Module: quote_gen.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+============================================================
+TOF Project Assistant - Quotation Generator Self-Test
+============================================================
+
+--- Test Group 1: Quote Number ---
+  [PASS] Quote number has correct format
+  [PASS] Different project = different quote number
+
+--- Test Group 2: Terbilang (Amount in Words) ---
+  [PASS] Zero
+  [PASS] 500000
+  [PASS] 1000000
+  [PASS] 23800000
+  [PASS] 1500000
+
+--- Test Group 3: Full Quotation ---
+  [PASS] Quotation has quote number
+  [PASS] Quotation has client info
+  [PASS] Quotation has work scope
+  [PASS] Quotation total > 0
+  [PASS] Quotation has terbilang
+  [PASS] Quotation has terms
+  [PASS] Quotation has payment schedule
+
+--- Test Group 4: Payment Schedule ---
+  [PASS] Payment schedule sums to 100%
+  [PASS] Payment nominals sum to total
+
+--- Test Group 5: Stack Multiplier ---
+  [PASS] Apps Script stack multiplier applied (0.9x)
+
+--- Test Group 6: Cost Calculation ---
+  [PASS] Cost calculation has line items
+  [PASS] Cost calculation total days = 22
+  [PASS] Line items sum = subtotal
+
+--- Test Group 7: Quotation Validation ---
+  [PASS] Valid quotation passes validation
+  [PASS] Invalid quotation fails validation
+
+--- Test Group 8: Approval Card ---
+  [PASS] Approval card has header
+  [PASS] Approval card has total
+  [PASS] Approval card has risk level
+
+--- Test Group 9: Rate Card ---
+  [PASS] Rate card loaded
+  [PASS] Full-stack Developer rate = 1,000,000
+
+--- Test Group 10: Different Developer Roles ---
+  [PASS] Junior rate cheaper than Full-stack
+
+--- Test Group 11: Custom Terms ---
+  [PASS] Custom terms used
+
+--- Test Group 12: Empty Plan ---
+  [PASS] Empty plan = zero total
+  [PASS] Empty plan = no work scope
+
+============================================================
+RESULTS: 31/31 passed, 0 failed
+============================================================
+
+All quotation generator self-tests passed!
+
+  >> Quotation Generator: PASS (0.0s)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Running: Audit Logger
+  Module: audit_logger.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Audit Logger Results:
+    Event ID: a9d33e59-01ff-48c5-8f1f-4895b5a93b63
+    Today's events: 3
+    Event types: 26
+    Status: PASS
+
+  >> Audit Logger: PASS (0.0s)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Running: State Manager
+  Module: state_manager.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  State Manager Results:
+    Project created: PRJ-SELFTEST
+    Approval created: ACT-20261106091440-3d6468
+    Approval resolved: APPROVED
+    Projects listed: 1
+    Status: PASS
+
+  >> State Manager: PASS (0.2s)
+
+======================================================================
+  FINAL RESULTS
+======================================================================
+
+  Module                    Name                                Status    
+  ------------------------- ----------------------------------- ----------
+  gate.py                   Gate (Approval State Machine)       [PASS]
+  validator.py              Validator (Plan Quality Checker)    [PASS]
+  quote_gen.py              Quotation Generator                 [PASS]
+  audit_logger.py           Audit Logger                        [PASS]
+  state_manager.py          State Manager                       [PASS]
+
+  Total modules: 5
+  Passed: 5
+  Failed: 0
+
+  *** ALL 5 MODULE TESTS PASSED ***
+
+  Accountability Rules Verified:
+    [PASS] Transparency - tags defined and used
+    [PASS] Permission - bounded authority enforced
+    [PASS] Human Approval - state machine blocks unauthorized execution
+    [PASS] Bounded Authority - CAN/CANNOT table enforced
+    [PASS] Traceability - audit log records all events
+    [PASS] Anti-Fabrication - no fabricated data in tools
+    [PASS] Prompt Injection Protection - detection active
+    [PASS] Completion Honesty - verification before claiming success
+
+======================================================================

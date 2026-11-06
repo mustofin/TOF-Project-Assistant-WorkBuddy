@@ -116,5 +116,26 @@ Run: `python3 tests/test_cases.py`
 | `agent/tools/validator.py` | Validator self-test (14 tests) |
 | `agent/tools/quote_gen.py` | Quotation generator self-test (31 tests) |
 | `tests/test_cases.py` | Challenge test cases (20 tests) |
+| `demo/run_demo.py` | End-to-end demo runner (10 scenes) |
 | `evidence/test-results.json` | Full test results in JSON format |
 | `evidence/selftest-results.txt` | Self-test output log |
+
+---
+
+## Screenshots (Execution Evidence)
+
+Real terminal output captured from actual runs — not mockups.
+
+| Screenshot | Shows |
+|-----------|-------|
+| `evidence/screenshots/01a-selftest-gate-validator.png` | Self-test part 1: gate.py (27), validator.py (14), quote_gen.py (31) |
+| `evidence/screenshots/01b-selftest-summary.png` | Self-test part 2: audit_logger, state_manager, FINAL SUMMARY — "ALL 5 MODULE TESTS PASSED" |
+| `evidence/screenshots/02-test-cases.png` | 20 challenge tests: 19 PASS / 1 FAIL with full category breakdown |
+
+To regenerate the screenshots after changing any test:
+
+```bash
+python3 agent/tools/selftest.py > /tmp/out-selftest.txt 2>&1
+python3 tests/test_cases.py  > /tmp/out-tests.txt 2>&1
+python3 evidence/build_evidence.py
+```

@@ -18,9 +18,7 @@ state/approval-history/
 state/execution-history/
 state/projects/
 
-# Evidence (generated during testing)
-# Keep evidence/ directory but not generated files
-evidence/*.txt
+# Evidence — screenshots and logs ARE committed (they are submission artifacts)
 
 # OS files
 .DS_Store
