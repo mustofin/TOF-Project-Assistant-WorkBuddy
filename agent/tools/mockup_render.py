@@ -374,15 +374,36 @@ body{{font-family:{f['family']};background:{c['canvas']};color:{c['ink']};
 
             pp = (png_dir / f"{screen['id']}.png").resolve()
             h = self.height_for(screen)
-            proc = subprocess.run([
+
+            # Chrome's own sandbox cannot always initialise — inside a
+            # container, a nested sandbox, or a hardened shell it fails with
+            # "sandbox initialization failed: Operation not permitted" and
+            # writes nothing. Retry once with the sandbox disabled rather than
+            # aborting a demo half-way through; only report failure if both
+            # attempts produce no file.
+            base = [
                 self.chrome, "--headless", "--disable-gpu", "--hide-scrollbars",
                 f"--window-size={self.width},{h}",
                 f"--screenshot={pp}", f"file://{hp}",
-            ], capture_output=True, text=True)
-            if not pp.exists():
+            ]
+            attempts = [
+                base,
+                base[:2] + ["--no-sandbox", "--disable-dev-shm-usage"] + base[2:],
+            ]
+
+            last_err = ""
+            for args in attempts:
+                proc = subprocess.run(args, capture_output=True, text=True)
+                if pp.exists():
+                    break
+                last_err = (proc.stderr or proc.stdout or "").strip()
+            else:
                 raise RuntimeError(
-                    f"Chrome failed to write {pp.name}: "
-                    f"{(proc.stderr or proc.stdout or '').strip()[:300]}")
+                    f"Chrome failed to write {pp.name} after 2 attempts "
+                    f"(sandboxed, then --no-sandbox).\n"
+                    f"Chrome said: {last_err[:300]}\n"
+                    f"Fix: run this outside a container/IDE sandbox, or open "
+                    f"{hp} in a browser and take the screenshot manually.")
             written.append(str(pp))
 
         return written
