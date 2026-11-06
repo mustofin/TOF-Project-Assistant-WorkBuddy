@@ -10,6 +10,10 @@ shared file or sent to a client.
 > Challenge B: Office Agent (unstructured input → structured output)
 > Built on WorkBuddy AI · by TOF Solusi Digital
 
+**Live showcase** → https://tof-project-assistant.apps.workbuddy.host/?sharecode=QJRYZAPOGO
+(what the product does, the 14 screens it derived from a plan, and the measured numbers —
+no install needed)
+
 ---
 
 ## The problem it solves
