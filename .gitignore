@@ -35,3 +35,7 @@ Thumbs.db
 
 # Excel tracker backups (regenerated from plan.json; not submission artifacts)
 data/*.backup-*.xlsx
+
+# App publishing markers (local only)
+.wbapp_*.genie
+.workbuddy/

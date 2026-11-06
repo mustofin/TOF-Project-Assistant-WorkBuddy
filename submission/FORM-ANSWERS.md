@@ -66,16 +66,17 @@ Challenge B label, and the five accountability rules.
 
 ## 15. Project Link * — live URL or demo link
 
-**Two options.** Pick one:
+```
+https://tof-project-assistant.apps.workbuddy.host/?sharecode=QJRYZAPOGO
+```
 
-| Option | Value | Note |
-|---|---|---|
-| **A. Hosted showcase page** | publish `submission/site/` → returns a public URL | **[NEW]** best option: judges see the product without installing anything |
-| **B. GitHub repository** | `https://github.com/mustofin/TOF-Project-Assistant-WorkBuddy` | works, but the repo is also the Source Code field — reusing it adds nothing |
+**[READY]** Published and verified reachable. The page is self-contained (14 screenshots,
+1.0 MB) and states plainly that the agent itself runs in WorkBuddy, so nobody mistakes the
+page for the product.
 
-If you choose A, the page is already built and self-contained (14 screenshots, 1.0 MB).
-It states plainly that the agent itself runs in WorkBuddy, so nobody mistakes the page for
-the product.
+Source of the page: `submission/site/`. Rebuild with `python3 submission/site/build_site.py`
+if you change anything — it reads the screenshots and numbers from the repo, so the page
+cannot drift from the code.
 
 ## 16. Demo Video Link * — browser-accessible URL
 
@@ -169,9 +170,9 @@ repository. The warning is item 16 (video), which cannot be verified from disk.
 | 2 | Record the 5–8 min demo video, upload unlisted | you | **yes** |
 | 3 | Screenshot 3–5 turns of your chat history | you | **yes** |
 | 4 | Publish the social media post with the 3 hashtags | you | **yes** |
-| 5 | Decide the Project Link (hosted page vs repo) | you | **yes** |
+| 5 | ~~Decide the Project Link~~ — published, paste the URL above | done | no |
 | 6 | Fill team name, captain, email, phone | you | **yes** |
-| 7 | Cover image, PDF, description, blurb | done | no |
+| 7 | Cover image, PDF, description, blurb, project link | done | no |
 | 8 | Select "The Office Agent" | done | no |
 
 Everything in rows 7–8 is on disk and verified. Rows 1–6 cannot be done from here —
