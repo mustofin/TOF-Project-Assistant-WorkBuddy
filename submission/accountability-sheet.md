@@ -27,6 +27,8 @@
 | Run validation checks | Low | Analysis only |
 | Generate audit log entries | Low | Append-only, internal |
 | Generate quotation draft | Low | Output only, for review |
+| Derive UI screen inventory from plan | Low | Deterministic, output only |
+| Render mockup PNG into project folder | Low | Writes only to own workspace |
 | Run self-tests | Low | Internal validation |
 
 ## What Requires Human Approval
@@ -36,6 +38,8 @@
 | Create tasks in Excel tracker | Medium | Approval card → PENDING → APPROVED |
 | Update task status in tracker | Medium | Approval card with detail changes |
 | Sync local state to tracker | Medium | Approval card per sync batch |
+| Confirm UI screen inventory before design | Medium | Approval card listing every screen + its source scope line |
+| Write frames into a shared Figcraft design file | High | Separate approval — never modifies existing layers |
 | Send quotation via email | High | Separate approval for email send |
 | Delete data | High | Never auto-executed |
 | Bulk operations (>5 cells) | High | Approval card with full scope |
@@ -66,6 +70,8 @@ DRAFT → PENDING_APPROVAL → APPROVED → EXECUTED → (FAILED if error)
 | Access data outside project workspace | Bounded authority CAN/CANNOT table |
 | Change project scope without authority | Approval required for scope changes |
 | Send emails without explicit approval | Email send = high risk, separate approval |
+| Invent UI screens not backed by plan scope | `ui_spec.py` requires `derivedFrom` on every screen; TC-022 asserts 0 invented |
+| Use real client data in mockups | Mockups use obvious sample data only |
 
 ---
 
@@ -88,7 +94,7 @@ Every information item in plans is tagged:
 
 - **Format:** JSONL (JSON Lines), daily files
 - **Location:** `state/audit-log/YYYY-MM-DD.jsonl`
-- **26 event types:** task_received, clarification_requested, clarification_received, plan_created, plan_modified, validation_started, validation_completed, risk_assessed, approval_requested, approval_granted, approval_rejected, execution_started, execution_completed, execution_failed, tracker_sync_started/completed/failed, conflict_detected, closure_draft_created, quotation_generated/reviewed/approved/rejected/email_prepared/sent, error
+- **33 event types** across project lifecycle, planning, approval, execution, quotation, UI design, and security
 - **Each entry:** UUID, timestamp, projectId, eventType, actor, description, metadata, actionId, riskLevel
 
 ---
@@ -100,9 +106,11 @@ Every information item in plans is tagged:
 | gate.py self-tests | 27 | 27 | 0 |
 | validator.py self-tests | 14 | 14 | 0 |
 | quote_gen.py self-tests | 31 | 31 | 0 |
+| ui_spec.py self-tests | 26 | 26 | 0 |
+| mockup_render.py self-tests | 18 | 18 | 0 |
 | audit_logger.py | 1 | 1 | 0 |
 | state_manager.py | 1 | 1 | 0 |
-| Challenge test cases | 20 | 19 | 1 |
-| **Total** | **94** | **93** | **1** |
+| Challenge test cases | 24 | 23 | 1 |
+| **Total** | **142** | **141** | **1** |
 
 **The 1 failure (TC-002):** Keyword-based gap detection finds 1 "unclear" marker in a brief that has 10 numbered unclear points. The LLM-based orchestrator catches all 10 through semantic analysis. This failure is documented honestly — the hackathon values showing limitations, not hiding them.

@@ -41,22 +41,26 @@ These problems map directly to the hackathon's 5 accountability rules: show sour
 The system has 5 layers:
 
 1. **User Interface** — WorkBuddy AI chat (user = PM/Business Owner)
-2. **Agent Layer** — 5 WorkBuddy skills:
+2. **Agent Layer** — 6 WorkBuddy skills:
    - **Orchestrator** (main entry, 8-step workflow)
    - **Planner** (brief → WBS with effort/cost/risk)
    - **Validator** (6 quality checks)
    - **Executor** (approved actions → Excel tracker)
    - **Quotation Generator** (plan → quotation document)
-3. **Deterministic Tools** — 5 Python modules (72 self-tests):
+   - **UI Designer** (plan → screen inventory → mockups)
+3. **Deterministic Tools** — 7 Python modules (95 self-tests):
    - `gate.py` — Approval state machine + prompt injection detection (27 tests)
    - `validator.py` — Plan quality validator (14 tests)
    - `quote_gen.py` — Quotation calculator with terbilang (31 tests)
-   - `audit_logger.py` — JSONL audit log, 26 event types
+   - `ui_spec.py` — Plan → screen inventory + design tokens (26 tests)
+   - `mockup_render.py` — Spec → HTML → PNG mockups (18 tests)
+   - `audit_logger.py` — JSONL audit log, 33 event types
    - `state_manager.py` — Project state lifecycle management
 4. **Hybrid Storage:**
    - Local JSON — Agent internal state (briefs, plans, approvals)
    - Excel (.xlsx) — Human-facing project tracker (3 tabs, 15 sample tasks)
    - Audit Log — JSONL daily files, append-only
+   - UI design artifacts — spec JSON + HTML source + PNG per screen
 5. **Accountability Layer** — 8 principles enforced:
    - Transparency tags: [BRIEF], [CLARIFIED], [ASSUMPTION], [AI RECOMMENDATION]
    - Approval state machine: DRAFT → PENDING → APPROVED → EXECUTED
@@ -86,8 +90,8 @@ DRAFT → PENDING_APPROVAL → APPROVED → EXECUTED → (FAILED if error)
 
 ### Test Results
 
-- **Self-tests:** 5 modules, 72 tests, all passed
-- **Challenge test cases:** 20 tests, 19 passed, 1 failed
+- **Self-tests:** 7 modules, 95 tests, all passed
+- **Challenge test cases:** 24 tests, 23 passed, 1 failed
   - The 1 failure (TC-002) is an intentional demonstration of honest reporting: keyword-based gap detection cannot match LLM-based semantic analysis. This limitation is documented, not hidden.
 
 ---
@@ -100,8 +104,9 @@ DRAFT → PENDING_APPROVAL → APPROVED → EXECUTED → (FAILED if error)
 |--------|--------|-------|
 | Brief analysis time | 30-60 min (manual) | < 5 min (automated) |
 | Hidden assumptions | Undetected | Tagged with risk level |
-| Approval traceability | None | Full audit trail (26 event types) |
+| Approval traceability | None | Full audit trail (33 event types) |
 | Quotation generation | 2-3 hours (manual) | < 1 min (automated) |
+| UI mockup production | 1-2 days (manual) | < 2 min (14 screens from plan) |
 | Plan quality checks | Ad hoc | 6 systematic checks |
 
 ### Scalability

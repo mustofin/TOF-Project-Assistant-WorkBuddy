@@ -8,13 +8,13 @@
 
 | Suite | Total | Passed | Failed | Pass Rate |
 |-------|-------|--------|--------|-----------|
-| Self-Tests (5 modules) | 74 | 74 | 0 | 100% |
-| Challenge Test Cases | 20 | 19 | 1 | 95% |
-| **Grand Total** | **94** | **93** | **1** | **99%** |
+| Self-Tests (7 modules) | 95 | 95 | 0 | 100% |
+| Challenge Test Cases | 24 | 23 | 1 | 96% |
+| **Grand Total** | **119** | **118** | **1** | **99%** |
 
 ---
 
-## Self-Test Results (5 Python Modules)
+## Self-Test Results (7 Python Modules)
 
 Run: `python3 agent/tools/selftest.py`
 
@@ -23,12 +23,14 @@ Run: `python3 agent/tools/selftest.py`
 | gate.py | 27 | ALL PASS | State machine transitions, approval checks, prompt injection detection |
 | validator.py | 14 | ALL PASS | 6 validation checks, completeness, consistency, feasibility |
 | quote_gen.py | 31 | ALL PASS | Quote generation, terbilang, payment schedule, cost calculation |
-| audit_logger.py | 1 | PASS | Event logging, read-back, 26 event types |
+| ui_spec.py | 26 | ALL PASS | Plan → screen inventory, design tokens, role visibility, traceability |
+| mockup_render.py | 18 | ALL PASS | HTML generation per archetype, PNG render, error handling |
+| audit_logger.py | 1 | PASS | Event logging, read-back, 33 event types |
 | state_manager.py | 1 | PASS | Project CRUD, approval lifecycle, state persistence |
 
 ---
 
-## Challenge Test Cases (20 Tests)
+## Challenge Test Cases (24 Tests)
 
 Run: `python3 tests/test_cases.py`
 
@@ -87,6 +89,15 @@ Run: `python3 tests/test_cases.py`
 |----|------|--------|-------|
 | TC-020 | Rejected plan re-approved | PASS | REJECTED→DRAFT valid, new approval can be APPROVED |
 
+### Category 8: UI Design (plan → visual)
+
+| ID | Test | Status | Notes |
+|----|------|--------|-------|
+| TC-021 | UI screens derived from plan scope | PASS | Dashboard, customer, service, invoice all present; 14 screens total |
+| TC-022 | No invented screens | PASS | Every screen has `derivedFrom` pointing at a real plan scope line; 0 untraced, 0 invented |
+| TC-023 | Role visibility restricts screens | PASS | Kasir 4/14, Kepala Bengkel 14/14 — permissions respected in the UI |
+| TC-024 | Mockup renders to PNG | PASS | 3-screen subset rendered, all PNGs >5KB |
+
 ---
 
 ## The 1 Failure: TC-002 (Honest Reporting)
@@ -111,11 +122,13 @@ Run: `python3 tests/test_cases.py`
 
 | File | Purpose |
 |------|---------|
-| `agent/tools/selftest.py` | Master self-test runner (5 modules) |
+| `agent/tools/selftest.py` | Master self-test runner (7 modules) |
 | `agent/tools/gate.py` | Gate self-test (27 tests) |
 | `agent/tools/validator.py` | Validator self-test (14 tests) |
 | `agent/tools/quote_gen.py` | Quotation generator self-test (31 tests) |
-| `tests/test_cases.py` | Challenge test cases (20 tests) |
+| `agent/tools/ui_spec.py` | UI spec generator self-test (26 tests) |
+| `agent/tools/mockup_render.py` | Mockup renderer self-test (18 tests) |
+| `tests/test_cases.py` | Challenge test cases (24 tests) |
 | `demo/run_demo.py` | End-to-end demo runner (10 scenes) |
 | `evidence/test-results.json` | Full test results in JSON format |
 | `evidence/selftest-results.txt` | Self-test output log |
@@ -128,9 +141,10 @@ Real terminal output captured from actual runs — not mockups.
 
 | Screenshot | Shows |
 |-----------|-------|
-| `evidence/screenshots/01a-selftest-gate-validator.png` | Self-test part 1: gate.py (27), validator.py (14), quote_gen.py (31) |
-| `evidence/screenshots/01b-selftest-summary.png` | Self-test part 2: audit_logger, state_manager, FINAL SUMMARY — "ALL 5 MODULE TESTS PASSED" |
-| `evidence/screenshots/02-test-cases.png` | 20 challenge tests: 19 PASS / 1 FAIL with full category breakdown |
+| `evidence/screenshots/01a-selftest-part1.png` | Self-test part 1: gate.py (27), validator.py (14) |
+| `evidence/screenshots/01b-selftest-part2.png` | Self-test part 2: quote_gen.py (31), ui_spec.py (26) |
+| `evidence/screenshots/01c-selftest-part3.png` | Self-test part 3: mockup_render.py (18), audit_logger, state_manager, **FINAL SUMMARY — ALL 7 MODULES PASSED** |
+| `evidence/screenshots/02-test-cases.png` | 24 challenge tests: 23 PASS / 1 FAIL with full category breakdown |
 
 To regenerate the screenshots after changing any test:
 

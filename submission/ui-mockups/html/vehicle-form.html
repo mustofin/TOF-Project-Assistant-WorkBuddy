@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Add / Edit Vehicle</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Inter, -apple-system, 'Segoe UI', sans-serif;background:#F6F8FB;color:#111827;
+        -webkit-font-smoothing:antialiased}
+  .app{display:flex;min-height:780px}
+  .sidebar{width:232px;background:#FFFFFF;
+            border-right:1px solid #E4E8EF;padding:16px 0;flex-shrink:0;
+            display:flex;flex-direction:column}
+  .brand{display:flex;align-items:center;gap:12px;padding:0 16px 20px}
+  .brand-mark{width:34px;height:34px;border-radius:10px;
+               background:#1E5EFF;color:#fff;display:flex;align-items:center;
+               justify-content:center;font-weight:700;
+               font-size:12px;letter-spacing:.4px}
+  .brand-name{font-size:14px;font-weight:600}
+  .brand-sub{font-size:11px;color:#9AA3B2}
+  .nav-group{margin-bottom:20px}
+  .nav-label{font-size:10px;text-transform:uppercase;letter-spacing:.8px;
+              color:#9AA3B2;padding:0 16px 8px;
+              font-weight:600}
+  .nav-item{padding:8px 16px;margin:1px 8px;
+             border-radius:6px;font-size:12px;cursor:default}
+  .main{flex:1;display:flex;flex-direction:column;min-width:0}
+  .topbar{height:60px;background:#FFFFFF;
+           border-bottom:1px solid #E4E8EF;display:flex;align-items:center;
+           justify-content:space-between;padding:0 24px;flex-shrink:0}
+  .crumb{font-size:12px;color:#5B6472}
+  .crumb b{color:#111827;font-weight:600}
+  .user{display:flex;align-items:center;gap:8px}
+  .avatar{width:30px;height:30px;border-radius:999px;
+           background:#E8EFFF;color:#1E5EFF;display:flex;
+           align-items:center;justify-content:center;font-size:11px;
+           font-weight:700}
+  .content{padding:24px;flex:1;overflow:hidden}
+  .page-head{display:flex;align-items:flex-start;justify-content:space-between;
+              margin-bottom:20px}
+  .page-title{font-size:28px;font-weight:700;
+               letter-spacing:-.4px}
+  .page-desc{font-size:12px;color:#5B6472;margin-top:4px}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;
+        border-radius:6px;font-size:12px;
+        font-weight:600;border:none;cursor:default}
+  .btn-primary{background:#1E5EFF;color:#fff}
+  .btn-ghost{background:#FFFFFF;color:#5B6472;
+              border:1px solid #E4E8EF}
+  .card{background:#FFFFFF;border:1px solid #E4E8EF;
+         border-radius:14px;box-shadow:0 1px 2px rgba(17,24,39,.04), 0 4px 12px rgba(17,24,39,.06)}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{text-align:left;padding:11px 16px;font-size:10px;text-transform:uppercase;
+      letter-spacing:.7px;color:#9AA3B2;border-bottom:1px solid #E4E8EF;
+      font-weight:600;background:#F6F8FB}
+  td{padding:13px 16px;border-bottom:1px solid #E4E8EF;color:#5B6472}
+  td:first-child{color:#111827;font-weight:500}
+  tr:last-child td{border-bottom:none}
+  .pill{display:inline-block;padding:3px 10px;border-radius:999px;
+         font-size:10px;font-weight:600}
+  .field{margin-bottom:16px}
+  .label{display:block;font-size:11px;font-weight:600;
+          color:#111827;margin-bottom:6px}
+  .input{width:100%;padding:10px 12px;border:1px solid #E4E8EF;
+          border-radius:6px;font-size:12px;
+          color:#9AA3B2;background:#FFFFFF}
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+             margin-bottom:20px}
+  .kpi{padding:16px 20px}
+  .kpi-label{font-size:10px;text-transform:uppercase;letter-spacing:.7px;
+              color:#9AA3B2;font-weight:600}
+  .kpi-value{font-size:28px;font-weight:700;
+              margin-top:8px;letter-spacing:-.5px}
+  .kpi-delta{font-size:11px;margin-top:4px}
+  .note{font-size:11px;color:#9AA3B2;margin-top:12px}
+</style></head>
+<body><div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">SG</div>
+      <div><div class="brand-name">SG Garage</div>
+      <div class="brand-sub">SG Garage - Workshop Ma…</div></div>
+    </div>
+    <div class="nav-group"><div class="nav-label">Dashboard</div><div class="nav-item" style="background:transparent;color:#5B6472;font-weight:400">Dashboard</div><div class="nav-item" style="background:transparent;color:#5B6472;font-weight:400">Monthly Report</div></div><div class="nav-group"><div class="nav-label">Forms</div><div class="nav-item" style="background:transparent;color:#5B6472;font-weight:400">Add / Edit Customer</div><div class="nav-item" style="background:transparent;color:#5B6472;font-weight:400">New Service Order</div><div class="nav-item" style="background:transparent;color:#5B6472;font-weight:400">Stock In / Out</div><div class="nav-item" style="background:#E8EFFF;color:#1E5EFF;font-weight:600">Add / Edit Vehicle</div></div><div class="nav-group"><div class="nav-label">Lists</div><div class="nav-item" style="background:transparent;color:#5B6472;font-weight:400">Customer List</div><div class="nav-item" style="background:transparent;color:#5B6472;font-weight:400">Inventory</div><div class="nav-item" style="background:transparent;color:#5B6472;font-weight:400">Invoices</div><div class="nav-item" style="background:transparent;color:#5B6472;font-weight:400">Service Orders</div><div class="nav-item" style="background:transparent;color:#5B6472;font-weight:400">Vehicle List</div></div><div class="nav-group"><div class="nav-label">Details</div><div class="nav-item" style="background:transparent;color:#5B6472;font-weight:400">Invoice Preview</div><div class="nav-item" style="background:transparent;color:#5B6472;font-weight:400">Service Detail</div></div>
+  </aside>
+  <div class="main">
+    <div class="topbar">
+      <div class="crumb">Home &nbsp;/&nbsp; <b>Add / Edit Vehicle</b></div>
+      <div class="user"><span class="crumb">Kepala Bengkel</span>
+        <div class="avatar">KB</div></div>
+    </div>
+    <div class="content"><div class="page-head"><div><div class="page-title">Add / Edit Vehicle</div><div class="page-desc">Register a vehicle under a customer</div></div></div><div style="display:grid;grid-template-columns:1.6fr .9fr;gap:20px;align-items:start"><div class="card" style="padding:24px"><div class="field"><label class="label">Plate Number</label><div class="input">Enter plate number…</div></div><div class="field"><label class="label">Brand</label><div class="input">Enter brand…</div></div><div class="field"><label class="label">Model</label><div class="input">Enter model…</div></div><div class="field"><label class="label">Year</label><div class="input">Enter year…</div></div><div class="field"><label class="label">Owner</label><div class="input">Enter owner…</div></div><div class="field"><label class="label">Notes</label><div class="input">Enter notes…</div></div></div><div class="card" style="padding:20px"><div style="font-size:12px;font-weight:600;margin-bottom:10px">Guidance</div><div style="font-size:12px;color:#5B6472;line-height:1.6">Required fields must be filled before saving. Changes are logged to the audit trail.</div><div style="margin-top:16px;display:flex;gap:8px"><button class="btn btn-primary">Save</button><button class="btn btn-ghost">Cancel</button></div></div></div></div>
+  </div>
+</div></body></html>

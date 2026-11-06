@@ -448,6 +448,92 @@ def run_tests():
     )
 
     # =========================================================================
+    # CATEGORY 8: UI DESIGN (plan -> visual)
+    # =========================================================================
+
+    print("\n--- Category 8: UI Design ---")
+
+    from ui_spec import UISpecGenerator
+    from mockup_render import MockupRenderer
+
+    uigen = UISpecGenerator()
+    ui_spec = uigen.build(plan, client={"company": "SG Garage"})
+
+    # --- TC-021: UI spec derives screens from plan scope ---
+    print("  TC-021: ", end="")
+    screen_ids = [s["id"] for s in ui_spec["screens"]]
+    has_core = all(any(sid.startswith(p) for sid in screen_ids)
+                   for p in ["dashboard", "customer", "service", "invoice"])
+    record(
+        "TC-021", "UI screens derived from plan scope",
+        "UI Design",
+        "Dashboard, customer, service, invoice screens present",
+        f"{len(screen_ids)} screens: {sorted(screen_ids)[:6]}...",
+        has_core and len(screen_ids) >= 8,
+    )
+
+    # --- TC-022: Every screen traceable, no invented features ---
+    print("  TC-022: ", end="")
+    scope_items = plan["scope"]["inScope"]
+    untraced = [s["id"] for s in ui_spec["screens"]
+                if not s.get("derivedFrom")]
+    invented = [s["id"] for s in ui_spec["screens"]
+                if s.get("derivedFrom")
+                and s["derivedFrom"] not in scope_items
+                and not s["derivedFrom"].startswith("implicit:")]
+    record(
+        "TC-022", "No invented screens (all traceable to scope)",
+        "UI Design",
+        "0 untraced, 0 invented",
+        f"untraced={untraced}, invented={invented}",
+        not untraced and not invented,
+    )
+
+    # --- TC-023: Role visibility matrix respects permissions ---
+    print("  TC-023: ", end="")
+    roles = {r["role"]: r["screenCount"] for r in ui_spec["roles"]}
+    total = len(ui_spec["screens"])
+    kasir = roles.get("Kasir", 0)
+    kepala = roles.get("Kepala Bengkel", 0)
+    record(
+        "TC-023", "Role visibility restricts screens correctly",
+        "UI Design",
+        "Kasir < total screens; Kepala Bengkel = all screens",
+        f"Kasir={kasir}, Kepala Bengkel={kepala}, total={total}",
+        0 < kasir < total and kepala == total,
+    )
+
+    # --- TC-024: Mockup renders to real PNG files ---
+    print("  TC-024: ", end="")
+    import tempfile as _tf
+    ui_tmp = _tf.mkdtemp(prefix="tof-ui-test-")
+    try:
+        renderer = MockupRenderer()
+        if renderer.chrome is None:
+            record("TC-024", "Mockup renders to PNG", "UI Design",
+                   "1 PNG per screen", "No headless browser available", False,
+                   "Chrome/Chromium not installed on this machine")
+        else:
+            # Render a 3-screen subset to keep the test fast
+            subset = {"screens": ui_spec["screens"][:3],
+                      "tokens": ui_spec["tokens"],
+                      "navigation": ui_spec["navigation"],
+                      "meta": ui_spec["meta"],
+                      "roles": ui_spec["roles"]}
+            paths = renderer.render_all(subset, ui_tmp)
+            all_exist = all(Path(p).exists() and Path(p).stat().st_size > 5000
+                            for p in paths)
+            record(
+                "TC-024", "Mockup renders to PNG files",
+                "UI Design",
+                "1 non-trivial PNG per screen",
+                f"{len(paths)} PNGs, all >5KB: {all_exist}",
+                len(paths) == 3 and all_exist,
+            )
+    finally:
+        shutil.rmtree(ui_tmp, ignore_errors=True)
+
+    # =========================================================================
     # CLEANUP & SUMMARY
     # =========================================================================
 

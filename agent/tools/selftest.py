@@ -36,6 +36,8 @@ def run_all_tests():
         ("gate.py", "Gate (Approval State Machine)"),
         ("validator.py", "Validator (Plan Quality Checker)"),
         ("quote_gen.py", "Quotation Generator"),
+        ("ui_spec.py", "UI Spec Generator (plan -> screens)"),
+        ("mockup_render.py", "Mockup Renderer (spec -> PNG)"),
         ("audit_logger.py", "Audit Logger"),
         ("state_manager.py", "State Manager"),
     ]
@@ -78,6 +80,12 @@ def run_all_tests():
                 success = run_selftest()
             elif module_file == "quote_gen.py":
                 from quote_gen import run_selftest
+                success = run_selftest()
+            elif module_file == "ui_spec.py":
+                from ui_spec import run_selftest
+                success = run_selftest()
+            elif module_file == "mockup_render.py":
+                from mockup_render import run_selftest
                 success = run_selftest()
             elif module_file == "audit_logger.py":
                 from audit_logger import AuditLogger

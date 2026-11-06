@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Self-Test Part 1/2 — gate.py + validator.py + quote_gen.py</title>
+<title>Self-Test Part 1/3 — Gate (Approval State Machine)</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -64,7 +64,7 @@
       <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div>
       <span>python3 agent/tools/selftest.py</span>
     </div>
-    <div class="meta"><span>Self-Test Part 1/2 — gate.py + validator.py + quote_gen.py</span><span>Challenge B — Office Agent</span></div>
+    <div class="meta"><span>Self-Test Part 1/3 — Gate (Approval State Machine)</span><span>7 modules · 90+ assertions</span></div>
     <pre><span class="head"><span class="head">============================================================</span>==========</span>
   TOF Project Assistant - Complete Self-Test Suite
   Challenge B: Office Agent - Unstructured to Structured
@@ -134,7 +134,7 @@ RESULTS: 27/27 passed, 0 failed
 
 All gate self-tests passed!
 
-  &gt;&gt; Gate (Approval State Machine): PASS (0.3s)
+  &gt;&gt; Gate (Approval State Machine): PASS (0.0s)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Running: Validator (Plan Quality Checker)
@@ -189,77 +189,6 @@ RESULTS: 14/14 passed, 0 failed
 All validator self-tests passed!
 
   &gt;&gt; Validator (Plan Quality Checker): PASS (0.0s)
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Running: Quotation Generator
-  Module: quote_gen.py
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-<span class="head">============================================================</span>
-TOF Project Assistant - Quotation Generator Self-Test
-<span class="head">============================================================</span>
-
-<span class="head">--- </span>Test Group 1: Quote Number ---
-  <span class="pass">PASS</span> Quote number has correct format
-  <span class="pass">PASS</span> Different project = different quote number
-
-<span class="head">--- </span>Test Group 2: Terbilang (Amount in Words) ---
-  <span class="pass">PASS</span> Zero
-  <span class="pass">PASS</span> 500000
-  <span class="pass">PASS</span> 1000000
-  <span class="pass">PASS</span> 23800000
-  <span class="pass">PASS</span> 1500000
-
-<span class="head">--- </span>Test Group 3: Full Quotation ---
-  <span class="pass">PASS</span> Quotation has quote number
-  <span class="pass">PASS</span> Quotation has client info
-  <span class="pass">PASS</span> Quotation has work scope
-  <span class="pass">PASS</span> Quotation total &gt; 0
-  <span class="pass">PASS</span> Quotation has terbilang
-  <span class="pass">PASS</span> Quotation has terms
-  <span class="pass">PASS</span> Quotation has payment schedule
-
-<span class="head">--- </span>Test Group 4: Payment Schedule ---
-  <span class="pass">PASS</span> Payment schedule sums to 100%
-  <span class="pass">PASS</span> Payment nominals sum to total
-
-<span class="head">--- </span>Test Group 5: Stack Multiplier ---
-  <span class="pass">PASS</span> Apps Script stack multiplier applied (0.9x)
-
-<span class="head">--- </span>Test Group 6: Cost Calculation ---
-  <span class="pass">PASS</span> Cost calculation has line items
-  <span class="pass">PASS</span> Cost calculation total days = 22
-  <span class="pass">PASS</span> Line items sum = subtotal
-
-<span class="head">--- </span>Test Group 7: Quotation Validation ---
-  <span class="pass">PASS</span> Valid quotation passes validation
-  <span class="pass">PASS</span> Invalid quotation fails validation
-
-<span class="head">--- </span>Test Group 8: Approval Card ---
-  <span class="pass">PASS</span> Approval card has header
-  <span class="pass">PASS</span> Approval card has total
-  <span class="pass">PASS</span> Approval card has risk level
-
-<span class="head">--- </span>Test Group 9: Rate Card ---
-  <span class="pass">PASS</span> Rate card loaded
-  <span class="pass">PASS</span> Full-stack Developer rate = 1,000,000
-
-<span class="head">--- </span>Test Group 10: Different Developer Roles ---
-  <span class="pass">PASS</span> Junior rate cheaper than Full-stack
-
-<span class="head">--- </span>Test Group 11: Custom Terms ---
-  <span class="pass">PASS</span> Custom terms used
-
-<span class="head">--- </span>Test Group 12: Empty Plan ---
-  <span class="pass">PASS</span> Empty plan = zero total
-  <span class="pass">PASS</span> Empty plan = no work scope
-
-<span class="head">============================================================</span>
-RESULTS: 31/31 passed, 0 failed
-<span class="head">============================================================</span>
-
-All quotation generator self-tests passed!
-
-  &gt;&gt; Quotation Generator: PASS (0.0s)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</pre>
   </div>

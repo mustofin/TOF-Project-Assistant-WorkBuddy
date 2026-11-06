@@ -45,9 +45,10 @@ Record only the terminal window region, then crop.
 | 5 | **Approval card → agent WAITS** | ⚠️ REQUIRED MOMENT — "asks before acting" |
 | 6 | Human approves → executed | Bounded authority |
 | 7 | Quotation + separate high-risk approval | Scoped approval, not blanket |
-| 8 | **Reject → remediate → approve** | Challenge C-style loop, shows resilience |
+| 7b | UI screens derived from plan, role-aware | Structured → visual, still traceable |
+| 8 | **Reject → remediate → approve** | Resilience loop, shows revision |
 | 9 | **Prompt injection → agent REFUSES** | ⚠️ REQUIRED MOMENT — "stays within permissions" |
-| 10 | Audit trail, 12 events | "keeps a record" |
+| 10 | Audit trail, full event list | "keeps a record" |
 
 The two ⚠️ moments are mandatory per the handbook: the demo must show at least
 one instance where the agent **refuses, seeks clarification, or awaits approval**.
@@ -58,6 +59,7 @@ We show all three.
 - **Scene 1** — "The client sent this over WhatsApp. No structure at all."
 - **Scene 2** — "Instead of guessing, it asks four specific questions."
 - **Scene 5** — "Watch — it prepared the action but it will not execute. It's waiting for me." *(pause here, this is the key moment)*
+- **Scene 7b** — "Every screen here traces back to a line in the plan. It didn't invent features to make the mockup look fuller."
 - **Scene 8** — "I rejected it as too expensive. Instead of giving up, it revised the scope and came back."
 - **Scene 9** — "This brief tries to tell the agent to ignore all rules. It refused, logged it, and kept working normally."
 

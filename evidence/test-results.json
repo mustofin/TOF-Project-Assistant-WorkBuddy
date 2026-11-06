@@ -1,8 +1,8 @@
 {
-  "totalTests": 20,
-  "passed": 19,
+  "totalTests": 24,
+  "passed": 23,
   "failed": 1,
-  "passRate": "95%",
+  "passRate": "96%",
   "categories": {
     "Brief Processing": {
       "pass": 3,
@@ -38,6 +38,11 @@
       "pass": 1,
       "fail": 0,
       "total": 1
+    },
+    "UI Design": {
+      "pass": 4,
+      "fail": 0,
+      "total": 4
     }
   },
   "tests": [
@@ -220,9 +225,45 @@
       "actual": "Transition valid: True, revised approval allowed: True",
       "status": "PASS",
       "notes": ""
+    },
+    {
+      "testId": "TC-021",
+      "title": "UI screens derived from plan scope",
+      "category": "UI Design",
+      "expected": "Dashboard, customer, service, invoice screens present",
+      "actual": "14 screens: ['customer-form', 'customer-list', 'dashboard', 'inventory-list', 'invoice-list', 'invoice-preview']...",
+      "status": "PASS",
+      "notes": ""
+    },
+    {
+      "testId": "TC-022",
+      "title": "No invented screens (all traceable to scope)",
+      "category": "UI Design",
+      "expected": "0 untraced, 0 invented",
+      "actual": "untraced=[], invented=[]",
+      "status": "PASS",
+      "notes": ""
+    },
+    {
+      "testId": "TC-023",
+      "title": "Role visibility restricts screens correctly",
+      "category": "UI Design",
+      "expected": "Kasir < total screens; Kepala Bengkel = all screens",
+      "actual": "Kasir=4, Kepala Bengkel=14, total=14",
+      "status": "PASS",
+      "notes": ""
+    },
+    {
+      "testId": "TC-024",
+      "title": "Mockup renders to PNG files",
+      "category": "UI Design",
+      "expected": "1 non-trivial PNG per screen",
+      "actual": "3 PNGs, all >5KB: True",
+      "status": "PASS",
+      "notes": ""
     }
   ],
-  "executedAt": "2026-11-06T13:10:40.739890+00:00",
+  "executedAt": "2026-11-06T13:29:47.072577+00:00",
   "suite": "Challenge B - Office Agent",
   "hackathon": "AI CAN DO IT - Tencent Cloud Indonesia 2026"
 }

@@ -124,6 +124,31 @@ Jika user meminta quotation/penawaran harga, delegasikan ke kemampuan **Quotatio
 1. Generate quotation draft — tampilkan rencana isi quotation (risk: medium)
 2. Send quotation via email — tampilkan email content + recipient (risk: high)
 
+### Step 6c: Generate UI Design (Conditional)
+
+Jika user meminta desain UI / mockup / wireframe, delegasikan ke kemampuan **UI Designer**.
+
+**Prasyarat:** plan.json sudah ada dan APPROVED. Jika belum, berhenti dan beri tahu user.
+
+**Alur:**
+1. Derive UI spec dari plan (`agent/tools/ui_spec.py`) — deterministik, setiap layar
+   punya `derivedFrom` yang menunjuk ke baris scope plan.
+2. Tampilkan **screen inventory** (jumlah layar + asalnya + role matrix) → approval MEDIUM.
+   User boleh memangkas/menambah layar sebelum render.
+3. Render:
+   - Mode **figcraft** jika app Figcraft jalan (`inspect_document` berhasil)
+   - Mode **mockup** (HTML → PNG) sebagai fallback — laporkan terus terang jika figcraft gagal
+4. Jika menulis ke file desain milik user (figcraft) → approval **HIGH** sebelum write.
+5. Simpan output ke `state/projects/{project-id}/ui-design/`.
+6. Catat audit: `ui_spec_generated`, `ui_design_rendered`, dst.
+
+**Aturan:**
+- Dilarang menambah layar tanpa dasar scope plan. Jika perlu, ajukan sebagai
+  `[AI RECOMMENDATION]` dan minta konfirmasi.
+- Ganti warna brand → render ulang SEMUA layar, bukan satu.
+- Jangan pakai data klien asli di mockup; pakai data contoh yang jelas contoh.
+- Nyatakan batasan: mockup statis, bukan prototipe interaktif.
+
 ### Step 7: Monitor Project Progress
 
 Membantu membaca status tugas, mengidentifikasi:
@@ -273,7 +298,7 @@ Orchestrator adalah satu-satunya pintu interaksi utama pengguna. Ketika user ber
 
 ## Delegation Pattern
 
-Orchestrator mendelegasikan ke empat kemampuan internal:
+Orchestrator mendelegasikan ke lima kemampuan internal:
 
 | Capability | Trigger | Output |
 |------------|---------|--------|
@@ -281,8 +306,9 @@ Orchestrator mendelegasikan ke empat kemampuan internal:
 | **Validator** | Plan tersedia | Validation report dengan findings |
 | **Executor** | Approval granted | Execution result + verification |
 | **Quotation Generator** | Plan disetujui + user minta quotation | Dokumen .docx quotation + optional email draft |
+| **UI Designer** | Plan disetujui + user minta desain UI/mockup | Screen inventory + PNG mockup (atau frame di Figcraft) |
 
-Keempat kemampuan diimplementasikan sebagai skill terpisah (`tof-planner`, `tof-validator`, `tof-executor`, `tof-quotation-generator`) yang dipicu oleh konteks percakapan. Orchestrator memberikan instruksi yang memicu skill yang tepat.
+Kelima kemampuan diimplementasikan sebagai skill terpisah (`tof-planner`, `tof-validator`, `tof-executor`, `tof-quotation-generator`, `tof-ui-designer`) yang dipicu oleh konteks percakapan. Orchestrator memberikan instruksi yang memicu skill yang tepat.
 
 ## First Milestone Scope
 

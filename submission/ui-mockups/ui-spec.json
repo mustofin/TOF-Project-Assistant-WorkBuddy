@@ -1,0 +1,410 @@
+{
+  "meta": {
+    "projectId": "PRJ-SGG-001",
+    "projectName": "SG Garage - Workshop Management System",
+    "client": "SG Garage",
+    "platform": "web",
+    "generatedAt": "2026-11-06T13:24:34.093360+00:00",
+    "generator": "tof-ui-designer/ui_spec.py",
+    "source": "derived from plan scope — no invented features"
+  },
+  "screens": [
+    {
+      "id": "dashboard",
+      "title": "Dashboard",
+      "archetype": "dashboard",
+      "page": "02 Dashboard",
+      "description": "Operational overview: KPI cards, recent activity, alerts",
+      "columns": [],
+      "fields": [],
+      "derivedFrom": "Dashboard (daily revenue, active services, stock alerts)"
+    },
+    {
+      "id": "report-monthly",
+      "title": "Monthly Report",
+      "archetype": "dashboard",
+      "page": "02 Dashboard",
+      "description": "Revenue and volume by period",
+      "columns": [],
+      "fields": [],
+      "derivedFrom": "Monthly reports (basic summary)"
+    },
+    {
+      "id": "login",
+      "title": "Sign In",
+      "archetype": "auth",
+      "page": "01 Auth",
+      "description": "Email + password sign in with role detection",
+      "columns": [],
+      "fields": [],
+      "derivedFrom": "Role-based authentication (3 roles)"
+    },
+    {
+      "id": "customer-form",
+      "title": "Add / Edit Customer",
+      "archetype": "form",
+      "page": "04 Forms",
+      "description": "Create or update a customer record",
+      "columns": [],
+      "fields": [
+        "Full Name",
+        "Phone",
+        "Email",
+        "Address",
+        "Notes"
+      ],
+      "derivedFrom": "Customer management (CRUD)"
+    },
+    {
+      "id": "customer-list",
+      "title": "Customer List",
+      "archetype": "list",
+      "page": "03 Lists",
+      "description": "Browse and search customers",
+      "columns": [
+        "Name",
+        "Phone",
+        "Vehicles",
+        "Last Visit"
+      ],
+      "fields": [],
+      "derivedFrom": "Customer management (CRUD)"
+    },
+    {
+      "id": "inventory-list",
+      "title": "Inventory",
+      "archetype": "list",
+      "page": "03 Lists",
+      "description": "Parts stock levels with low-stock warnings",
+      "columns": [
+        "SKU",
+        "Part Name",
+        "Stock",
+        "Min",
+        "Price"
+      ],
+      "fields": [],
+      "derivedFrom": "Inventory management (stock in/out, low stock alert)"
+    },
+    {
+      "id": "invoice-list",
+      "title": "Invoices",
+      "archetype": "list",
+      "page": "03 Lists",
+      "description": "Issued invoices and payment status",
+      "columns": [
+        "Invoice #",
+        "Customer",
+        "Issued",
+        "Due",
+        "Status",
+        "Amount"
+      ],
+      "fields": [],
+      "derivedFrom": "Invoice printing (PDF generation from service transaction)"
+    },
+    {
+      "id": "invoice-preview",
+      "title": "Invoice Preview",
+      "archetype": "detail",
+      "page": "05 Details",
+      "description": "Printable invoice for the customer",
+      "columns": [],
+      "fields": [],
+      "derivedFrom": "Invoice printing (PDF generation from service transaction)"
+    },
+    {
+      "id": "service-detail",
+      "title": "Service Detail",
+      "archetype": "detail",
+      "page": "05 Details",
+      "description": "Single order: status timeline, items, invoice link",
+      "columns": [],
+      "fields": [],
+      "derivedFrom": "Service transactions (create, update, status tracking)"
+    },
+    {
+      "id": "service-form",
+      "title": "New Service Order",
+      "archetype": "form",
+      "page": "04 Forms",
+      "description": "Create a service order and add line items",
+      "columns": [],
+      "fields": [
+        "Customer",
+        "Vehicle",
+        "Complaint",
+        "Mechanic",
+        "Items"
+      ],
+      "derivedFrom": "Service transactions (create, update, status tracking)"
+    },
+    {
+      "id": "service-list",
+      "title": "Service Orders",
+      "archetype": "list",
+      "page": "03 Lists",
+      "description": "All service transactions with status",
+      "columns": [
+        "Order #",
+        "Customer",
+        "Vehicle",
+        "Status",
+        "Total"
+      ],
+      "fields": [],
+      "derivedFrom": "Service transactions (create, update, status tracking)"
+    },
+    {
+      "id": "stock-form",
+      "title": "Stock In / Out",
+      "archetype": "form",
+      "page": "04 Forms",
+      "description": "Record stock movement",
+      "columns": [],
+      "fields": [
+        "Part",
+        "Movement",
+        "Quantity",
+        "Reference",
+        "Date"
+      ],
+      "derivedFrom": "Inventory management (stock in/out, low stock alert)"
+    },
+    {
+      "id": "vehicle-form",
+      "title": "Add / Edit Vehicle",
+      "archetype": "form",
+      "page": "04 Forms",
+      "description": "Register a vehicle under a customer",
+      "columns": [],
+      "fields": [
+        "Plate Number",
+        "Brand",
+        "Model",
+        "Year",
+        "Owner",
+        "Notes"
+      ],
+      "derivedFrom": "Vehicle management (CRUD, linked to customer)"
+    },
+    {
+      "id": "vehicle-list",
+      "title": "Vehicle List",
+      "archetype": "list",
+      "page": "03 Lists",
+      "description": "Vehicles registered per customer",
+      "columns": [
+        "Plate",
+        "Model",
+        "Year",
+        "Owner",
+        "Last Service"
+      ],
+      "fields": [],
+      "derivedFrom": "Vehicle management (CRUD, linked to customer)"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Dashboard",
+      "items": [
+        {
+          "id": "dashboard",
+          "title": "Dashboard"
+        },
+        {
+          "id": "report-monthly",
+          "title": "Monthly Report"
+        }
+      ]
+    },
+    {
+      "group": "Forms",
+      "items": [
+        {
+          "id": "customer-form",
+          "title": "Add / Edit Customer"
+        },
+        {
+          "id": "service-form",
+          "title": "New Service Order"
+        },
+        {
+          "id": "stock-form",
+          "title": "Stock In / Out"
+        },
+        {
+          "id": "vehicle-form",
+          "title": "Add / Edit Vehicle"
+        }
+      ]
+    },
+    {
+      "group": "Lists",
+      "items": [
+        {
+          "id": "customer-list",
+          "title": "Customer List"
+        },
+        {
+          "id": "inventory-list",
+          "title": "Inventory"
+        },
+        {
+          "id": "invoice-list",
+          "title": "Invoices"
+        },
+        {
+          "id": "service-list",
+          "title": "Service Orders"
+        },
+        {
+          "id": "vehicle-list",
+          "title": "Vehicle List"
+        }
+      ]
+    },
+    {
+      "group": "Details",
+      "items": [
+        {
+          "id": "invoice-preview",
+          "title": "Invoice Preview"
+        },
+        {
+          "id": "service-detail",
+          "title": "Service Detail"
+        }
+      ]
+    }
+  ],
+  "roles": [
+    {
+      "role": "Service Advisor",
+      "visibleScreens": [
+        "customer-form",
+        "customer-list",
+        "dashboard",
+        "service-detail",
+        "service-form",
+        "service-list",
+        "vehicle-form",
+        "vehicle-list"
+      ],
+      "screenCount": 8
+    },
+    {
+      "role": "Kasir",
+      "visibleScreens": [
+        "dashboard",
+        "invoice-list",
+        "invoice-preview",
+        "service-list"
+      ],
+      "screenCount": 4
+    },
+    {
+      "role": "Kepala Bengkel",
+      "visibleScreens": [
+        "customer-form",
+        "customer-list",
+        "dashboard",
+        "inventory-list",
+        "invoice-list",
+        "invoice-preview",
+        "login",
+        "report-monthly",
+        "service-detail",
+        "service-form",
+        "service-list",
+        "stock-form",
+        "vehicle-form",
+        "vehicle-list"
+      ],
+      "screenCount": 14
+    }
+  ],
+  "tokens": {
+    "color": {
+      "primary": "#1E5EFF",
+      "primaryDark": "#0B3BB8",
+      "primarySoft": "#E8EFFF",
+      "accent": "#00B37E",
+      "accentSoft": "#E3F8F0",
+      "danger": "#E5484D",
+      "dangerSoft": "#FDECEC",
+      "warning": "#F5A524",
+      "warningSoft": "#FEF6E7",
+      "ink": "#111827",
+      "inkMuted": "#5B6472",
+      "inkFaint": "#9AA3B2",
+      "line": "#E4E8EF",
+      "surface": "#FFFFFF",
+      "canvas": "#F6F8FB"
+    },
+    "font": {
+      "family": "Inter, -apple-system, 'Segoe UI', sans-serif",
+      "mono": "'SF Mono', Menlo, monospace",
+      "size": {
+        "xs": 11,
+        "sm": 12,
+        "base": 14,
+        "md": 16,
+        "lg": 20,
+        "xl": 28,
+        "display": 36
+      },
+      "weight": {
+        "regular": 400,
+        "medium": 500,
+        "semibold": 600,
+        "bold": 700
+      },
+      "lineHeight": {
+        "tight": 1.25,
+        "normal": 1.5,
+        "loose": 1.7
+      }
+    },
+    "space": {
+      "1": 4,
+      "2": 8,
+      "3": 12,
+      "4": 16,
+      "5": 20,
+      "6": 24,
+      "8": 32,
+      "10": 40,
+      "12": 48
+    },
+    "radius": {
+      "sm": 6,
+      "md": 10,
+      "lg": 14,
+      "pill": 999
+    },
+    "shadow": {
+      "card": "0 1px 2px rgba(17,24,39,.04), 0 4px 12px rgba(17,24,39,.06)",
+      "pop": "0 8px 28px rgba(17,24,39,.14)"
+    },
+    "layout": {
+      "sidebar": 232,
+      "topbar": 60,
+      "contentMax": 1180,
+      "gutter": 24
+    }
+  },
+  "stats": {
+    "screenCount": 14,
+    "archetypes": [
+      "auth",
+      "dashboard",
+      "detail",
+      "form",
+      "list"
+    ],
+    "scopeItemsUsed": 8,
+    "userTypes": 3
+  }
+}

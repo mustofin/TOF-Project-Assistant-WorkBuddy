@@ -27,11 +27,15 @@ open submission/architecture-diagram.html
 | 2 | Short blurb (<10 words) | `submission/short-blurb.md` | ✅ |
 | 3 | Project description | `submission/project-description.md` | ✅ |
 | 4 | Accountability sheet (1 page) | `submission/accountability-sheet.md` | ✅ |
-| 5 | Test results with screenshots | `submission/test-cases.md` + `evidence/test-results.json` | ✅ |
-| 6 | Architecture diagram | `submission/architecture-diagram.html` | ✅ |
-| 7 | Demo video (5-8 min) | `submission/demo-script.md` (script ready) | ⏳ Record |
+| 5 | Test results with screenshots | `submission/test-cases.md` + `evidence/screenshots/` | ✅ |
+| 6 | Architecture diagram | `submission/architecture-diagram.png` | ✅ |
+| 7 | Demo video (5-8 min) | `submission/demo-script.md` + `demo/run_demo.py` | ⏳ Record |
 | 8 | Product sharing | `submission/product-sharing.md` | ✅ |
-| 9 | Source code | `https://github.com/mustofin/TOF-Project-Assistant-WorkBuddy` | ✅ (push needed) |
+| 9 | Source code | `https://github.com/mustofin/TOF-Project-Assistant-WorkBuddy` | ⏳ Push |
+
+**Bonus (bukan item wajib, tapi memperkuat submission):**
+`submission/ui-mockups/gallery.html` — 14 layar UI hasil turunan plan, lengkap dengan
+role matrix dan design tokens.
 
 ---
 
@@ -45,6 +49,7 @@ TOF-Project-Assistant-WorkBuddy/
 │   ├── validator/SKILL.md          # 6-check plan validator skill
 │   ├── executor/SKILL.md           # Approved action executor
 │   ├── quotation/SKILL.md          # Quotation document generator
+│   ├── ui-designer/SKILL.md        # Plan → UI screens + mockups
 │   ├── rules/
 │   │   ├── accountability.md       # 8 accountability principles
 │   │   └── approval-policy.md      # State machine + remediation loop
@@ -52,7 +57,9 @@ TOF-Project-Assistant-WorkBuddy/
 │       ├── gate.py                 # Approval gate + injection detection (27 tests)
 │       ├── validator.py            # Plan validator (14 tests)
 │       ├── quote_gen.py            # Quotation generator (31 tests)
-│       ├── audit_logger.py         # JSONL audit log (26 event types)
+│       ├── ui_spec.py              # Plan → screen inventory (26 tests)
+│       ├── mockup_render.py        # Spec → HTML → PNG (18 tests)
+│       ├── audit_logger.py         # JSONL audit log (33 event types)
 │       ├── state_manager.py        # State management + remediation loop
 │       └── selftest.py             # Master test runner
 ├── data/
@@ -87,16 +94,17 @@ TOF-Project-Assistant-WorkBuddy/
 
 | Metric | Value |
 |--------|-------|
-| Agent Skills | 5 (Orchestrator, Planner, Validator, Executor, Quotation Gen) |
-| Deterministic Tools | 5 Python modules |
-| Self-Tests | 74 tests, 100% pass |
-| Challenge Test Cases | 20 tests, 95% pass (19/20) |
-| Audit Event Types | 26 |
+| Agent Skills | 6 (Orchestrator, Planner, Validator, Executor, Quotation Gen, UI Designer) |
+| Deterministic Tools | 7 Python modules |
+| Self-Tests | 95 tests, 100% pass |
+| Challenge Test Cases | 24 tests, 96% pass (23/24) |
+| Audit Event Types | 33 |
 | Transparency Tags | 4 (BRIEF, CLARIFIED, ASSUMPTION, AI_RECOMMENDATION) |
 | Approval States | 6 (DRAFT, PENDING, APPROVED, REJECTED, EXECUTED, FAILED) |
 | Prompt Injection Patterns | 10 |
 | Mock Briefs | 3 (complete, with gaps, with injection) |
 | Sample Plan Tasks | 14 across 4 phases |
+| UI Screens Generated | 14 from plan scope (all traceable) |
 
 ---
 

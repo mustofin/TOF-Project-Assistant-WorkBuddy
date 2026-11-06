@@ -112,6 +112,13 @@ class AuditLogger:
             "quotation_rejected",
             "quotation_email_prepared",
             "quotation_sent",
+            "ui_spec_generated",
+            "ui_screen_inventory_requested",
+            "ui_screen_inventory_approved",
+            "ui_screen_inventory_rejected",
+            "ui_design_rendered",
+            "ui_design_written",
+            "ui_design_exported",
             "error",
         ]
 

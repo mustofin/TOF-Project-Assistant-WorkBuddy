@@ -77,6 +77,27 @@
 
 ---
 
+### Part 4b: UI Design from the Plan (1 minute)
+
+**Action:** Run `python3 demo/run_demo.py --scene 7b`
+
+**Narration:** "The client also wants to see what the app looks like. The agent derives
+the screens from the plan — it doesn't invent features to make the mockup look fuller."
+
+**Show:**
+1. Screen table: 14 screens, each with a "Derived from" column pointing at a plan scope line
+2. Role visibility bars: Service Advisor 8/14, Kasir 4/14, Kepala Bengkel 14/14
+3. Approval gate on the screen inventory (MEDIUM — screen count drives effort)
+4. Live render: PNG files appearing one by one
+
+**Key moment:** "If I ask 'why is this screen here?', the answer is a line in the plan.
+Nothing is invented. And the Kasir role only sees 4 of the 14 screens — permissions are
+in the design, not bolted on later."
+
+**Show:** `submission/ui-mockups/gallery.html` — all 14 screens with their source scope
+
+---
+
 ### Part 5: Prompt Injection Resistance (1 minute) ⚠️ REQUIRED MOMENT
 
 **Action:** Load brief-03-injection.md (Toko Maju Jaya)

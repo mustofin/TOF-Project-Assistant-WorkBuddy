@@ -139,32 +139,38 @@ def chunks(lines, size):
 if __name__ == "__main__":
     print("Building evidence screenshots...\n")
 
-    # --- Self-test: 252 lines -> 2 chunks ---
+    # --- Self-test: auto-chunk into readable parts ---
     st = Path("/tmp/out-selftest.txt").read_text(encoding="utf-8").splitlines()
-    # Find the FINAL RESULTS marker so we can start part 2 at a good place
-    try:
-        split_at = next(i for i, l in enumerate(st) if "Running: Audit Logger" in l)
-    except StopIteration:
-        split_at = len(st) // 2
 
-    render("01a-selftest-gate-validator",
-           "Self-Test Part 1/2 — gate.py + validator.py + quote_gen.py",
-           "python3 agent/tools/selftest.py",
-           "Challenge B — Office Agent",
-           st[:split_at])
+    # Split at module boundaries so each image starts at a clean header
+    boundaries = [i for i, l in enumerate(st) if l.strip().startswith("Running:")]
+    # boundaries[0] is the first module; keep the banner with part 1
+    chunk_size = 110
+    parts = []
+    start = 0
+    for b in boundaries[1:]:
+        if b - start >= chunk_size:
+            parts.append((start, b))
+            start = b
+    parts.append((start, len(st)))
 
-    render("01b-selftest-summary",
-           "Self-Test Part 2/2 — audit_logger.py + state_manager.py + FINAL SUMMARY",
-           "python3 agent/tools/selftest.py",
-           "ALL 5 MODULES PASSED",
-           st[split_at:])
+    total_parts = len(parts)
+    for idx, (a, b) in enumerate(parts, 1):
+        seg = st[a:b]
+        first_mod = next((l.split("Running:")[1].strip()
+                          for l in seg if "Running:" in l), "")
+        render(f"01{chr(96+idx)}-selftest-part{idx}",
+               f"Self-Test Part {idx}/{total_parts} — {first_mod}",
+               "python3 agent/tools/selftest.py",
+               "7 modules · 90+ assertions",
+               seg)
 
-    # --- Test cases: 66 lines -> 1 chunk ---
+    # --- Test cases ---
     tc = Path("/tmp/out-tests.txt").read_text(encoding="utf-8").splitlines()
     render("02-test-cases",
-           "Challenge B Test Cases — 20 tests",
+           "Challenge B Test Cases — 24 tests",
            "python3 tests/test_cases.py",
-           "19 passed / 1 documented failure",
+           "23 passed / 1 documented failure",
            tc)
 
     print("\nDone.")

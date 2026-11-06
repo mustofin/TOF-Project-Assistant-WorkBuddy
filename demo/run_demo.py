@@ -39,6 +39,8 @@ from validator import Validator
 from quote_gen import QuotationGenerator
 from state_manager import StateManager
 from audit_logger import AuditLogger
+from ui_spec import UISpecGenerator
+from mockup_render import MockupRenderer
 
 DATA = ROOT / "data"
 
@@ -370,6 +372,70 @@ def main():
         note("Draft approval ≠ send approval. Separate actions, separate gates.")
         pause(2.5)
 
+    # ---------------------------------------------------------------- SCENE 7b
+    if should_run("7b"):
+        scene("7b", "UI Design from Plan  (STRUCTURED → VISUAL)")
+        from ui_spec import UISpecGenerator
+
+        uigen = UISpecGenerator()
+        ui_spec = uigen.build(plan, client={"company": "SG Garage"})
+        ui_tmp = Path(TMP) / "ui-design"
+        ui_tmp.mkdir(parents=True, exist_ok=True)
+        (ui_tmp / "ui-spec.json").write_text(
+            json.dumps(ui_spec, indent=2, ensure_ascii=False), encoding="utf-8")
+        logger.log(PROJECT_ID, "ui_spec_generated", "ui-designer",
+                   f"{len(ui_spec['screens'])} screens derived from plan scope")
+
+        say(f"{C_BOLD}Every screen must trace to a line in the plan.{C_RESET}")
+        print(f"  {C_BOLD}{'#':<3}{'Screen':<24}{'Type':<11}{'Derived from':<40}{C_RESET}")
+        line("┄")
+        for i, s in enumerate(ui_spec["screens"], 1):
+            print(f"  {i:<3}{s['title']:<24}{s['archetype']:<11}"
+                  f"{C_DIM}{s['derivedFrom'][:38]}{C_RESET}")
+        line("┄")
+        print()
+        say(f"{C_BOLD}Role visibility:{C_RESET}")
+        total_s = len(ui_spec["screens"])
+        for r in ui_spec["roles"]:
+            bar_n = max(1, round(r["screenCount"] / total_s * 24))
+            bar = "█" * bar_n
+            print(f"  {r['role']:<16} {C_CYAN}{bar:<24}{C_RESET} "
+                  f"{r['screenCount']:>2}/{total_s}")
+        print()
+        say(f"{C_BOLD}Approval gate:{C_RESET} screen inventory needs sign-off "
+            f"{C_DIM}(MEDIUM risk — screen count drives effort){C_RESET}")
+        logger.log(PROJECT_ID, "ui_screen_inventory_requested", "ui-designer",
+                   f"{total_s} screens proposed for approval")
+        ok("Screen inventory approved")
+
+        # Render a subset live so the video shows real files appearing
+        from mockup_render import MockupRenderer
+        renderer = MockupRenderer()
+        if renderer.chrome:
+            subset = {
+                "screens": [s for s in ui_spec["screens"]
+                            if s["id"] in ("dashboard", "service-list", "customer-form")],
+                "tokens": ui_spec["tokens"],
+                "navigation": ui_spec["navigation"],
+                "meta": ui_spec["meta"],
+                "roles": ui_spec["roles"],
+            }
+            paths = renderer.render_all(subset, ui_tmp)
+            print()
+            for p in paths:
+                name = Path(p).name
+                size = Path(p).stat().st_size
+                ok(f"{C_GREEN}rendered{C_RESET} {name:<24} {size:>8,} bytes")
+            logger.log(PROJECT_ID, "ui_design_rendered", "ui-designer",
+                       f"{len(paths)} mockups rendered (subset for demo)")
+            print()
+            note(f"Demo rendered 3 of {total_s}. Full run renders all {total_s}.")
+            note("Mode: mockup (HTML→PNG). Figcraft MCP used when the app is running.")
+        else:
+            warn("No headless browser — skipping live render")
+
+        pause(2.5)
+
     # ---------------------------------------------------------------- SCENE 8
     if should_run(8):
         scene(8, "REJECT  →  REMEDIATE  →  APPROVE  (loop)")
@@ -486,6 +552,7 @@ def main():
   {C_GREEN}✓{C_RESET} Approval gate — agent {C_BOLD}WAITED{C_RESET}, did not execute
   {C_GREEN}✓{C_RESET} Blocked execution proven by gate.py (allowed=false)
   {C_GREEN}✓{C_RESET} Quotation with separate HIGH-risk approval
+  {C_GREEN}✓{C_RESET} UI screens derived from plan scope, role-aware
   {C_GREEN}✓{C_RESET} Reject → remediate → approve loop closed
   {C_GREEN}✓{C_RESET} Prompt injection detected — agent {C_BOLD}REFUSED{C_RESET}
   {C_GREEN}✓{C_RESET} Full audit trail, append-only

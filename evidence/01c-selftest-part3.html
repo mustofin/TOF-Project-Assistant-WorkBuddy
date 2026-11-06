@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Self-Test Part 2/2 — audit_logger.py + state_manager.py + FINAL SUMMARY</title>
+<title>Self-Test Part 3/3 — Mockup Renderer (spec -&gt; PNG)</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -64,15 +64,57 @@
       <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div>
       <span>python3 agent/tools/selftest.py</span>
     </div>
-    <div class="meta"><span>Self-Test Part 2/2 — audit_logger.py + state_manager.py + FINAL SUMMARY</span><span>ALL 5 MODULES PASSED</span></div>
-    <pre>  Running: Audit Logger
+    <div class="meta"><span>Self-Test Part 3/3 — Mockup Renderer (spec -&gt; PNG)</span><span>7 modules · 90+ assertions</span></div>
+    <pre>  Running: Mockup Renderer (spec -&gt; PNG)
+  Module: mockup_render.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<span class="head">============================================================</span>
+TOF Project Assistant - Mockup Renderer Self-Test
+<span class="head">============================================================</span>
+  <span class="pass">PASS</span> Headless browser found
+
+<span class="head">--- </span>Group 1: HTML per archetype ---
+  <span class="pass">PASS</span> dashboard (dashboard) produces HTML
+  <span class="pass">PASS</span> login (auth) produces HTML
+  <span class="pass">PASS</span> customer-form (form) produces HTML
+  <span class="pass">PASS</span> customer-list (list) produces HTML
+  <span class="pass">PASS</span> invoice-list (list) produces HTML
+  <span class="pass">PASS</span> invoice-preview (detail) produces HTML
+  <span class="pass">PASS</span> service-detail (detail) produces HTML
+  <span class="pass">PASS</span> service-form (form) produces HTML
+  <span class="pass">PASS</span> service-list (list) produces HTML
+  <span class="pass">PASS</span> Covers &gt;=4 archetypes
+
+<span class="head">--- </span>Group 2: Tokens applied ---
+  <span class="pass">PASS</span> Primary colour present in HTML
+  <span class="pass">PASS</span> Sidebar width from tokens
+
+<span class="head">--- </span>Group 3: Actual PNG render ---
+  <span class="pass">PASS</span> Rendered one PNG per screen
+  <span class="pass">PASS</span> PNG exists and is non-trivial
+  <span class="pass">PASS</span> Spec persisted to ui-spec.json
+  <span class="pass">PASS</span> HTML sources kept
+
+<span class="head">--- </span>Group 4: Error handling ---
+  <span class="pass">PASS</span> Raises clear error when no browser
+
+<span class="head">============================================================</span>
+RESULTS: 18/18 passed, 0 failed
+<span class="head">============================================================</span>
+
+All mockup renderer self-tests passed!
+
+  &gt;&gt; Mockup Renderer (spec -&gt; PNG): PASS (7.8s)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Running: Audit Logger
   Module: audit_logger.py
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   Audit Logger Results:
-    Event ID: b4237e47-7737-4631-80ff-0858028e1d90
-    Today&#x27;s events: 5
-    Event types: 26
+    Event ID: 788a0596-b9ca-4b5e-8220-d1e419c0f0a5
+    Today&#x27;s events: 9
+    Event types: 33
     Status: PASS
 
   &gt;&gt; Audit Logger: PASS (0.0s)
@@ -84,12 +126,12 @@
 
   State Manager Results:
     Project created: PRJ-SELFTEST
-    Approval created: ACT-20261106131039-81da35
+    Approval created: ACT-20261106132944-c8f85f
     Approval resolved: APPROVED
     Projects listed: 1
     Status: PASS
 
-  &gt;&gt; State Manager: PASS (0.1s)
+  &gt;&gt; State Manager: PASS (0.0s)
 
 <span class="head"><span class="head">============================================================</span>==========</span>
   FINAL RESULTS
@@ -100,14 +142,16 @@
   gate.py                   Gate (Approval State Machine)       <span class="pass">PASS</span>
   validator.py              Validator (Plan Quality Checker)    <span class="pass">PASS</span>
   quote_gen.py              Quotation Generator                 <span class="pass">PASS</span>
+  ui_spec.py                UI Spec Generator (plan -&gt; screens) <span class="pass">PASS</span>
+  mockup_render.py          Mockup Renderer (spec -&gt; PNG)       <span class="pass">PASS</span>
   audit_logger.py           Audit Logger                        <span class="pass">PASS</span>
   state_manager.py          State Manager                       <span class="pass">PASS</span>
 
-  Total modules: 5
-  Passed: 5
+  Total modules: 7
+  Passed: 7
   Failed: 0
 
-  *** ALL 5 MODULE <span class="pass">TESTS PASSED</span> ***
+  *** ALL 7 MODULE <span class="pass">TESTS PASSED</span> ***
 
   Accountability Rules Verified:
     <span class="pass">PASS</span> Transparency - tags defined and used

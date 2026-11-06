@@ -1,0 +1,178 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>TOF UI Mockups — SG Garage</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Inter, -apple-system, 'Segoe UI', sans-serif;background:#F6F8FB;color:#111827;padding:40px;
+     -webkit-font-smoothing:antialiased}
+.wrap{max-width:1400px;margin:0 auto}
+header{margin-bottom:28px}
+h1{font-size:32px;letter-spacing:-.6px;margin-bottom:8px}
+.sub{color:#5B6472;font-size:14px}
+.panel{background:#FFFFFF;border:1px solid #E4E8EF;border-radius:14px;
+       padding:20px 24px;margin-bottom:28px;box-shadow:0 1px 2px rgba(17,24,39,.04), 0 4px 12px rgba(17,24,39,.06)}
+.row{display:flex;gap:28px;flex-wrap:wrap}
+.roles{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.role{background:#E8EFFF;border-radius:8px;padding:8px 14px;
+      font-size:13px;display:flex;gap:10px;align-items:center}
+.role b{color:#1E5EFF}
+.role span{color:#5B6472;font-size:12px}
+.navg{font-size:13px;color:#5B6472;padding:4px 0}
+.navg b{color:#111827}
+h2{font-size:18px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.card{background:#FFFFFF;border:1px solid #E4E8EF;border-radius:14px;
+      overflow:hidden;box-shadow:0 1px 2px rgba(17,24,39,.04), 0 4px 12px rgba(17,24,39,.06)}
+.thumb{background:#F6F8FB;border-bottom:1px solid #E4E8EF}
+.thumb img{display:block;width:100%;height:auto}
+figcaption{padding:14px 16px}
+.t{font-size:14px;font-weight:600;margin-bottom:6px}
+.m{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.badge{background:#E3F8F0;color:#00B37E;font-size:10px;
+       font-weight:700;text-transform:uppercase;letter-spacing:.6px;
+       padding:3px 8px;border-radius:999px}
+.src{font-size:11px;color:#9AA3B2}
+footer{margin-top:32px;font-size:12px;color:#9AA3B2;text-align:center}
+</style></head><body><div class="wrap">
+<header>
+  <h1>UI Mockups — SG Garage</h1>
+  <div class="sub">14 screens · derived from the approved project plan ·
+    web · generated 2026-11-06</div>
+</header>
+
+<div class="panel">
+  <div class="row">
+    <div style="flex:1;min-width:280px">
+      <h2>Roles &amp; visibility</h2>
+      <div class="roles"><div class="role"><b>Service Advisor</b><span>8 / 14 screens</span></div><div class="role"><b>Kasir</b><span>4 / 14 screens</span></div><div class="role"><b>Kepala Bengkel</b><span>14 / 14 screens</span></div></div>
+    </div>
+    <div style="flex:1;min-width:220px">
+      <h2>Navigation</h2>
+      <div class="navg"><b>Dashboard</b> · 2 screens</div><div class="navg"><b>Forms</b> · 4 screens</div><div class="navg"><b>Lists</b> · 5 screens</div><div class="navg"><b>Details</b> · 2 screens</div>
+    </div>
+    <div style="flex:0 0 200px">
+      <h2>Design tokens</h2>
+      <div class="navg">Primary <b>#1E5EFF</b></div>
+      <div class="navg">Accent <b>#00B37E</b></div>
+      <div class="navg">Font <b>Inter</b></div>
+      <div class="navg">Radius <b>10px</b></div>
+    </div>
+  </div>
+</div>
+
+<h2>All screens</h2>
+<div class="grid">
+    <figure class="card">
+      <div class="thumb"><img src="screens/dashboard.png" alt="Dashboard" loading="lazy"></div>
+      <figcaption>
+        <div class="t">Dashboard</div>
+        <div class="m"><span class="badge">dashboard</span>
+          <span class="src">← Dashboard (daily revenue, active services, stock ale</span></div>
+      </figcaption>
+    </figure>
+    <figure class="card">
+      <div class="thumb"><img src="screens/report-monthly.png" alt="Monthly Report" loading="lazy"></div>
+      <figcaption>
+        <div class="t">Monthly Report</div>
+        <div class="m"><span class="badge">dashboard</span>
+          <span class="src">← Monthly reports (basic summary)</span></div>
+      </figcaption>
+    </figure>
+    <figure class="card">
+      <div class="thumb"><img src="screens/login.png" alt="Sign In" loading="lazy"></div>
+      <figcaption>
+        <div class="t">Sign In</div>
+        <div class="m"><span class="badge">auth</span>
+          <span class="src">← Role-based authentication (3 roles)</span></div>
+      </figcaption>
+    </figure>
+    <figure class="card">
+      <div class="thumb"><img src="screens/customer-form.png" alt="Add / Edit Customer" loading="lazy"></div>
+      <figcaption>
+        <div class="t">Add / Edit Customer</div>
+        <div class="m"><span class="badge">form</span>
+          <span class="src">← Customer management (CRUD)</span></div>
+      </figcaption>
+    </figure>
+    <figure class="card">
+      <div class="thumb"><img src="screens/customer-list.png" alt="Customer List" loading="lazy"></div>
+      <figcaption>
+        <div class="t">Customer List</div>
+        <div class="m"><span class="badge">list</span>
+          <span class="src">← Customer management (CRUD)</span></div>
+      </figcaption>
+    </figure>
+    <figure class="card">
+      <div class="thumb"><img src="screens/inventory-list.png" alt="Inventory" loading="lazy"></div>
+      <figcaption>
+        <div class="t">Inventory</div>
+        <div class="m"><span class="badge">list</span>
+          <span class="src">← Inventory management (stock in/out, low stock alert)</span></div>
+      </figcaption>
+    </figure>
+    <figure class="card">
+      <div class="thumb"><img src="screens/invoice-list.png" alt="Invoices" loading="lazy"></div>
+      <figcaption>
+        <div class="t">Invoices</div>
+        <div class="m"><span class="badge">list</span>
+          <span class="src">← Invoice printing (PDF generation from service transa</span></div>
+      </figcaption>
+    </figure>
+    <figure class="card">
+      <div class="thumb"><img src="screens/invoice-preview.png" alt="Invoice Preview" loading="lazy"></div>
+      <figcaption>
+        <div class="t">Invoice Preview</div>
+        <div class="m"><span class="badge">detail</span>
+          <span class="src">← Invoice printing (PDF generation from service transa</span></div>
+      </figcaption>
+    </figure>
+    <figure class="card">
+      <div class="thumb"><img src="screens/service-detail.png" alt="Service Detail" loading="lazy"></div>
+      <figcaption>
+        <div class="t">Service Detail</div>
+        <div class="m"><span class="badge">detail</span>
+          <span class="src">← Service transactions (create, update, status trackin</span></div>
+      </figcaption>
+    </figure>
+    <figure class="card">
+      <div class="thumb"><img src="screens/service-form.png" alt="New Service Order" loading="lazy"></div>
+      <figcaption>
+        <div class="t">New Service Order</div>
+        <div class="m"><span class="badge">form</span>
+          <span class="src">← Service transactions (create, update, status trackin</span></div>
+      </figcaption>
+    </figure>
+    <figure class="card">
+      <div class="thumb"><img src="screens/service-list.png" alt="Service Orders" loading="lazy"></div>
+      <figcaption>
+        <div class="t">Service Orders</div>
+        <div class="m"><span class="badge">list</span>
+          <span class="src">← Service transactions (create, update, status trackin</span></div>
+      </figcaption>
+    </figure>
+    <figure class="card">
+      <div class="thumb"><img src="screens/stock-form.png" alt="Stock In / Out" loading="lazy"></div>
+      <figcaption>
+        <div class="t">Stock In / Out</div>
+        <div class="m"><span class="badge">form</span>
+          <span class="src">← Inventory management (stock in/out, low stock alert)</span></div>
+      </figcaption>
+    </figure>
+    <figure class="card">
+      <div class="thumb"><img src="screens/vehicle-form.png" alt="Add / Edit Vehicle" loading="lazy"></div>
+      <figcaption>
+        <div class="t">Add / Edit Vehicle</div>
+        <div class="m"><span class="badge">form</span>
+          <span class="src">← Vehicle management (CRUD, linked to customer)</span></div>
+      </figcaption>
+    </figure>
+    <figure class="card">
+      <div class="thumb"><img src="screens/vehicle-list.png" alt="Vehicle List" loading="lazy"></div>
+      <figcaption>
+        <div class="t">Vehicle List</div>
+        <div class="m"><span class="badge">list</span>
+          <span class="src">← Vehicle management (CRUD, linked to customer)</span></div>
+      </figcaption>
+    </figure></div>
+
+<footer>TOF Project Assistant · tof-ui-designer skill · every screen traceable to a plan scope line</footer>
+</div></body></html>
