@@ -151,8 +151,8 @@
         }
         .accountability-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
         }
         .tag {
             display: inline-block;
@@ -203,6 +203,27 @@
             margin-left: 8px;
         }
         .badge-b { background: #4299e1; color: white; }
+
+        /* ---- print: one landscape-ish page sized to the diagram ---- */
+        @page {
+            size: 1280px 1820px;
+            margin: 0;
+        }
+        @media print {
+            body {
+                padding: 0;
+                background: #ffffff;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .container {
+                max-width: none;
+                width: 1280px;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            .diagram, .layer, .box { break-inside: avoid; page-break-inside: avoid; }
+        }
     </style>
 </head>
 <body>
@@ -265,7 +286,7 @@
 
                 <!-- Layer 3: Deterministic Tools -->
                 <div class="layer agent-layer">
-                    <span class="layer-title">Deterministic Python Tools (8 modules, 154 self-tests)</span>
+                    <span class="layer-title">Deterministic Python Tools (8 modules, 157 self-tests)</span>
                     <div class="tools-grid" style="margin-top: 8px;">
                         <div class="box box-tool">
                             <h3>gate.py</h3>
@@ -273,7 +294,7 @@
                         </div>
                         <div class="box box-tool">
                             <h3>validator.py</h3>
-                            <p>6-check plan validator<br>14 self-tests<br>PASS/WARN/FAIL verdict</p>
+                            <p>6-check plan validator<br>17 self-tests<br>PASS/WARN/FAIL verdict</p>
                         </div>
                         <div class="box box-tool">
                             <h3>quote_gen.py</h3>
@@ -351,6 +372,10 @@
                             <h3>Keeps Record</h3>
                             <p>Audit trail: all events<br>Prompt injection detection<br>Completion honesty</p>
                         </div>
+                        <div class="box box-accountability">
+                            <h3>Admits Limits</h3>
+                            <p>States what it cannot do<br>Flags 1 known test failure<br>No fabricated data</p>
+                        </div>
                     </div>
                 </div>
 
@@ -382,7 +407,7 @@
         </div>
 
         <div class="footer">
-            <p>TOF Solusi Digital | Challenge B: Office Agent | 6 Skills &middot; 8 Tools &middot; 154 Self-Tests &middot; 24 Test Cases (23 pass, 1 fail)</p>
+            <p>TOF Solusi Digital | Challenge B: Office Agent | 6 Skills &middot; 8 Tools &middot; 157 Self-Tests &middot; 24 Test Cases (23 pass, 1 fail)</p>
         </div>
     </div>
 </body>

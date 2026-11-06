@@ -230,6 +230,95 @@ def check_integrity() -> None:
 
 
 # ---------------------------------------------------------------------------
+# Assets the live Google Form asks for by name
+# ---------------------------------------------------------------------------
+
+def png_size(path: Path) -> tuple[int, int]:
+    """Read width/height straight out of the PNG IHDR chunk."""
+    with path.open("rb") as fh:
+        head = fh.read(33)
+    if len(head) < 24 or head[:8] != b"\x89PNG\r\n\x1a\n":
+        return 0, 0
+    return int.from_bytes(head[16:20], "big"), int.from_bytes(head[20:24], "big")
+
+
+def pdf_pages(path: Path) -> int:
+    raw = path.read_bytes()
+    return raw.count(b"/Type /Page") - raw.count(b"/Type /Pages")
+
+
+FORM_HEADINGS = [
+    "1. Project Overview",
+    "2. Sources of Pain Points",
+    "3. Solution & Superiority",
+    "4. Business Value",
+]
+
+
+def check_form_assets() -> None:
+    """The form's own field list, which differs from the 9-item checklist."""
+
+    # F1 — Cover image: 16:9, at least 300x216
+    cover = SUBMISSION / "cover-image.png"
+    if not cover.exists():
+        add(FAIL, "F1. Cover image (16:9)", "submission/cover-image.png missing")
+    else:
+        w, h = png_size(cover)
+        ratio = (w / h) if h else 0
+        mb = cover.stat().st_size / 1024 / 1024
+        ok = abs(ratio - 16 / 9) < 0.01 and w >= 300 and h >= 216 and mb <= 10
+        add(PASS if ok else FAIL, "F1. Cover image (16:9)",
+            f"{w}x{h}, ratio {ratio:.4f}, {mb:.1f} MB")
+
+    # F2 — Architecture diagram as PDF or PPT; the form rejects PNG
+    pdf = SUBMISSION / "architecture-diagram.pdf"
+    if not pdf.exists():
+        add(FAIL, "F2. Diagram as PDF/PPT",
+            "no architecture-diagram.pdf — the form does not accept PNG")
+    else:
+        pages = pdf_pages(pdf)
+        mb = pdf.stat().st_size / 1024 / 1024
+        ok = pages == 1 and mb <= 10
+        add(PASS if ok else FAIL, "F2. Diagram as PDF/PPT",
+            f"{pages} page(s), {mb:.2f} MB")
+
+    # F3 — Project link page (hosted showcase)
+    site = SUBMISSION / "site" / "index.html"
+    shots = list((SUBMISSION / "site" / "screens").glob("*.png"))
+    if site.exists():
+        add(PASS, "F3. Project link page",
+            f"submission/site/ built, {len(shots)} screens bundled")
+    else:
+        add(WARN, "F3. Project link page", "showcase not built")
+
+    # F4 — Description restructured to the four headings the form asks for
+    fdesc = SUBMISSION / "project-description-form.md"
+    if not fdesc.exists():
+        add(FAIL, "F4. Description in form structure", "project-description-form.md missing")
+    else:
+        body = fdesc.read_text(encoding="utf-8")
+        missing = [h for h in FORM_HEADINGS if h not in body]
+        add(PASS if not missing else FAIL, "F4. Description in form structure",
+            f"{words(body)} words, 4/4 headings"
+            if not missing else f"missing heading: {missing[0]}")
+
+    # F5 — Conversation history screenshots: only the user can produce these
+    add(WARN, "F5. Conversation history",
+        "3-5 chat screenshots — must be captured from your own session")
+
+    # F6 — Social post with the three required hashtags
+    ps = SUBMISSION / "product-sharing.md"
+    if ps.exists():
+        body = ps.read_text(encoding="utf-8")
+        tags = ["#WorkBuddy", "#AIforGood", "#TencentCloudHackathon"]
+        found = [t for t in tags if t in body]
+        add(PASS if len(found) == 3 else WARN, "F6. Social post text",
+            f"{len(found)}/3 hashtags present in product-sharing.md")
+    else:
+        add(WARN, "F6. Social post text", "product-sharing.md missing")
+
+
+# ---------------------------------------------------------------------------
 # Report
 # ---------------------------------------------------------------------------
 
@@ -246,11 +335,16 @@ def main() -> int:
     check_items()
     item_count = len(results)
     check_integrity()
+    integrity_count = len(results)
+    check_form_assets()
 
-    # Print in order, inserting the second group's heading at the boundary.
+    # Print in order, inserting each group's heading at its boundary.
     for index, (status, label, detail) in enumerate(results):
         if index == item_count:
             print("\n  INTEGRITY CHECKS")
+            print("  " + "-" * 62)
+        if index == integrity_count:
+            print("\n  FORM ASSETS (live Google Form)")
             print("  " + "-" * 62)
         if quiet and status == PASS:
             continue

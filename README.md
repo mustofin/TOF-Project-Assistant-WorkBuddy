@@ -47,7 +47,7 @@ can be checked against a file on disk** — which is why `demo/check_state.py` e
 ## Quick start
 
 ```bash
-# 1. Deterministic tool self-tests — 8 modules, 154 assertions
+# 1. Deterministic tool self-tests — 8 modules, 157 assertions
 python3 agent/tools/selftest.py
 
 # 2. Challenge test cases — 24 tests (23 pass, 1 intentional failure)
@@ -101,7 +101,7 @@ agent/
 ├── quotation/         # plan → quotation + terbilang
 ├── ui-designer/       # plan → screen inventory → mockups
 ├── rules/             # accountability + approval policy
-└── tools/             # 8 Python modules, 154 assertions
+└── tools/             # 8 Python modules, 157 assertions
 ```
 
 ---

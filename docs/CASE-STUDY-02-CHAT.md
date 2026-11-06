@@ -42,7 +42,7 @@ ls .workbuddy-ai/skills/
 rm -rf state/projects/PRJ-KBS-001 state/approval-history/PRJ-KBS-001
 rm -f state/pending-approvals/*.json
 
-# 3. Pastikan mesin sehat (harus 154/154 PASS)
+# 3. Pastikan mesin sehat (harus 157/157 PASS)
 python3 agent/tools/selftest.py | tail -12
 ```
 

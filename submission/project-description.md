@@ -48,9 +48,9 @@ The system has 5 layers:
    - **Executor** (approved actions → Excel tracker)
    - **Quotation Generator** (plan → quotation document)
    - **UI Designer** (plan → screen inventory → mockups)
-3. **Deterministic Tools** — 8 Python modules (154 self-tests):
+3. **Deterministic Tools** — 8 Python modules (157 self-tests):
    - `gate.py` — Approval state machine + prompt injection detection (27 tests)
-   - `validator.py` — Plan quality validator (14 tests)
+   - `validator.py` — Plan quality validator (17 tests)
    - `quote_gen.py` — Quotation calculator with terbilang (31 tests)
    - `ui_spec.py` — Plan → screen inventory + design tokens (33 tests)
    - `mockup_render.py` — Spec → HTML → PNG mockups (18 tests)
@@ -84,14 +84,15 @@ DRAFT → PENDING_APPROVAL → APPROVED → EXECUTED → (FAILED if error)
 
 ### Mock Dataset
 
-3 sample briefs for testing:
+4 sample briefs for testing:
 1. **Complete brief** (SG Garage WMS) — Full requirements, 4 unclear points
 2. **Brief with gaps** (Kopi Nusantara POS) — 10 missing items requiring clarification
 3. **Brief with prompt injection** (Toko Maju Jaya) — Contains "ignore all rules" injection attempt
+4. **WhatsApp-style brief** (Katering Bu Sari) — Forwarded message with 1 contradiction and 5 gaps, used for the end-to-end case study
 
 ### Test Results
 
-- **Self-tests:** 8 modules, 154 tests, all passed
+- **Self-tests:** 8 modules, 157 tests, all passed
 - **Challenge test cases:** 24 tests, 23 passed, 1 failed
   - The 1 failure (TC-002) is an intentional demonstration of honest reporting: keyword-based gap detection cannot match LLM-based semantic analysis. This limitation is documented, not hidden.
 

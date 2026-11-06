@@ -8,7 +8,7 @@
 
 | Suite | Total | Passed | Failed | Pass Rate |
 |-------|-------|--------|--------|-----------|
-| Self-Tests (8 modules) | 154 | 154 | 0 | 100% |
+| Self-Tests (8 modules) | 157 | 157 | 0 | 100% |
 | Challenge Test Cases | 24 | 23 | 1 | 96% |
 | **Grand Total** | **119** | **118** | **1** | **99%** |
 
@@ -21,7 +21,7 @@ Run: `python3 agent/tools/selftest.py`
 | Module | Tests | Result | Key Functions |
 |--------|-------|--------|---------------|
 | gate.py | 27 | ALL PASS | State machine transitions, approval checks, prompt injection detection |
-| validator.py | 14 | ALL PASS | 6 validation checks, completeness, consistency, feasibility |
+| validator.py | 17 | ALL PASS | 6 validation checks + revision-marker guard |
 | quote_gen.py | 31 | ALL PASS | Quote generation, terbilang, payment schedule, cost calculation |
 | ui_spec.py | 26 | ALL PASS | Plan → screen inventory, design tokens, role visibility, traceability |
 | mockup_render.py | 18 | ALL PASS | HTML generation per archetype, PNG render, error handling |
@@ -124,7 +124,7 @@ Run: `python3 tests/test_cases.py`
 |------|---------|
 | `agent/tools/selftest.py` | Master self-test runner (8 modules) |
 | `agent/tools/gate.py` | Gate self-test (27 tests) |
-| `agent/tools/validator.py` | Validator self-test (14 tests) |
+| `agent/tools/validator.py` | Validator self-test (17 tests) |
 | `agent/tools/quote_gen.py` | Quotation generator self-test (31 tests) |
 | `agent/tools/ui_spec.py` | UI spec generator self-test (33 tests) |
 | `agent/tools/mockup_render.py` | Mockup renderer self-test (18 tests) |
@@ -141,10 +141,10 @@ Real terminal output captured from actual runs — not mockups.
 
 | Screenshot | Shows |
 |-----------|-------|
-| `evidence/screenshots/01a-selftest-part1.png` | Self-test part 1: gate.py (27), validator.py (14) |
+| `evidence/screenshots/01a-selftest-part1.png` | Self-test part 1: gate.py (27), validator.py (17) |
 | `evidence/screenshots/01b-selftest-part2.png` | Self-test part 2: quote_gen.py (31), ui_spec.py (33) |
 | `evidence/screenshots/01c-selftest-part3.png` | Self-test part 3: mockup_render.py (18), tracker_sync.py (29), audit_logger |
-| `evidence/screenshots/01d-selftest-part4.png` | Self-test part 4: state_manager, **FINAL SUMMARY — ALL 8 MODULES PASSED (154/154)** |
+| `evidence/screenshots/01d-selftest-part4.png` | Self-test part 4: state_manager, **FINAL SUMMARY — ALL 8 MODULES PASSED (157/157)** |
 | `evidence/screenshots/02-test-cases.png` | 24 challenge tests: 23 PASS / 1 FAIL with full category breakdown |
 
 To regenerate the screenshots after changing any test:

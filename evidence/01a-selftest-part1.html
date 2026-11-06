@@ -64,7 +64,7 @@
       <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div>
       <span>python3 agent/tools/selftest.py</span>
     </div>
-    <div class="meta"><span>Self-Test Part 1/4 — Gate (Approval State Machine)</span><span>ALL 8 MODULES PASSED (154/154 ASSERTIONS)</span></div>
+    <div class="meta"><span>Self-Test Part 1/4 — Gate (Approval State Machine)</span><span>ALL 8 MODULES PASSED (157/157 ASSERTIONS)</span></div>
     <pre><span class="head"><span class="head">============================================================</span>==========</span>
   TOF Project Assistant - Complete Self-Test Suite
   Challenge B: Office Agent - Unstructured to Structured
@@ -182,13 +182,18 @@ TOF Project Assistant - Validator Self-Test
 <span class="head">--- </span>Test Group 12: Risks Without Mitigation ---
   <span class="pass">PASS</span> Risk without mitigation flagged
 
+<span class="head">--- </span>Test Group 13: Revision Marker in Phase Name ---
+  <span class="pass">PASS</span> Phase name with [REVISED] marker is flagged
+  <span class="pass">PASS</span> Phase name with an arrow is flagged (notes leak as structure)
+  <span class="pass">PASS</span> Clean phase names raise no revision-marker warning
+
 <span class="head">============================================================</span>
-RESULTS: 14/14 passed, 0 failed
+RESULTS: 17/17 passed, 0 failed
 <span class="head">============================================================</span>
 
 All validator self-tests passed!
 
-  &gt;&gt; Validator (Plan Quality Checker): PASS (0.0s) - 14/14 assertions
+  &gt;&gt; Validator (Plan Quality Checker): PASS (0.0s) - 17/17 assertions
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</pre>
   </div>

@@ -235,6 +235,20 @@ class Validator:
                     f"(exceeds max {MAX_EFFORT_PER_PHASE})"
                 )
 
+        # Check: revision markers must not leak into structural fields.
+        # A revision note belongs in `revisionNote` or in the task title — never
+        # in a phase name, because downstream consumers (Excel tracker, quotation
+        # line items, UI spec) treat the phase name as a stable identifier.
+        REVISION_MARKERS = ("[REVISED]", "[REJECTED]", "[NEW]", "->", "\u2192")
+        for phase in phases:
+            name = phase.get("phaseName", "") or ""
+            hit = [m for m in REVISION_MARKERS if m in name]
+            if hit:
+                issues.append(
+                    f"Phase name '{name}' contains a revision marker ({hit[0]}). "
+                    f"Move the note to revisionNote; the phase name must stay stable."
+                )
+
         # Check: total effort matches sum of task efforts
         if total_effort > 0 and total_tasks > 0:
             avg_effort_per_task = total_effort / total_tasks
@@ -821,6 +835,37 @@ def run_selftest():
     assert_test(
         "Risk without mitigation flagged",
         feasibility["status"] == "WARNING",
+    )
+
+    # --- Test 13: Revision marker leaking into a phase name ---
+    print("\n--- Test Group 13: Revision Marker in Phase Name ---")
+
+    polluted = json.loads(json.dumps(valid_plan))
+    polluted["wbs"]["phases"][1]["phaseName"] = "[REVISED] Development (Invoice -> Phase 2)"
+    result = validator.validate(polluted)
+    consistency = [c for c in result["checks"] if c["check"] == "CONSISTENCY"][0]
+    assert_test(
+        "Phase name with [REVISED] marker is flagged",
+        consistency["status"] == "WARNING"
+        and any("revision marker" in i for i in consistency.get("issues", [])),
+        f"status={consistency['status']} issues={consistency.get('issues')}",
+    )
+
+    arrow_only = json.loads(json.dumps(valid_plan))
+    arrow_only["wbs"]["phases"][2]["phaseName"] = "Testing -> Handover"
+    result = validator.validate(arrow_only)
+    consistency = [c for c in result["checks"] if c["check"] == "CONSISTENCY"][0]
+    assert_test(
+        "Phase name with an arrow is flagged (notes leak as structure)",
+        consistency["status"] == "WARNING",
+    )
+
+    clean = json.loads(json.dumps(valid_plan))
+    result = validator.validate(clean)
+    consistency = [c for c in result["checks"] if c["check"] == "CONSISTENCY"][0]
+    assert_test(
+        "Clean phase names raise no revision-marker warning",
+        not any("revision marker" in i for i in consistency.get("issues", [])),
     )
 
     # --- Summary ---

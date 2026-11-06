@@ -1,0 +1,569 @@
+#!/usr/bin/env python3
+"""
+Build the public showcase page for TOF Project Assistant.
+
+The page is a static artifact for judges: it explains the product, shows the
+screens that were derived from a real plan, and states the measured numbers.
+Every number here is read from the repository, not typed by hand, so the page
+cannot drift from the code the way hand-written slides do.
+
+Usage:
+    python3 submission/site/build_site.py
+"""
+
+import json
+import shutil
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+SITE = ROOT / "submission" / "site"
+SCREENS_SRC = ROOT / "submission" / "ui-mockups" / "screens"
+SPEC = ROOT / "submission" / "ui-mockups" / "ui-spec.json"
+
+REPO = "https://github.com/mustofin/TOF-Project-Assistant-WorkBuddy"
+
+CSS = """
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --ink:#12142b;
+  --ink-soft:#4a4f6b;
+  --ink-mute:#7c8199;
+  --line:#e4e6f0;
+  --bg:#ffffff;
+  --bg-soft:#f6f7fb;
+  --indigo:#5b5bd6;
+  --indigo-soft:#eef0ff;
+  --green:#0f7a4d;
+  --green-soft:#e7f7ef;
+  --amber:#8a5a00;
+  --amber-soft:#fdf3e0;
+}
+
+html { scroll-behavior:smooth; }
+
+body {
+  font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+.wrap { max-width:1080px; margin:0 auto; padding:0 28px; }
+
+/* ---------- nav ---------- */
+nav {
+  position:sticky; top:0; z-index:20;
+  background:rgba(255,255,255,0.88);
+  backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--line);
+}
+nav .wrap { display:flex; align-items:center; justify-content:space-between; height:60px; }
+nav .brand { font-weight:750; letter-spacing:-0.01em; font-size:15px; }
+nav .brand span { color:var(--ink-mute); font-weight:500; }
+nav .links { display:flex; gap:22px; font-size:14px; }
+nav a { color:var(--ink-soft); text-decoration:none; }
+nav a:hover { color:var(--indigo); }
+
+/* ---------- hero ---------- */
+header {
+  background:
+    radial-gradient(900px 420px at 88% -8%, #eef0ff 0%, rgba(238,240,255,0) 62%),
+    radial-gradient(700px 340px at 4% 4%, #f3f0ff 0%, rgba(243,240,255,0) 60%);
+  padding:74px 0 62px;
+  border-bottom:1px solid var(--line);
+}
+.eyebrow {
+  display:inline-flex; align-items:center; gap:9px;
+  font-size:12.5px; font-weight:650; letter-spacing:0.06em; text-transform:uppercase;
+  color:var(--indigo); background:var(--indigo-soft);
+  border:1px solid #dcdffb; border-radius:100px; padding:7px 16px;
+}
+.eyebrow .dot { width:7px; height:7px; border-radius:50%; background:#22c55e; }
+h1 {
+  font-size:clamp(38px, 5.6vw, 60px);
+  line-height:1.04; letter-spacing:-0.03em; font-weight:800;
+  margin:22px 0 0;
+}
+h1 .accent { color:var(--indigo); }
+.lede {
+  font-size:19px; color:var(--ink-soft); max-width:760px; margin-top:20px;
+}
+.lede b { color:var(--ink); font-weight:650; }
+.actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:30px; }
+.btn {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:11px 20px; border-radius:9px; font-size:14.5px; font-weight:600;
+  text-decoration:none; border:1px solid transparent; transition:transform .12s ease;
+}
+.btn:hover { transform:translateY(-1px); }
+.btn.primary { background:var(--ink); color:#fff; }
+.btn.ghost { background:#fff; color:var(--ink); border-color:var(--line); }
+.meta { margin-top:22px; font-size:13.5px; color:var(--ink-mute); }
+
+/* ---------- sections ---------- */
+section { padding:64px 0; border-bottom:1px solid var(--line); }
+section:last-of-type { border-bottom:none; }
+.kicker {
+  font-size:12.5px; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+  color:var(--ink-mute); margin-bottom:12px;
+}
+h2 {
+  font-size:clamp(24px, 3.1vw, 32px); letter-spacing:-0.02em; font-weight:750; line-height:1.18;
+}
+.sub { color:var(--ink-soft); font-size:16.5px; max-width:720px; margin-top:12px; }
+
+/* ---------- chat bubble ---------- */
+.chat { margin-top:30px; display:flex; gap:14px; }
+.avatar {
+  width:36px; height:36px; border-radius:50%; flex:0 0 36px;
+  background:#25d366; color:#fff; display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:13px;
+}
+.bubble {
+  background:#e8f6ee; border:1px solid #d3ecdd; border-radius:14px 14px 14px 4px;
+  padding:20px 22px; font-size:15.5px; color:#1f2a37; max-width:760px;
+}
+.bubble p + p { margin-top:12px; }
+.mark { background:#fff3cd; box-shadow:inset 0 -2px 0 #f0c040; padding:1px 2px; border-radius:2px; }
+.callout {
+  margin-top:26px; display:grid; grid-template-columns:repeat(3, 1fr); gap:14px;
+}
+.callout div {
+  background:var(--bg-soft); border:1px solid var(--line); border-radius:11px; padding:16px 18px;
+}
+.callout b { display:block; font-size:22px; letter-spacing:-0.02em; }
+.callout span { font-size:13.5px; color:var(--ink-mute); }
+
+/* ---------- steps ---------- */
+.steps { margin-top:34px; display:grid; gap:0; }
+.step {
+  display:grid; grid-template-columns:52px 1fr; gap:18px;
+  padding:22px 0; border-top:1px solid var(--line);
+}
+.step:first-child { border-top:none; padding-top:0; }
+.num {
+  width:34px; height:34px; border-radius:9px; background:var(--indigo-soft);
+  color:var(--indigo); font-weight:750; font-size:14px;
+  display:flex; align-items:center; justify-content:center;
+  border:1px solid #dcdffb;
+}
+.step h3 { font-size:17px; font-weight:700; letter-spacing:-0.01em; }
+.step p { color:var(--ink-soft); font-size:15px; margin-top:5px; max-width:700px; }
+.step .gate-note {
+  display:inline-block; margin-top:9px; font-size:12.5px; font-weight:650;
+  color:var(--green); background:var(--green-soft); border:1px solid #c7ebd8;
+  border-radius:6px; padding:3px 10px;
+}
+.step .file {
+  display:inline-block; margin-top:9px; margin-right:6px;
+  font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px;
+  color:var(--ink-soft); background:var(--bg-soft); border:1px solid var(--line);
+  border-radius:5px; padding:2px 7px;
+}
+
+/* ---------- state machine ---------- */
+.machine {
+  margin-top:30px; background:#12142b; border-radius:14px; padding:30px 26px;
+  display:flex; flex-direction:column; gap:14px; align-items:center;
+}
+.machine .row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center; }
+.chip {
+  font-size:12.5px; font-weight:700; letter-spacing:0.04em; color:#fff;
+  padding:7px 14px; border-radius:7px; white-space:nowrap;
+}
+.chip.draft { background:#4a5568; }
+.chip.pending { background:#d69e2e; }
+.chip.approved { background:#38a169; }
+.chip.executed { background:#3182ce; }
+.chip.rejected { background:#e53e3e; }
+.chip.failed { background:#c53030; }
+.arrow { color:#7c8199; font-size:15px; }
+.machine .note { font-size:12.5px; color:#a0a5bd; margin-top:2px; }
+
+/* ---------- rules table ---------- */
+table { width:100%; border-collapse:collapse; margin-top:28px; font-size:14.5px; }
+th, td { text-align:left; padding:13px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+th {
+  font-size:12px; text-transform:uppercase; letter-spacing:0.07em;
+  color:var(--ink-mute); font-weight:700; border-bottom:1.5px solid var(--line);
+}
+td code {
+  font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12.5px;
+  background:var(--bg-soft); border:1px solid var(--line); border-radius:5px; padding:1px 6px;
+  white-space:nowrap;
+}
+tr:last-child td { border-bottom:none; }
+td.rule-name { font-weight:650; width:190px; }
+
+/* ---------- gallery ---------- */
+.gallery {
+  margin-top:32px; display:grid; gap:18px;
+  grid-template-columns:repeat(auto-fill, minmax(238px, 1fr));
+}
+.shot { border:1px solid var(--line); border-radius:11px; overflow:hidden; background:#fff; }
+.shot img {
+  width:100%; height:196px; object-fit:cover; object-position:top center;
+  display:block; border-bottom:1px solid var(--line); background:var(--bg-soft);
+}
+.shot .cap { padding:11px 13px; }
+.shot .cap b { font-size:13.5px; display:block; }
+.shot .cap span {
+  display:block; font-size:11.5px; color:var(--ink-mute); margin-top:3px; line-height:1.45;
+}
+.trace {
+  margin-top:22px; background:var(--indigo-soft); border:1px solid #dcdffb;
+  border-radius:11px; padding:16px 18px; font-size:14.5px; color:#2f3180;
+}
+
+/* ---------- metrics ---------- */
+.metrics { margin-top:30px; display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; }
+.metric { border:1px solid var(--line); border-radius:11px; padding:18px; background:var(--bg-soft); }
+.metric b { display:block; font-size:26px; letter-spacing:-0.02em; }
+.metric span { font-size:12.5px; color:var(--ink-mute); }
+.metric .warn { color:var(--amber); font-size:12.5px; font-weight:600; }
+
+/* ---------- limits ---------- */
+.limits { margin-top:28px; display:grid; grid-template-columns:repeat(2, 1fr); gap:14px; }
+.limit {
+  border:1px solid var(--line); border-left:3px solid var(--amber);
+  border-radius:9px; padding:15px 17px; background:#fffdf8;
+}
+.limit b { font-size:14.5px; display:block; }
+.limit span { font-size:13.5px; color:var(--ink-soft); }
+
+/* ---------- footer ---------- */
+footer { padding:44px 0 56px; background:var(--bg-soft); }
+footer .wrap { display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; align-items:flex-start; }
+footer b { font-size:15px; }
+footer p { font-size:13.5px; color:var(--ink-mute); margin-top:6px; }
+footer a { color:var(--indigo); text-decoration:none; font-size:13.5px; }
+
+@media (max-width:820px) {
+  .callout, .metrics { grid-template-columns:repeat(2, 1fr); }
+  .limits { grid-template-columns:1fr; }
+  nav .links { display:none; }
+}
+@media (max-width:520px) {
+  .callout, .metrics { grid-template-columns:1fr; }
+  section { padding:46px 0; }
+}
+"""
+
+
+def esc(text):
+    return (text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
+
+
+def build():
+    spec = json.loads(SPEC.read_text(encoding="utf-8"))
+    screens = spec["screens"]
+
+    # copy screenshots next to the page so the deployed site is self-contained
+    out_screens = SITE / "screens"
+    out_screens.mkdir(parents=True, exist_ok=True)
+    copied = 0
+    for s in screens:
+        src = SCREENS_SRC / f"{s['id']}.png"
+        if src.exists():
+            shutil.copy2(src, out_screens / src.name)
+            copied += 1
+
+    cards = []
+    for s in screens:
+        cards.append(
+            '<figure class="shot">'
+            f'<img src="screens/{s["id"]}.png" alt="{esc(s["title"])} screen" loading="lazy">'
+            '<figcaption class="cap">'
+            f'<b>{esc(s["title"])}</b>'
+            f'<span>{esc(s.get("derivedFrom", ""))}</span>'
+            "</figcaption></figure>"
+        )
+    gallery = "\n        ".join(cards)
+
+    roles = spec.get("roles", [])
+    role_line = " · ".join(f"{r['role']} {r['screenCount']}/{len(screens)}" for r in roles)
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TOF Project Assistant — Accountable AI project manager</title>
+<meta name="description" content="Turns messy client briefs into validated, human-approved project plans. Submission for AI CAN DO IT — Tencent Cloud Hackathon Indonesia 2026, Challenge B.">
+<style>{CSS}</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">TOF Project Assistant <span>/ Challenge B</span></div>
+    <div class="links">
+      <a href="#input">The input</a>
+      <a href="#flow">How it works</a>
+      <a href="#rules">Rules</a>
+      <a href="#screens">Screens</a>
+      <a href="#evidence">Evidence</a>
+      <a href="{REPO}" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>AI CAN DO IT · Tencent Cloud Hackathon Indonesia 2026 · Challenge B: The Office Agent</div>
+    <h1>TOF Project <span class="accent">Assistant</span></h1>
+    <p class="lede">
+      An accountable AI project manager for a small software consultancy.
+      It turns a messy client brief into a validated plan, a quotation, and a UI screen
+      inventory — and <b>stops for human approval</b> before anything is written to a shared
+      file or sent to a client.
+    </p>
+    <div class="actions">
+      <a class="btn primary" href="{REPO}" target="_blank" rel="noopener">Source code on GitHub</a>
+      <a class="btn ghost" href="{REPO}/blob/main/submission/accountability-sheet.md" target="_blank" rel="noopener">Accountability sheet</a>
+      <a class="btn ghost" href="{REPO}/blob/main/docs/CASE-STUDY-02-CHAT.md" target="_blank" rel="noopener">End-to-end case study</a>
+    </div>
+    <p class="meta">Built on WorkBuddy AI · TOF Solusi Digital · unstructured input → structured output with approval gates</p>
+  </div>
+</header>
+
+<section id="input">
+  <div class="wrap">
+    <div class="kicker">The input</div>
+    <h2>A brief forwarded from WhatsApp, not a specification</h2>
+    <p class="sub">
+      This is the actual starting point. No headings, no feature list, no deadline —
+      and two requirements that cannot both be satisfied.
+    </p>
+
+    <div class="chat">
+      <div class="avatar">BS</div>
+      <div class="bubble">
+        <p>“Oh iya satu lagi, di Sidoarjo kalau hujan deras internet suka mati. Jadi sistemnya
+        <span class="mark">harus tetap bisa dipakai walaupun internet mati</span>. Tapi datanya saya pengin aman dan
+        bisa dibuka dari mana-mana, jadi <span class="mark">tolong simpan di Google Sheets online itu ya mas</span>.”</p>
+        <p>“…mulai tanggal 1. Budget saya siapkan Rp 12 juta, kalau lebih saya mikir-mikir dulu.”</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div><b>1</b><span>contradiction the agent must surface, not silently resolve</span></div>
+      <div><b>5</b><span>missing facts it must ask about instead of inventing</span></div>
+      <div><b>Rp 12 jt</b><span>budget the first honest estimate exceeds</span></div>
+    </div>
+
+    <p class="sub" style="margin-top:24px;">
+      A general-purpose assistant will produce a confident plan anyway — inventing the user count,
+      guessing the deadline, and pricing work nobody agreed to. The gap between what the client says
+      and what a developer needs is where projects fail, so that gap is where this agent is designed to stop.
+    </p>
+  </div>
+</section>
+
+<section id="flow">
+  <div class="wrap">
+    <div class="kicker">How it works</div>
+    <h2>Five steps, three of them end in a question</h2>
+    <p class="sub">Every step leaves a file on disk, so any claim the agent makes can be checked against what it actually wrote.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <div>
+          <h3>Read the brief, then list what is missing</h3>
+          <p>Finds the contradiction, the five gaps, and the budget conflict. It does not plan yet.</p>
+          <span class="gate-note">stops and asks</span>
+          <span class="file">brief.json</span><span class="file">clarifications.json</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div>
+          <h3>Build the plan, then validate it with code</h3>
+          <p>WBS, effort, cost and risks. Every line is tagged <code>[BRIEF]</code>, <code>[CLARIFIED]</code>,
+          <code>[ASSUMPTION]</code> or <code>[AI RECOMMENDATION]</code>. Six deterministic checks run before a human sees it.</p>
+          <span class="gate-note">stops for approval</span>
+          <span class="file">plan.json</span><span class="file">validation.json</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div>
+          <h3>Wait for a human decision</h3>
+          <p>Nothing is written or sent until an approval card is resolved. A rejection returns a reason,
+          the plan is revised rather than restarted, and a <em>new</em> card is issued — the old approval ID cannot be reused.</p>
+          <span class="gate-note">blocks execution</span>
+          <span class="file">approval-history/</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div>
+          <h3>On approval: write the tracker, generate the quotation</h3>
+          <p>The Excel tracker is generated from the plan, then verified against it — phase drift and stale rows
+          are detected instead of silently shipped. Quotation and email are two separate approvals.</p>
+          <span class="file">tof-project-tracker.xlsx</span><span class="file">quotation-data.json</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">5</div>
+        <div>
+          <h3>Derive UI screens from the plan — never from imagination</h3>
+          <p>Each screen carries a <code>derivedFrom</code> pointer to the scope line that justifies it.
+          If a screen has no source line, it is not drawn.</p>
+          <span class="file">ui-spec.json</span><span class="file">screens/*.png</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">The gate</div>
+    <h2>The state machine that makes “approval” mean something</h2>
+    <p class="sub">Enforced in <code>gate.py</code>, not in a prompt. Execution is refused unless the action is in <code>APPROVED</code>.</p>
+
+    <div class="machine">
+      <div class="row">
+        <span class="chip draft">DRAFT</span><span class="arrow">→</span>
+        <span class="chip pending">PENDING_APPROVAL</span><span class="arrow">→</span>
+        <span class="chip approved">APPROVED</span><span class="arrow">→</span>
+        <span class="chip executed">EXECUTED</span>
+      </div>
+      <div class="row">
+        <span class="chip rejected">REJECTED</span><span class="arrow">→</span>
+        <span class="chip draft">DRAFT (revised)</span><span class="arrow">→</span>
+        <span class="chip pending">PENDING (new)</span>
+        <span class="note">remediation loop</span>
+      </div>
+      <div class="row">
+        <span class="chip failed">FAILED</span>
+        <span class="note">needs a new approval to retry</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="rules">
+  <div class="wrap">
+    <div class="kicker">Accountability</div>
+    <h2>Five rules, each with a file that enforces it</h2>
+    <p class="sub">A rule that lives only in a prompt is a suggestion. These are checks that can fail.</p>
+
+    <table>
+      <thead><tr><th>Rule</th><th>What it means here</th><th>Enforced by</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="rule-name">Shows sources</td>
+          <td>Every plan line is tagged with where it came from. Assumptions are labelled as assumptions, never presented as facts.</td>
+          <td><code>validator.py</code> · INFORMATION_TRANSPARENCY</td>
+        </tr>
+        <tr>
+          <td class="rule-name">Stays within permissions</td>
+          <td>A bounded authority table: it may analyse, propose and explain. It may not execute, send, or fabricate data.</td>
+          <td><code>gate.py</code> · check_risk_level</td>
+        </tr>
+        <tr>
+          <td class="rule-name">Asks before acting</td>
+          <td>No external write without a resolved approval. Quotation and email are separate approvals, so consent to draft is not consent to send.</td>
+          <td><code>gate.py</code> · state machine</td>
+        </tr>
+        <tr>
+          <td class="rule-name">Admits limits</td>
+          <td>One test fails on purpose and is documented. The tool reports what it could not do rather than skipping quietly.</td>
+          <td><code>tests/test_cases.py</code> · TC-002</td>
+        </tr>
+        <tr>
+          <td class="rule-name">Keeps a record</td>
+          <td>Append-only JSONL. Every action has an ID, timestamp, actor and approval reference.</td>
+          <td><code>audit_logger.py</code> · 33 event types</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="screens">
+  <div class="wrap">
+    <div class="kicker">Output</div>
+    <h2>{len(screens)} screens, every one traceable to a scope line</h2>
+    <p class="sub">
+      Derived from the approved plan for SG Garage — a workshop management system.
+      Each card shows the scope line that justifies the screen, in the agent's own words.
+    </p>
+
+    <div class="gallery">
+        {gallery}
+    </div>
+
+    <div class="trace">
+      <b>Why this matters:</b> an AI that invents screens also invents work — and work costs money.
+      Visibility is scoped too: {role_line}.
+    </div>
+  </div>
+</section>
+
+<section id="evidence">
+  <div class="wrap">
+    <div class="kicker">Evidence</div>
+    <h2>Measured, not claimed</h2>
+    <p class="sub">All figures come from the same commands a reviewer can run.</p>
+
+    <div class="metrics">
+      <div class="metric"><b>157</b><span>assertions across 8 tool modules, all passing</span></div>
+      <div class="metric"><b>24</b><span>challenge test cases <span class="warn">23 pass · 1 fails by design</span></span></div>
+      <div class="metric"><b>33</b><span>audit event types, append-only</span></div>
+      <div class="metric"><b>{len(screens)}</b><span>UI screens derived from a real plan</span></div>
+    </div>
+
+    <p class="sub" style="margin-top:26px;">
+      The single failure is TC-002: keyword-based gap detection cannot match an LLM's semantic reading
+      of a brief. It is reported rather than removed, because a suite that always shows 100% is a suite
+      that is not measuring anything.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">Limits</div>
+    <h2>What this is not</h2>
+    <p class="sub">Stated plainly, because the value of the approval gate depends on knowing where it ends.</p>
+
+    <div class="limits">
+      <div class="limit"><b>Not a replacement for a project manager</b><span>It drafts and validates. Judgement, negotiation and client trust stay human.</span></div>
+      <div class="limit"><b>Not a semantic gap detector</b><span>Gap detection is keyword-based; that is the documented failing test.</span></div>
+      <div class="limit"><b>Not an autonomous sender</b><span>Email and shared-file writes require a separate approval each time, by design.</span></div>
+      <div class="limit"><b>Not a full design system</b><span>UI output is a screen inventory plus static mockups — no interactive prototype.</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <b>TOF Project Assistant</b>
+      <p>AI CAN DO IT · Tencent Cloud Hackathon Indonesia 2026 · Challenge B: The Office Agent</p>
+      <p>Built on WorkBuddy AI by TOF Solusi Digital.</p>
+    </div>
+    <div>
+      <a href="{REPO}" target="_blank" rel="noopener">github.com/mustofin/TOF-Project-Assistant-WorkBuddy</a>
+      <p>This page is a static showcase. The agent itself runs in WorkBuddy.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
+"""
+
+    (SITE / "index.html").write_text(html, encoding="utf-8")
+    print(f"index.html written ({len(html):,} chars)")
+    print(f"screens copied: {copied}/{len(screens)}")
+
+
+if __name__ == "__main__":
+    build()

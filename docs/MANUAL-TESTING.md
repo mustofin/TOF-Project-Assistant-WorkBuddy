@@ -257,7 +257,7 @@ cat state/projects/*/rejection-feedback.json
 Lima perintah, semuanya harus exit 0 kecuali yang ditandai:
 
 ```bash
-# 1. Self-test 8 modul (154 assertion) — harus semua PASS
+# 1. Self-test 8 modul (157 assertion) — harus semua PASS
 python3 agent/tools/selftest.py
 
 # 2. 24 test case challenge — 23 pass, 1 fail (itu memang disengaja)

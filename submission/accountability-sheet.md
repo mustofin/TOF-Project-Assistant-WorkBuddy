@@ -104,7 +104,7 @@ Every information item in plans is tagged:
 | Test Suite | Tests | Passed | Failed |
 |-----------|-------|--------|--------|
 | gate.py self-tests | 27 | 27 | 0 |
-| validator.py self-tests | 14 | 14 | 0 |
+| validator.py self-tests | 17 | 17 | 0 |
 | quote_gen.py self-tests | 31 | 31 | 0 |
 | ui_spec.py self-tests | 26 | 26 | 0 |
 | mockup_render.py self-tests | 18 | 18 | 0 |

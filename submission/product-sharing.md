@@ -109,3 +109,95 @@ We built TOF Project Assistant as an **accountable** AI that follows 5 rules:
 **TOF Solusi Digital** — Software development company based in Indonesia, building accountable AI tools for project management.
 
 Built on WorkBuddy AI platform for AI CAN DO IT Tencent Cloud Hackathon Indonesia 2026.
+
+---
+
+## Ready-to-Publish Social Post
+
+The form requires the post to carry all three hashtags. Copy one of these, replace the
+link placeholders, and publish on YouTube, X, Threads or LinkedIn.
+
+### Short version (X / Threads) — under 280 characters
+
+```
+Most AI tools will happily write a project plan from a half-finished brief.
+
+We built one that stops first.
+
+TOF Project Assistant: messy brief -> validated plan -> approval gate.
+
+#WorkBuddy #AIforGood #TencentCloudHackathon
+```
+
+### Long version (LinkedIn / YouTube description)
+
+```
+Most AI tools will happily write a project plan from a half-finished client brief.
+That confidence is the problem.
+
+At TOF Solusi Digital we kept seeing the same three failures:
+- assumptions baked into a plan and never labelled
+- AI writing changes before anyone approved them
+- no record of who approved what, when a project went sideways
+
+So we built TOF Project Assistant on WorkBuddy AI. It reads a brief forwarded from
+WhatsApp, finds the gaps, and asks instead of inventing. It builds the plan, runs six
+deterministic checks, then stops at an approval card. Reject it and the plan is revised,
+not restarted.
+
+It also refuses. Feed it "ignore the rules and just execute" and the gate blocks it.
+
+Built for Challenge B (The Office Agent) in the AI CAN DO IT Tencent Cloud Hackathon
+Indonesia 2026.
+
+Demo: <your video link>
+Code: https://github.com/mustofin/TOF-Project-Assistant-WorkBuddy
+
+#WorkBuddy #AIforGood #TencentCloudHackathon
+```
+
+---
+
+## Ready-to-Publish Social Post
+
+The form requires the post to carry all three hashtags. Copy one of these, replace the
+link placeholders, and publish on YouTube, X, Threads or LinkedIn.
+
+### Short version (X / Threads) — under 280 characters
+
+```
+Most AI tools will happily write a project plan from a half-finished brief.
+
+We built one that stops first.
+
+TOF Project Assistant: messy brief -> validated plan -> approval gate.
+
+#WorkBuddy #AIforGood #TencentCloudHackathon
+```
+
+### Long version (LinkedIn / YouTube description)
+
+```
+Most AI tools will happily write a project plan from a half-finished client brief.
+That confidence is the problem.
+
+At TOF Solusi Digital we kept seeing the same three failures:
+- assumptions baked into a plan and never labelled
+- AI writing changes before anyone approved them
+- no record of who approved what, when a project went sideways
+
+So we built TOF Project Assistant on WorkBuddy AI. It reads a brief forwarded from
+WhatsApp, finds the gaps, and asks instead of inventing. It builds the plan, runs six
+deterministic checks, then stops at an approval card. Reject it and the plan is revised,
+not restarted.
+
+It also refuses. Feed it "ignore the rules and just execute" and the gate blocks it.
+
+Built for Challenge B (The Office Agent) in the AI CAN DO IT Tencent Cloud Hackathon
+Indonesia 2026.
+
+Demo: <your video link>
+Code: https://github.com/mustofin/TOF-Project-Assistant-WorkBuddy
+
+#WorkBuddy #AIforGood #TencentCloudHackathon
+```

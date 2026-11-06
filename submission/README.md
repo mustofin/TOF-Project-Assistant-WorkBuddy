@@ -7,7 +7,7 @@
 ## Quick Start
 
 ```bash
-# 1. Run self-tests (8 modules, 154 self-tests)
+# 1. Run self-tests (8 modules, 157 self-tests)
 python3 agent/tools/selftest.py
 
 # 2. Run challenge test cases (24 tests)
@@ -55,7 +55,7 @@ TOF-Project-Assistant-WorkBuddy/
 │   │   └── approval-policy.md      # State machine + remediation loop
 │   └── tools/
 │       ├── gate.py                 # Approval gate + injection detection (27 assertions)
-│       ├── validator.py            # Plan validator (14 assertions)
+│       ├── validator.py            # Plan validator (17 assertions)
 │       ├── quote_gen.py            # Quotation generator (31 assertions)
 │       ├── ui_spec.py              # Plan → screen inventory (33 assertions)
 │       ├── mockup_render.py        # Spec → HTML → PNG (18 assertions)
@@ -86,12 +86,21 @@ TOF-Project-Assistant-WorkBuddy/
 ├── submission/                     # Hackathon deliverables
 │   ├── short-blurb.md
 │   ├── project-description.md
+│   ├── project-description-form.md # restructured to the form's 4 headings
+│   ├── FORM-ANSWERS.md             # field-by-field copy-paste values
 │   ├── accountability-sheet.md
 │   ├── test-cases.md
 │   ├── architecture.md
 │   ├── architecture-diagram.html
+│   ├── architecture-diagram.pdf    # form upload: PDF, 1 page, 0.25 MB
+│   ├── cover-image.html
+│   ├── cover-image.png             # form upload: 16:9, 2560x1440
 │   ├── demo-script.md
-│   ├── product-sharing.md
+│   ├── product-sharing.md          # includes ready-to-publish social post
+│   ├── site/                       # hosted showcase (Project Link)
+│   │   ├── build_site.py
+│   │   ├── index.html
+│   │   └── screens/                # 14 mockups bundled for the page
 │   └── README.md (this file)
 ├── ARCHITECTURE.md                 # Full architecture document
 └── IMPLEMENTATION_PLAN.md          # 5-milestone roadmap
@@ -105,7 +114,7 @@ TOF-Project-Assistant-WorkBuddy/
 |--------|-------|
 | Agent Skills | 6 (Orchestrator, Planner, Validator, Executor, Quotation Gen, UI Designer) |
 | Deterministic Tools | 8 Python modules |
-| Self-Tests | 154 self-tests across 8 modules, 100% pass |
+| Self-Tests | 157 self-tests across 8 modules, 100% pass |
 | Challenge Test Cases | 24 tests, 96% pass (23/24) |
 | Audit Event Types | 33 |
 | Transparency Tags | 4 (BRIEF, CLARIFIED, ASSUMPTION, AI_RECOMMENDATION) |
