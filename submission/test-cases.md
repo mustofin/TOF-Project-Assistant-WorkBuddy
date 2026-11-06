@@ -8,7 +8,7 @@
 
 | Suite | Total | Passed | Failed | Pass Rate |
 |-------|-------|--------|--------|-----------|
-| Self-Tests (7 modules) | 95 | 95 | 0 | 100% |
+| Self-Tests (8 modules) | 154 | 154 | 0 | 100% |
 | Challenge Test Cases | 24 | 23 | 1 | 96% |
 | **Grand Total** | **119** | **118** | **1** | **99%** |
 
@@ -122,7 +122,7 @@ Run: `python3 tests/test_cases.py`
 
 | File | Purpose |
 |------|---------|
-| `agent/tools/selftest.py` | Master self-test runner (7 modules) |
+| `agent/tools/selftest.py` | Master self-test runner (8 modules) |
 | `agent/tools/gate.py` | Gate self-test (27 tests) |
 | `agent/tools/validator.py` | Validator self-test (14 tests) |
 | `agent/tools/quote_gen.py` | Quotation generator self-test (31 tests) |
@@ -142,14 +142,16 @@ Real terminal output captured from actual runs — not mockups.
 | Screenshot | Shows |
 |-----------|-------|
 | `evidence/screenshots/01a-selftest-part1.png` | Self-test part 1: gate.py (27), validator.py (14) |
-| `evidence/screenshots/01b-selftest-part2.png` | Self-test part 2: quote_gen.py (31), ui_spec.py (26) |
-| `evidence/screenshots/01c-selftest-part3.png` | Self-test part 3: mockup_render.py (18), audit_logger, state_manager, **FINAL SUMMARY — ALL 7 MODULES PASSED** |
+| `evidence/screenshots/01b-selftest-part2.png` | Self-test part 2: quote_gen.py (31), ui_spec.py (33) |
+| `evidence/screenshots/01c-selftest-part3.png` | Self-test part 3: mockup_render.py (18), tracker_sync.py (29), audit_logger |
+| `evidence/screenshots/01d-selftest-part4.png` | Self-test part 4: state_manager, **FINAL SUMMARY — ALL 8 MODULES PASSED (154/154)** |
 | `evidence/screenshots/02-test-cases.png` | 24 challenge tests: 23 PASS / 1 FAIL with full category breakdown |
 
 To regenerate the screenshots after changing any test:
 
 ```bash
-python3 agent/tools/selftest.py > /tmp/out-selftest.txt 2>&1
-python3 tests/test_cases.py  > /tmp/out-tests.txt 2>&1
 python3 evidence/build_evidence.py
 ```
+
+The script runs both suites itself and chunks the output at module boundaries, so
+the images always reflect the current code rather than a cached capture.

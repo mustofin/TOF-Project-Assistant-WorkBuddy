@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Self-Test Part 2/3 — Quotation Generator</title>
+<title>Self-Test Part 2/4 — Quotation Generator</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -64,7 +64,7 @@
       <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div>
       <span>python3 agent/tools/selftest.py</span>
     </div>
-    <div class="meta"><span>Self-Test Part 2/3 — Quotation Generator</span><span>7 modules · 90+ assertions</span></div>
+    <div class="meta"><span>Self-Test Part 2/4 — Quotation Generator</span><span>ALL 8 MODULES PASSED (154/154 ASSERTIONS)</span></div>
     <pre>  Running: Quotation Generator
   Module: quote_gen.py
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -133,7 +133,7 @@ RESULTS: 31/31 passed, 0 failed
 
 All quotation generator self-tests passed!
 
-  &gt;&gt; Quotation Generator: PASS (0.0s)
+  &gt;&gt; Quotation Generator: PASS (0.0s) - 31/31 assertions
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Running: UI Spec Generator (plan -&gt; screens)
@@ -183,13 +183,22 @@ TOF Project Assistant - UI Spec Self-Test
   <span class="pass">PASS</span> Nav groups built
   <span class="pass">PASS</span> Login excluded from nav
 
+<span class="head">--- </span>Group 8: Non-Garage Domain (catering) ---
+  <span class="pass">PASS</span> Catering derives order screens
+  <span class="pass">PASS</span> Catering derives menu screens
+  <span class="pass">PASS</span> Catering derives delivery schedule
+  <span class="pass">PASS</span> No garage screens leak into catering
+  <span class="pass">PASS</span> Catering extracts 4 roles
+  <span class="pass">PASS</span> Courier sees delivery only (no prices)
+  <span class="pass">PASS</span> Kitchen staff sees fewer screens than owner
+
 <span class="head">============================================================</span>
-RESULTS: 26/26 passed, 0 failed
+RESULTS: 33/33 passed, 0 failed
 <span class="head">============================================================</span>
 
 All UI spec self-tests passed!
 
-  &gt;&gt; UI Spec Generator (plan -&gt; screens): PASS (0.0s)
+  &gt;&gt; UI Spec Generator (plan -&gt; screens): PASS (0.0s) - 33/33 assertions
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</pre>
   </div>

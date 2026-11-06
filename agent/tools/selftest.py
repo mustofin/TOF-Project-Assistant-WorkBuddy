@@ -59,6 +59,9 @@ def _run_one(module_file):
     if module_file == "mockup_render.py":
         from mockup_render import run_selftest
         return run_selftest()
+    if module_file == "tracker_sync.py":
+        from tracker_sync import run_selftest
+        return run_selftest()
 
     if module_file == "audit_logger.py":
         from audit_logger import AuditLogger
@@ -133,6 +136,7 @@ def run_all_tests():
         ("quote_gen.py", "Quotation Generator"),
         ("ui_spec.py", "UI Spec Generator (plan -> screens)"),
         ("mockup_render.py", "Mockup Renderer (spec -> PNG)"),
+        ("tracker_sync.py", "Tracker Sync (plan -> Excel, verified)"),
         ("audit_logger.py", "Audit Logger"),
         ("state_manager.py", "State Manager"),
     ]

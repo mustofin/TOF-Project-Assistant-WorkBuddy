@@ -32,3 +32,6 @@ Thumbs.db
 *.tmp
 *.bak
 *~
+
+# Excel tracker backups (regenerated from plan.json; not submission artifacts)
+data/*.backup-*.xlsx

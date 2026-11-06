@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Self-Test Part 3/3 — Mockup Renderer (spec -&gt; PNG)</title>
+<title>Self-Test Part 3/4 — Mockup Renderer (spec -&gt; PNG)</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -64,7 +64,7 @@
       <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div>
       <span>python3 agent/tools/selftest.py</span>
     </div>
-    <div class="meta"><span>Self-Test Part 3/3 — Mockup Renderer (spec -&gt; PNG)</span><span>7 modules · 90+ assertions</span></div>
+    <div class="meta"><span>Self-Test Part 3/4 — Mockup Renderer (spec -&gt; PNG)</span><span>ALL 8 MODULES PASSED (154/154 ASSERTIONS)</span></div>
     <pre>  Running: Mockup Renderer (spec -&gt; PNG)
   Module: mockup_render.py
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -104,7 +104,63 @@ RESULTS: 18/18 passed, 0 failed
 
 All mockup renderer self-tests passed!
 
-  &gt;&gt; Mockup Renderer (spec -&gt; PNG): PASS (7.8s)
+  &gt;&gt; Mockup Renderer (spec -&gt; PNG): PASS (6.4s) - 18/18 assertions
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Running: Tracker Sync (plan -&gt; Excel, verified)
+  Module: tracker_sync.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<span class="head">============================================================</span>
+TRACKER SYNC — SELF TEST
+<span class="head">============================================================</span>
+
+<span class="head">--- </span>Group 1: helpers ---
+  <span class="pass">PASS</span> sanitize truncates to 31 chars
+  <span class="pass">PASS</span> sanitize strips forbidden chars
+  <span class="pass">PASS</span> P0 maps to High
+  <span class="pass">PASS</span> unknown priority passes through
+  <span class="pass">PASS</span> requirements maps to Requirements/Design
+  <span class="pass">PASS</span> plan_tasks flattens 3 tasks
+  <span class="pass">PASS</span> plan_tasks carries phase name
+
+<span class="head">--- </span>Group 2: create and sync ---
+  <span class="pass">PASS</span> tracker file created
+  <span class="pass">PASS</span> sync reports 3 tasks written
+  <span class="pass">PASS</span> sync reports 5 total days
+  <span class="pass">PASS</span> project sheet exists
+  <span class="pass">PASS</span> header written
+  <span class="pass">PASS</span> first task id
+  <span class="pass">PASS</span> first task phase
+  <span class="pass">PASS</span> status defaults to Not Started
+  <span class="pass">PASS</span> traceability note recorded
+
+<span class="head">--- </span>Group 3: dashboard ---
+  <span class="pass">PASS</span> dashboard has project row
+  <span class="pass">PASS</span> dashboard total tasks is 3
+  <span class="pass">PASS</span> dashboard completed is 0
+
+<span class="head">--- </span>Group 4: verify on clean data ---
+  <span class="pass">PASS</span> clean sync produces no issues
+
+<span class="head">--- </span>Group 5: verify catches real defect classes ---
+  <span class="pass">PASS</span> detects phase pollution
+  <span class="pass">PASS</span> detects revision marker in phase
+  <span class="pass">PASS</span> detects stale row
+  <span class="pass">PASS</span> detects dashboard undercount
+  <span class="pass">PASS</span> detects est-days mismatch
+
+<span class="head">--- </span>Group 6: idempotency and removal ---
+  <span class="pass">PASS</span> re-sync is idempotent
+  <span class="pass">PASS</span> removed task leaves no stale row
+  <span class="pass">PASS</span> sheet now has 2 task rows
+  <span class="pass">PASS</span> dashboard follows removal
+
+<span class="head">============================================================</span>
+  RESULTS: 29/29 passed, 0 failed
+<span class="head">============================================================</span>
+
+  &gt;&gt; Tracker Sync (plan -&gt; Excel, verified): PASS (0.3s) - 29/29 assertions
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Running: Audit Logger
@@ -112,58 +168,14 @@ All mockup renderer self-tests passed!
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   Audit Logger Results:
-    Event ID: 788a0596-b9ca-4b5e-8220-d1e419c0f0a5
-    Today&#x27;s events: 9
+    Event ID: 83703807-bd48-449f-9c5d-7af6a9a34d16
+    Today&#x27;s events: 77
     Event types: 33
     Status: PASS
 
-  &gt;&gt; Audit Logger: PASS (0.0s)
+  &gt;&gt; Audit Logger: PASS (0.0s) - 1/1 assertions
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Running: State Manager
-  Module: state_manager.py
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  State Manager Results:
-    Project created: PRJ-SELFTEST
-    Approval created: ACT-20261106132944-c8f85f
-    Approval resolved: APPROVED
-    Projects listed: 1
-    Status: PASS
-
-  &gt;&gt; State Manager: PASS (0.0s)
-
-<span class="head"><span class="head">============================================================</span>==========</span>
-  FINAL RESULTS
-<span class="head"><span class="head">============================================================</span>==========</span>
-
-  Module                    Name                                Status    
-  ----------------------<span class="head">--- </span>--------------------------------<span class="head">--- </span>----------
-  gate.py                   Gate (Approval State Machine)       <span class="pass">PASS</span>
-  validator.py              Validator (Plan Quality Checker)    <span class="pass">PASS</span>
-  quote_gen.py              Quotation Generator                 <span class="pass">PASS</span>
-  ui_spec.py                UI Spec Generator (plan -&gt; screens) <span class="pass">PASS</span>
-  mockup_render.py          Mockup Renderer (spec -&gt; PNG)       <span class="pass">PASS</span>
-  audit_logger.py           Audit Logger                        <span class="pass">PASS</span>
-  state_manager.py          State Manager                       <span class="pass">PASS</span>
-
-  Total modules: 7
-  Passed: 7
-  Failed: 0
-
-  *** ALL 7 MODULE <span class="pass">TESTS PASSED</span> ***
-
-  Accountability Rules Verified:
-    <span class="pass">PASS</span> Transparency - tags defined and used
-    <span class="pass">PASS</span> Permission - bounded authority enforced
-    <span class="pass">PASS</span> Human Approval - state machine blocks unauthorized execution
-    <span class="pass">PASS</span> Bounded Authority - CAN/CANNOT table enforced
-    <span class="pass">PASS</span> Traceability - audit log records all events
-    <span class="pass">PASS</span> Anti-Fabrication - no fabricated data in tools
-    <span class="pass">PASS</span> Prompt Injection Protection - detection active
-    <span class="pass">PASS</span> Completion Honesty - verification before claiming success
-
-<span class="head"><span class="head">============================================================</span>==========</span></pre>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</pre>
   </div>
 </body>
 </html>

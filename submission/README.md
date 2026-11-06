@@ -7,7 +7,7 @@
 ## Quick Start
 
 ```bash
-# 1. Run self-tests (7 modules, 125 self-tests)
+# 1. Run self-tests (8 modules, 154 self-tests)
 python3 agent/tools/selftest.py
 
 # 2. Run challenge test cases (24 tests)
@@ -59,9 +59,10 @@ TOF-Project-Assistant-WorkBuddy/
 │       ├── quote_gen.py            # Quotation generator (31 assertions)
 │       ├── ui_spec.py              # Plan → screen inventory (33 assertions)
 │       ├── mockup_render.py        # Spec → HTML → PNG (18 assertions)
+│       ├── tracker_sync.py         # plan.json → Excel + drift check (29 assertions)
 │       ├── audit_logger.py         # JSONL audit log (33 event types)
 │       ├── state_manager.py        # State management + remediation loop
-│       └── selftest.py             # Master test runner
+│       └── selftest.py             # Master test runner (8 modules)
 ├── data/
 │   ├── mock-dataset/               # 3 briefs, client profiles, quotation scenarios
 │   ├── case-study-02/              # Katering Bu Sari: brief + sample plan + build script
@@ -69,7 +70,7 @@ TOF-Project-Assistant-WorkBuddy/
 │   ├── sample-client-brief.md      # SG Garage sample brief
 │   ├── project-templates/web-app.md
 │   ├── templates/Quotation_Template_Dummy.docx
-│   └── tof-project-tracker.xlsx    # Excel tracker (3 tabs, 15 tasks)
+│   └── tof-project-tracker.xlsx    # Excel tracker (4 tabs, 24 tasks, plan-verified)
 ├── docs/
 │   ├── CASE-STUDY-02-CHAT.md       # Copy-paste chat simulation + compliance map
 │   ├── MANUAL-TESTING.md           # General testing reference
@@ -103,8 +104,8 @@ TOF-Project-Assistant-WorkBuddy/
 | Metric | Value |
 |--------|-------|
 | Agent Skills | 6 (Orchestrator, Planner, Validator, Executor, Quotation Gen, UI Designer) |
-| Deterministic Tools | 7 Python modules |
-| Self-Tests | 125 self-tests across 7 modules, 100% pass |
+| Deterministic Tools | 8 Python modules |
+| Self-Tests | 154 self-tests across 8 modules, 100% pass |
 | Challenge Test Cases | 24 tests, 96% pass (23/24) |
 | Audit Event Types | 33 |
 | Transparency Tags | 4 (BRIEF, CLARIFIED, ASSUMPTION, AI_RECOMMENDATION) |

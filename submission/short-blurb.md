@@ -2,6 +2,6 @@
 
 ## TOF Project Assistant
 
-**Accountable AI project manager that transforms briefs into validated plans with human approval gates.**
+**Turns messy client briefs into validated, human-approved project plans.**
 
-(10 words)
+(9 words)

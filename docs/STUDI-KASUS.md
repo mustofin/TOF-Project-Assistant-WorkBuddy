@@ -535,7 +535,7 @@ Catat dan perbaiki `agent/rules/accountability.md` atau tool yang relevan.
 | Aturan | Bukti konkret di repo |
 |--------|------------------------|
 | **Show sources** | 4 tag ([BRIEF], [CLARIFIED], [ASSUMPTION], [AI RECOMMENDATION]); 23 item bertag di sample plan |
-| **Stay within permissions** | `gate.py` — 27 self-test; 3 transisi terlarang diblokir; `EXECUTABLE_STATES = ["APPROVED"]` |
+| **Stay within permissions** | `gate.py` — 27 assertion; 3 transisi terlarang diblokir; `EXECUTABLE_STATES = ["APPROVED"]` |
 | **Ask before acting** | State machine 6 status; tidak ada eksekusi di Turn 2 meski plan sudah sempurna |
 | **Admit limits** | Verdict `PASS_WITH_WARNINGS` ditampilkan; TC-002 gagal dan dilaporkan; mockup dinyatakan statis, bukan prototipe |
 | **Keep a record** | `audit_logger.py`, 33 event type, append-only, tiap entri punya UUID + timestamp + actor |
@@ -606,7 +606,7 @@ Langkah berikutnya:
 
 ```bash
 python3 demo/run_demo.py --fast      # 11 scene untuk rekaman video
-python3 agent/tools/selftest.py      # 125 assertion, semua harus PASS
+python3 agent/tools/selftest.py      # 154 assertion, semua harus PASS
 python3 tests/test_cases.py          # 24 test case, 23 pass + 1 fail (disengaja)
 ```
 

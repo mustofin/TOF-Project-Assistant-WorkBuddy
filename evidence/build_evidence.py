@@ -11,6 +11,7 @@ Usage:
 
 import html
 import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -136,11 +137,34 @@ def chunks(lines, size):
     return [lines[i:i + size] for i in range(0, len(lines), size)]
 
 
+def capture(args: list[str]) -> list[str]:
+    """Run a suite and return its output lines.
+
+    Evidence must come from the current code, not a cached file. Reading a
+    stale /tmp capture once produced screenshots claiming "ALL 7 MODULE TESTS
+    PASSED" while the repo already had 8 modules.
+    """
+    proc = subprocess.run([sys.executable] + args, cwd=ROOT,
+                          capture_output=True, text=True)
+    out = proc.stdout + proc.stderr
+    return out.splitlines()
+
+
 if __name__ == "__main__":
     print("Building evidence screenshots...\n")
 
     # --- Self-test: auto-chunk into readable parts ---
-    st = Path("/tmp/out-selftest.txt").read_text(encoding="utf-8").splitlines()
+    st = capture(["agent/tools/selftest.py"])
+
+    totals = next((l.strip() for l in st if "MODULES PASSED" in l), "")
+    meta = totals.strip("* ").strip() if totals else "8 modules"
+
+    # Drop screenshots from a previous run with a different part count,
+    # otherwise a stale 01d could survive a 3-part rebuild.
+    for old in SHOTS.glob("01*-selftest-part*.png"):
+        old.unlink()
+    for old in EVIDENCE.glob("01*-selftest-part*.html"):
+        old.unlink()
 
     # Split at module boundaries so each image starts at a clean header
     boundaries = [i for i, l in enumerate(st) if l.strip().startswith("Running:")]
@@ -162,15 +186,16 @@ if __name__ == "__main__":
         render(f"01{chr(96+idx)}-selftest-part{idx}",
                f"Self-Test Part {idx}/{total_parts} — {first_mod}",
                "python3 agent/tools/selftest.py",
-               "7 modules · 90+ assertions",
+               meta or "8 modules",
                seg)
 
     # --- Test cases ---
-    tc = Path("/tmp/out-tests.txt").read_text(encoding="utf-8").splitlines()
+    tc = capture(["tests/test_cases.py"])
+    summary = next((l.strip() for l in tc if l.strip().startswith("TOTAL:")), "")
     render("02-test-cases",
            "Challenge B Test Cases — 24 tests",
            "python3 tests/test_cases.py",
-           "23 passed / 1 documented failure",
+           summary or "23 passed / 1 documented failure",
            tc)
 
     print("\nDone.")
