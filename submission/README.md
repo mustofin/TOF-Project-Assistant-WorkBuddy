@@ -7,7 +7,7 @@
 ## Quick Start
 
 ```bash
-# 1. Run self-tests (7 modules, 123 self-tests)
+# 1. Run self-tests (7 modules, 125 self-tests)
 python3 agent/tools/selftest.py
 
 # 2. Run challenge test cases (24 tests)
@@ -104,7 +104,7 @@ TOF-Project-Assistant-WorkBuddy/
 |--------|-------|
 | Agent Skills | 6 (Orchestrator, Planner, Validator, Executor, Quotation Gen, UI Designer) |
 | Deterministic Tools | 7 Python modules |
-| Self-Tests | 123 self-tests across 7 modules, 100% pass |
+| Self-Tests | 125 self-tests across 7 modules, 100% pass |
 | Challenge Test Cases | 24 tests, 96% pass (23/24) |
 | Audit Event Types | 33 |
 | Transparency Tags | 4 (BRIEF, CLARIFIED, ASSUMPTION, AI_RECOMMENDATION) |

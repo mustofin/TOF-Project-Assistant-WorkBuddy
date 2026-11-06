@@ -48,7 +48,7 @@ The system has 5 layers:
    - **Executor** (approved actions → Excel tracker)
    - **Quotation Generator** (plan → quotation document)
    - **UI Designer** (plan → screen inventory → mockups)
-3. **Deterministic Tools** — 7 Python modules (123 self-tests):
+3. **Deterministic Tools** — 7 Python modules (125 self-tests):
    - `gate.py` — Approval state machine + prompt injection detection (27 tests)
    - `validator.py` — Plan quality validator (14 tests)
    - `quote_gen.py` — Quotation calculator with terbilang (31 tests)
@@ -90,7 +90,7 @@ DRAFT → PENDING_APPROVAL → APPROVED → EXECUTED → (FAILED if error)
 
 ### Test Results
 
-- **Self-tests:** 7 modules, 123 tests, all passed
+- **Self-tests:** 7 modules, 125 tests, all passed
 - **Challenge test cases:** 24 tests, 23 passed, 1 failed
   - The 1 failure (TC-002) is an intentional demonstration of honest reporting: keyword-based gap detection cannot match LLM-based semantic analysis. This limitation is documented, not hidden.
 
