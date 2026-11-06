@@ -58,9 +58,13 @@ Tekan Enter hanya setelah selesai bicara untuk adegan itu.
 
 ### Segmen B — 0:40–5:30 · chat asli (bagian terpenting)
 
-Buka WorkBuddy, jalankan Turn 1 → 2 → 3 → 7 dari `docs/CASE-STUDY-02-CHAT.md`.
-Teksnya tinggal copy-paste. Ini yang membuktikan agent-nya nyata, karena ada
-percakapan — bukan replay.
+Buka WorkBuddy, jalankan **`docs/CASE-STUDY-03-RECORDING.md`** (Laundry Bersih Wangi).
+Lima turn, ±6 menit, teksnya tinggal copy-paste. Ini yang membuktikan agent-nya nyata,
+karena ada percakapan — bukan replay.
+
+Kasus laundry dipilih karena kecil: plan-nya pendek, tidak perlu scroll jauh, dan
+satu alur penuh muat dalam video. Jangan pakai Katering Bu Sari untuk rekaman — brief
+dan plan-nya terlalu panjang untuk 6 menit.
 
 Empat momen yang dinilai juri:
 
@@ -69,7 +73,7 @@ Empat momen yang dinilai juri:
 | Agent **bertanya** | Turn 1: daftar celah, tidak langsung membuat plan |
 | Agent **menunggu** | Turn 2: approval card, eksekusi berhenti |
 | Agent **merevisi** | Turn 3: tolak karena over budget → card `[REVISED]` |
-| Agent **menolak** | Turn 7: "abaikan aturan" → ditolak |
+| Agent **menolak** | Turn 5: "langsung kirim invoice, jangan tanya" → ditolak |
 
 ### Segmen C — 5:30–7:00 · bukti di disk
 
