@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOF Project Assistant - Architecture Diagram</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f5f7fa;
+            padding: 40px;
+            color: #1a202c;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 40px;
+        }
+        .diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .layer {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+        }
+        .layer-title {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: white;
+            padding: 2px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5568;
+            border-radius: 4px;
+        }
+        .platform-layer {
+            background: linear-gradient(135deg, #ebf4ff 0%, #f0f4ff 100%);
+            border-color: #a3bffa;
+        }
+        .agent-layer {
+            background: #fefefe;
+            border-color: #cbd5e0;
+        }
+        .storage-layer {
+            background: #f0fff4;
+            border-color: #9ae6b4;
+        }
+        .accountability-layer {
+            background: #fffaf0;
+            border-color: #fbd38d;
+        }
+        .row {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .box {
+            border-radius: 8px;
+            padding: 16px 20px;
+            text-align: center;
+            min-width: 140px;
+            transition: transform 0.2s;
+        }
+        .box:hover {
+            transform: translateY(-2px);
+        }
+        .box-user {
+            background: #e6fffa;
+            border: 2px solid #38b2ac;
+        }
+        .box-orchestrator {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: 2px solid #553c9a;
+            min-width: 280px;
+        }
+        .box-sub-agent {
+            background: #ebf8ff;
+            border: 2px solid #4299e1;
+        }
+        .box-tool {
+            background: #fff5f5;
+            border: 2px solid #fc8181;
+        }
+        .box-storage {
+            background: #f0fff4;
+            border: 2px solid #48bb78;
+        }
+        .box-accountability {
+            background: #fffaf0;
+            border: 2px solid #ed8936;
+        }
+        .box h3 {
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+        .box p {
+            font-size: 11px;
+            color: #4a5568;
+            line-height: 1.4;
+        }
+        .box-orchestrator p {
+            color: rgba(255,255,255,0.85);
+        }
+        .box-orchestrator h3 {
+            color: white;
+            font-size: 18px;
+        }
+        .arrow {
+            text-align: center;
+            font-size: 24px;
+            color: #a0aec0;
+            padding: 4px 0;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+        }
+        .storage-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .accountability-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            margin: 2px;
+        }
+        .tag-brief { background: #c6f6d5; color: #22543d; }
+        .tag-clarified { background: #bee3f8; color: #2a4365; }
+        .tag-assumption { background: #feebc8; color: #7b341e; }
+        .tag-ai { background: #e9d8fd; color: #44337a; }
+        .flow-diagram {
+            background: #1a202c;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 24px;
+            color: #e2e8f0;
+        }
+        .flow-step {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 4px;
+        }
+        .flow-arrow {
+            color: #718096;
+            font-size: 16px;
+            margin: 0 4px;
+        }
+        .footer {
+            background: #f7fafc;
+            padding: 16px 40px;
+            text-align: center;
+            font-size: 12px;
+            color: #718096;
+            border-top: 1px solid #e2e8f0;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+        .badge-b { background: #4299e1; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>TOF Project Assistant <span class="badge badge-b">Challenge B</span></h1>
+            <p>Accountable AI Project Management Assistant | AI CAN DO IT Hackathon Indonesia 2026</p>
+            <p>Office Agent: Unstructured Brief &rarr; Structured Plan with Approval Gates</p>
+        </div>
+
+        <div class="content">
+            <div class="diagram">
+
+                <!-- Layer 1: User & Platform -->
+                <div class="layer platform-layer">
+                    <span class="layer-title">WorkBuddy AI Platform</span>
+                    <div class="row" style="margin-top: 8px;">
+                        <div class="box box-user">
+                            <h3>User</h3>
+                            <p>PM / Business Owner<br>Reviews & approves plans</p>
+                        </div>
+                        <div class="arrow" style="align-self: center;">&harr;</div>
+                        <div class="box box-orchestrator">
+                            <h3>TOF Orchestrator</h3>
+                            <p>Main entry point | 8-step workflow<br>Manages sub-agents & approval gates</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow">&darr;</div>
+
+                <!-- Layer 2: Agent Architecture -->
+                <div class="layer agent-layer">
+                    <span class="layer-title">Agent Architecture (5 Skills)</span>
+                    <div class="row" style="margin-top: 8px;">
+                        <div class="box box-sub-agent">
+                            <h3>Planner</h3>
+                            <p>Brief &rarr; WBS<br>Effort & cost estimation<br>Risk identification</p>
+                        </div>
+                        <div class="box box-sub-agent">
+                            <h3>Validator</h3>
+                            <p>6 quality checks<br>Completeness, consistency<br>Feasibility, alignment</p>
+                        </div>
+                        <div class="box box-sub-agent">
+                            <h3>Executor</h3>
+                            <p>Executes approved actions<br>Writes to Excel tracker<br>Idempotency enforced</p>
+                        </div>
+                        <div class="box box-sub-agent">
+                            <h3>Quotation Gen</h3>
+                            <p>Plan &rarr; Quotation<br>Rate card calculation<br>Terbilang conversion</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow">&darr;</div>
+
+                <!-- Layer 3: Deterministic Tools -->
+                <div class="layer agent-layer">
+                    <span class="layer-title">Deterministic Python Tools (5 modules, 72 tests)</span>
+                    <div class="tools-grid" style="margin-top: 8px;">
+                        <div class="box box-tool">
+                            <h3>gate.py</h3>
+                            <p>Approval state machine<br>27 self-tests<br>Prompt injection detection</p>
+                        </div>
+                        <div class="box box-tool">
+                            <h3>validator.py</h3>
+                            <p>6-check plan validator<br>14 self-tests<br>PASS/WARN/FAIL verdict</p>
+                        </div>
+                        <div class="box box-tool">
+                            <h3>quote_gen.py</h3>
+                            <p>Quotation generator<br>31 self-tests<br>Terbilang, payment schedule</p>
+                        </div>
+                        <div class="box box-tool">
+                            <h3>audit_logger.py</h3>
+                            <p>JSONL audit log<br>26 event types<br>Append-only</p>
+                        </div>
+                        <div class="box box-tool">
+                            <h3>state_manager.py</h3>
+                            <p>JSON state management<br>Project CRUD<br>Approval lifecycle</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow">&darr;</div>
+
+                <!-- Layer 4: Hybrid Storage -->
+                <div class="layer storage-layer">
+                    <span class="layer-title">Hybrid Storage Architecture</span>
+                    <div class="storage-grid" style="margin-top: 8px;">
+                        <div class="box box-storage">
+                            <h3>Local JSON</h3>
+                            <p>Agent internal state<br>brief.json, plan.json<br>clarifications, approvals</p>
+                        </div>
+                        <div class="box box-storage">
+                            <h3>Excel Tracker</h3>
+                            <p>Human-facing tracker<br>3 tabs: Dashboard,<br>Tasks, Settings</p>
+                        </div>
+                        <div class="box box-storage">
+                            <h3>Audit Log</h3>
+                            <p>JSONL daily files<br>26 event types<br>Append-only, traceable</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow">&darr;</div>
+
+                <!-- Layer 5: Accountability Rules -->
+                <div class="layer accountability-layer">
+                    <span class="layer-title">5 Accountability Rules (Hackathon Compliance)</span>
+                    <div class="accountability-grid" style="margin-top: 8px;">
+                        <div class="box box-accountability">
+                            <h3>Shows Sources</h3>
+                            <p>4 transparency tags:</p>
+                            <div style="margin-top: 4px;">
+                                <span class="tag tag-brief">BRIEF</span>
+                                <span class="tag tag-clarified">CLARIFIED</span>
+                                <span class="tag tag-assumption">ASSUMPTION</span>
+                                <span class="tag tag-ai">AI REC</span>
+                            </div>
+                        </div>
+                        <div class="box box-accountability">
+                            <h3>Within Permissions</h3>
+                            <p>Bounded authority<br>CAN analyze & propose<br>CANNOT execute w/o approval</p>
+                        </div>
+                        <div class="box box-accountability">
+                            <h3>Asks Before Acting</h3>
+                            <p>Approval state machine<br>DRAFT &rarr; PENDING &rarr; APPROVED<br>&rarr; EXECUTED</p>
+                        </div>
+                        <div class="box box-accountability">
+                            <h3>Keeps Record</h3>
+                            <p>Audit trail: all events<br>Prompt injection detection<br>Completion honesty</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Approval Flow Diagram -->
+                <div class="flow-diagram">
+                    <h3 style="color: white; margin-bottom: 16px; font-size: 15px;">Approval State Machine (Reject &rarr; Remediate &rarr; Approve)</h3>
+                    <div style="text-align: center;">
+                        <span class="flow-step" style="background: #4a5568;">DRAFT</span>
+                        <span class="flow-arrow">&rarr;</span>
+                        <span class="flow-step" style="background: #d69e2e;">PENDING_APPROVAL</span>
+                        <span class="flow-arrow">&rarr;</span>
+                        <span class="flow-step" style="background: #38a169;">APPROVED</span>
+                        <span class="flow-arrow">&rarr;</span>
+                        <span class="flow-step" style="background: #3182ce;">EXECUTED</span>
+                        <br><br>
+                        <span class="flow-step" style="background: #e53e3e;">REJECTED</span>
+                        <span class="flow-arrow">&rarr;</span>
+                        <span class="flow-step" style="background: #4a5568;">DRAFT (revised)</span>
+                        <span class="flow-arrow">&rarr;</span>
+                        <span class="flow-step" style="background: #d69e2e;">PENDING (new)</span>
+                        <span style="color: #718096; font-size: 11px; margin-left: 12px;">&larr; Remediation loop</span>
+                        <br><br>
+                        <span class="flow-step" style="background: #c53030;">FAILED</span>
+                        <span style="color: #718096; font-size: 11px; margin-left: 8px;">(needs new approval to retry)</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>TOF Solusi Digital | Challenge B: Office Agent | 5 Skills &middot; 5 Tools &middot; 72 Self-Tests &middot; 20 Test Cases (19 pass, 1 fail)</p>
+        </div>
+    </div>
+</body>
+</html>

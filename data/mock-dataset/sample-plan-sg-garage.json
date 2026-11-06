@@ -1,0 +1,364 @@
+{
+  "projectId": "PRJ-SGG-001",
+  "projectName": "SG Garage - Workshop Management System",
+  "objectives": [
+    {
+      "id": "OBJ-001",
+      "description": "Build web-based Workshop Management System for SG Garage",
+      "smart": {
+        "specific": "WMS with customer, vehicle, service, inventory, invoice, dashboard modules",
+        "measurable": "6 core modules, 3 user types, 15+ tasks",
+        "achievable": "1 full-stack developer, 4 weeks",
+        "relevant": "Digitalisasi operasional bengkel",
+        "timeBound": "4 weeks (20 working days)"
+      },
+      "timeline": "4 weeks"
+    },
+    {
+      "id": "OBJ-002",
+      "description": "Implement role-based access control for 3 user types",
+      "smart": {
+        "specific": "Service Advisor, Kasir, Kepala Bengkel roles",
+        "measurable": "3 roles with different access levels",
+        "achievable": "Apps Script-based auth",
+        "relevant": "Security and operational control",
+        "timeBound": "Within Development phase"
+      },
+      "timeline": "Week 2"
+    },
+    {
+      "id": "OBJ-003",
+      "description": "Migrate existing Google Sheets data to new system structure",
+      "smart": {
+        "specific": "6 existing tables restructured",
+        "measurable": "6 tables migrated",
+        "achievable": "Apps Script migration script",
+        "relevant": "Data continuity",
+        "timeBound": "Week 1"
+      },
+      "timeline": "Week 1"
+    }
+  ],
+  "scope": {
+    "inScope": [
+      "Customer management (CRUD)",
+      "Vehicle management (CRUD, linked to customer)",
+      "Service transactions (create, update, status tracking)",
+      "Inventory management (stock in/out, low stock alert)",
+      "Invoice printing (PDF generation from service transaction)",
+      "Dashboard (daily revenue, active services, stock alerts)",
+      "Role-based authentication (3 roles)",
+      "Monthly reports (basic summary)"
+    ],
+    "outOfScope": [
+      "WhatsApp notification (deferred to next phase)",
+      "Multi-cabang support (architecture-ready but not implemented)",
+      "Mobile app (web only for MVP)",
+      "Payment gateway integration",
+      "Customer portal/self-service"
+    ],
+    "techStack": "React + Apps Script + Google Sheets"
+  },
+  "deliverables": [
+    "Web application (React frontend)",
+    "Apps Script backend (API endpoints)",
+    "Google Sheets database (restructured)",
+    "User authentication system",
+    "Documentation (API docs, user guide)",
+    "Training session for SG Garage team"
+  ],
+  "wbs": {
+    "phases": [
+      {
+        "phaseId": "PH-001",
+        "phaseName": "Requirements & Design",
+        "estimatedDays": 4,
+        "tasks": [
+          {
+            "taskId": "TASK-001",
+            "title": "Requirements Gathering",
+            "description": "Review existing Google Sheets structure, confirm requirements with client",
+            "category": "requirements",
+            "priority": "P0",
+            "estimatedDays": 2,
+            "dependencies": [],
+            "source": "BRIEF",
+            "technicalReason": "Need to understand existing data structure before redesigning"
+          },
+          {
+            "taskId": "TASK-002",
+            "title": "System Design & Architecture",
+            "description": "Design database schema, API endpoints, UI wireframes",
+            "category": "design",
+            "priority": "P0",
+            "estimatedDays": 1,
+            "dependencies": ["TASK-001"],
+            "source": "AI_RECOMMENDATION",
+            "technicalReason": "Architecture must be defined before development starts"
+          },
+          {
+            "taskId": "TASK-003",
+            "title": "UI/UX Wireframes",
+            "description": "Create wireframes for all screens (dashboard, customer, vehicle, service, inventory, invoice)",
+            "category": "design",
+            "priority": "P1",
+            "estimatedDays": 1,
+            "dependencies": ["TASK-001"],
+            "source": "AI_RECOMMENDATION",
+            "technicalReason": "Visual design helps client validate requirements"
+          }
+        ]
+      },
+      {
+        "phaseId": "PH-002",
+        "phaseName": "Development",
+        "estimatedDays": 15,
+        "tasks": [
+          {
+            "taskId": "TASK-004",
+            "title": "Database Restructuring",
+            "description": "Restructure 6 Google Sheets tables, add relationships, add new tables for auth",
+            "category": "development",
+            "priority": "P0",
+            "estimatedDays": 2,
+            "dependencies": ["TASK-002"],
+            "source": "BRIEF",
+            "technicalReason": "Existing tables need normalization and relationship setup"
+          },
+          {
+            "taskId": "TASK-005",
+            "title": "Authentication System",
+            "description": "Implement role-based auth (Service Advisor, Kasir, Kepala Bengkel) in Apps Script",
+            "category": "development",
+            "priority": "P0",
+            "estimatedDays": 2,
+            "dependencies": ["TASK-004"],
+            "source": "CLARIFIED",
+            "technicalReason": "Auth must be in place before building features that need role checks"
+          },
+          {
+            "taskId": "TASK-006",
+            "title": "Customer & Vehicle Management",
+            "description": "CRUD operations for customers and vehicles, linked relationship",
+            "category": "development",
+            "priority": "P0",
+            "estimatedDays": 3,
+            "dependencies": ["TASK-005"],
+            "source": "BRIEF",
+            "technicalReason": "Core data entities needed before service transactions"
+          },
+          {
+            "taskId": "TASK-007",
+            "title": "Service Transaction System",
+            "description": "Create, update, track service transactions with status workflow",
+            "category": "development",
+            "priority": "P0",
+            "estimatedDays": 3,
+            "dependencies": ["TASK-006"],
+            "source": "BRIEF",
+            "technicalReason": "Primary business logic of the WMS"
+          },
+          {
+            "taskId": "TASK-008",
+            "title": "Inventory Management",
+            "description": "Stock in/out, low stock alerts, parts catalog",
+            "category": "development",
+            "priority": "P1",
+            "estimatedDays": 2,
+            "dependencies": ["TASK-004"],
+            "source": "BRIEF",
+            "technicalReason": "Needed for service transactions that use parts"
+          },
+          {
+            "taskId": "TASK-009",
+            "title": "Invoice & Dashboard",
+            "description": "Invoice PDF generation, dashboard with KPIs",
+            "category": "development",
+            "priority": "P1",
+            "estimatedDays": 3,
+            "dependencies": ["TASK-007", "TASK-008"],
+            "source": "BRIEF",
+            "technicalReason": "Output and reporting layer built on top of core data"
+          }
+        ]
+      },
+      {
+        "phaseId": "PH-003",
+        "phaseName": "Testing & QA",
+        "estimatedDays": 3,
+        "tasks": [
+          {
+            "taskId": "TASK-010",
+            "title": "Unit Testing",
+            "description": "Test each module independently (customer, vehicle, service, inventory, invoice)",
+            "category": "testing",
+            "priority": "P0",
+            "estimatedDays": 1,
+            "dependencies": ["TASK-009"],
+            "source": "AI_RECOMMENDATION",
+            "technicalReason": "Verify each module works before integration testing"
+          },
+          {
+            "taskId": "TASK-011",
+            "title": "Integration Testing",
+            "description": "Test end-to-end flows (customer → vehicle → service → invoice)",
+            "category": "testing",
+            "priority": "P0",
+            "estimatedDays": 1,
+            "dependencies": ["TASK-010"],
+            "source": "AI_RECOMMENDATION",
+            "technicalReason": "Verify modules work together correctly"
+          },
+          {
+            "taskId": "TASK-012",
+            "title": "UAT",
+            "description": "User Acceptance Testing with SG Garage team",
+            "category": "testing",
+            "priority": "P0",
+            "estimatedDays": 1,
+            "dependencies": ["TASK-011"],
+            "source": "CLARIFIED",
+            "technicalReason": "Client must validate the system meets their needs"
+          }
+        ]
+      },
+      {
+        "phaseId": "PH-004",
+        "phaseName": "Deployment & Handover",
+        "estimatedDays": 2,
+        "tasks": [
+          {
+            "taskId": "TASK-013",
+            "title": "Production Deployment",
+            "description": "Deploy Apps Script web app, configure access, migrate production data",
+            "category": "deployment",
+            "priority": "P0",
+            "estimatedDays": 1,
+            "dependencies": ["TASK-012"],
+            "source": "AI_RECOMMENDATION",
+            "technicalReason": "Move from dev to production environment"
+          },
+          {
+            "taskId": "TASK-014",
+            "title": "Documentation & Training",
+            "description": "Create user guide, API docs, conduct training session",
+            "category": "deployment",
+            "priority": "P1",
+            "estimatedDays": 1,
+            "dependencies": ["TASK-013"],
+            "source": "AI_RECOMMENDATION",
+            "technicalReason": "Client team needs to be able to use and maintain the system"
+          }
+        ]
+      }
+    ]
+  },
+  "effortEstimation": {
+    "totalDays": 24,
+    "role": "Full-stack Developer",
+    "breakdown": {
+      "Requirements & Design": 4,
+      "Development": 15,
+      "Testing & QA": 3,
+      "Deployment & Handover": 2
+    },
+    "qaPercentage": "12.5% of total effort",
+    "bufferApplied": "10% for Apps Script integration complexity",
+    "timeline": "4 weeks (20 working days) - RISK: 24 dev-days > 20 calendar days"
+  },
+  "costEstimation": {
+    "totalCost": 21600000,
+    "rateSource": "data/rate-card.md",
+    "role": "Full-stack Developer",
+    "ratePerDay": 1000000,
+    "stackMultiplier": 0.9,
+    "calculation": "24 days x Rp 1,000,000 x 0.9 = Rp 21,600,000",
+    "infrastructureCost": "Rp 0 (Google Sheets + Apps Script free tier)",
+    "totalWithInfra": 21600000
+  },
+  "risks": [
+    {
+      "id": "RISK-001",
+      "description": "Timeline risk: 24 dev-days vs 20 calendar days",
+      "probability": "high",
+      "impact": "medium",
+      "mitigation": "Negotiate timeline extension to 5 weeks, or reduce scope (defer inventory to phase 2)"
+    },
+    {
+      "id": "RISK-002",
+      "description": "Single developer dependency",
+      "probability": "medium",
+      "impact": "high",
+      "mitigation": "Ensure knowledge transfer docs, identify backup developer"
+    },
+    {
+      "id": "RISK-003",
+      "description": "Google Sheets performance with growing data",
+      "probability": "low",
+      "impact": "medium",
+      "mitigation": "Archive old data periodically, consider Cloud SQL migration in future"
+    },
+    {
+      "id": "RISK-004",
+      "description": "Apps Script limitations (6 min execution timeout)",
+      "probability": "medium",
+      "impact": "low",
+      "mitigation": "Batch operations, avoid long-running scripts"
+    }
+  ],
+  "assumptions": [
+    {
+      "description": "Developer works full-time on this project (40 hrs/week)",
+      "riskLevel": "low"
+    },
+    {
+      "description": "Google Sheets structure is already finalized and won't change",
+      "riskLevel": "medium"
+    },
+    {
+      "description": "No major scope changes during development",
+      "riskLevel": "medium"
+    },
+    {
+      "description": "Client available for UAT within 1 day of request",
+      "riskLevel": "low"
+    },
+    {
+      "description": "Existing Google Sheets data is clean and accurate",
+      "riskLevel": "medium"
+    }
+  ],
+  "informationSources": {
+    "fromBrief": [
+      "Tech stack: React + Apps Script + Google Sheets",
+      "3 user types: Service Advisor, Kasir, Kepala Bengkel",
+      "Timeline: 3-4 weeks",
+      "1 full-stack developer",
+      "Existing: 6 Google Sheets tables, basic Apps Script router, React Vite initialized",
+      "Core features: Customer, Vehicle, Service, Inventory, Invoice, Dashboard",
+      "Client: SG Garage (Budi Santoso, Surabaya)",
+      "Budget: Terjangkau (startup bengkel)"
+    ],
+    "fromClarification": [
+      "Role-based auth needed (3 different access levels)",
+      "Monthly reports required for MVP",
+      "WhatsApp notification deferred to next phase",
+      "Multi-cabang: architecture-ready but not implemented"
+    ],
+    "fromAssumption": [
+      "Developer works full-time on this project",
+      "Google Sheets structure is already finalized",
+      "No major scope changes during development",
+      "Client available for UAT within 1 day",
+      "Existing Google Sheets data is clean and accurate"
+    ],
+    "fromAIRecommendation": [
+      "Phased approach with 4 phases (Requirements → Development → Testing → Deployment)",
+      "Priority-based task ordering (P0-P3)",
+      "Timeline risk flag: 24 dev-days vs 20 calendar days",
+      "10% buffer for Apps Script integration complexity",
+      "QA at 12.5% of total effort",
+      "Defer inventory to phase 2 if timeline tight"
+    ]
+  }
+}

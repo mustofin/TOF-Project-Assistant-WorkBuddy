@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# WorkBuddy internal
+.workbuddy-ai/
+
+# State (runtime data - not source code)
+state/audit-log/*.jsonl
+state/pending-approvals/
+state/approval-history/
+state/execution-history/
+state/projects/
+
+# Evidence (generated during testing)
+# Keep evidence/ directory but not generated files
+evidence/*.txt
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Temp files
+*.tmp
+*.bak
+*~
