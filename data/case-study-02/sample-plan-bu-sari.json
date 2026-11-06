@@ -1,0 +1,308 @@
+{
+  "projectId": "PRJ-KBS-001",
+  "projectName": "Katering Bu Sari - Sistem Pesanan & Pengiriman",
+  "objectives": [
+    "Menggantikan pencatatan pesanan manual (buku tulis + WA) dengan sistem terpusat",
+    "Memberi kurir urutan antar yang jelas per hari",
+    "Mencegah kehabisan bahan baku lewat stok minimum per dapur",
+    "Menyediakan tagihan bulanan otomatis untuk pelanggan korporat"
+  ],
+  "scope": {
+    "inScope": [
+      "Data pelanggan (perusahaan & perorangan, kontak, alamat antar)",
+      "Pesanan harian (nama pemesan, paket, porsi, alamat, jam kirim)",
+      "Menu paket & harga (dapat diubah owner)",
+      "Jadwal pengiriman harian dengan urutan antar",
+      "Stok bahan baku per dapur (2 dapur: Sidoarjo kota, Waru)",
+      "Invoice bulanan untuk pelanggan korporat",
+      "Laporan penjualan harian per dapur",
+      "Pengguna & hak akses (owner, admin, dapur, kurir)",
+      "Dashboard ringkasan harian (omzet hari ini, pesanan aktif, stok menipis)",
+      "Tampilan responsif untuk HP"
+    ],
+    "outOfScope": [
+      "Integrasi WhatsApp API (pesanan tetap diinput manual)",
+      "Aplikasi mobile native (web responsif saja)",
+      "Payment gateway / pembayaran online",
+      "Akuntansi lengkap (hanya penjualan, bukan neraca)",
+      "Mode offline penuh (lihat asumsi kontradiksi)"
+    ],
+    "techStack": "React + Apps Script + Google Sheets"
+  },
+  "deliverables": [
+    "Web app responsif (React + Apps Script)",
+    "Struktur Google Sheets: pesanan, menu, jadwal, stok, invoice, users",
+    "Dokumen role matrix (4 role)",
+    "Template invoice korporat",
+    "Panduan singkat pemakaian untuk admin",
+    "Sesi handover 1 jam"
+  ],
+  "wbs": {
+    "phases": [
+      {
+        "phaseId": "PH-001",
+        "phaseName": "Requirements & Design",
+        "estimatedDays": 3,
+        "tasks": [
+          {
+            "taskId": "TASK-001",
+            "title": "Klarifikasi & resolusi kontradiksi offline",
+            "description": "Konfirmasi ke klien: mode offline tidak bisa digabung dengan Google Sheets online. Putuskan pendekatan.",
+            "category": "requirements",
+            "priority": "P0",
+            "estimatedDays": 1,
+            "dependencies": [],
+            "source": "CLARIFIED",
+            "technicalReason": "Kontradiksi harus diselesaikan sebelum desain, bukan saat coding"
+          },
+          {
+            "taskId": "TASK-002",
+            "title": "Data model 2 dapur & role matrix",
+            "description": "Rancang skema Sheets: pesanan, menu, jadwal, stok per dapur, invoice, users. Definisikan 4 role.",
+            "category": "design",
+            "priority": "P0",
+            "estimatedDays": 1,
+            "dependencies": [
+              "TASK-001"
+            ],
+            "source": "CLARIFIED",
+            "technicalReason": "Stok per dapur dan hak akses menentukan bentuk tabel"
+          },
+          {
+            "taskId": "TASK-003",
+            "title": "Wireframe layar utama",
+            "description": "Wireframe: pesanan harian, menu, jadwal kirim, stok, invoice, laporan.",
+            "category": "design",
+            "priority": "P1",
+            "estimatedDays": 1,
+            "dependencies": [
+              "TASK-001"
+            ],
+            "source": "AI_RECOMMENDATION",
+            "technicalReason": "Klien sulit membayangkan kebutuhan dari teks saja"
+          }
+        ]
+      },
+      {
+        "phaseId": "PH-002",
+        "phaseName": "Core Development",
+        "estimatedDays": 6,
+        "tasks": [
+          {
+            "taskId": "TASK-004",
+            "title": "Modul menu & harga paket",
+            "description": "CRUD paket katering, harga per porsi, aktif/nonaktif. Owner bisa ubah harga sendiri.",
+            "category": "development",
+            "priority": "P0",
+            "estimatedDays": 2,
+            "dependencies": [
+              "TASK-002"
+            ],
+            "source": "BRIEF",
+            "technicalReason": "Semua modul lain butuh referensi harga paket"
+          },
+          {
+            "taskId": "TASK-005",
+            "title": "Modul pesanan harian",
+            "description": "Input pesanan: pemesan, paket, porsi, alamat, jam kirim. Status: baru, diproses, dikirim, selesai.",
+            "category": "development",
+            "priority": "P0",
+            "estimatedDays": 2,
+            "dependencies": [
+              "TASK-004"
+            ],
+            "source": "BRIEF",
+            "technicalReason": "Inti masalah klien: pesanan sering tertukar status"
+          },
+          {
+            "taskId": "TASK-006",
+            "title": "Jadwal pengiriman & urutan antar",
+            "description": "Daftar antar per hari per dapur, urut berdasarkan jam kirim, bisa dilihat kurir.",
+            "category": "development",
+            "priority": "P0",
+            "estimatedDays": 2,
+            "dependencies": [
+              "TASK-005"
+            ],
+            "source": "BRIEF",
+            "technicalReason": "Kurir butuh satu sumber urutan, bukan tanya admin"
+          }
+        ]
+      },
+      {
+        "phaseId": "PH-003",
+        "phaseName": "Inventory & Invoicing",
+        "estimatedDays": 4,
+        "tasks": [
+          {
+            "taskId": "TASK-007",
+            "title": "Stok bahan baku per dapur",
+            "description": "Stok masuk/keluar per dapur, stok minimum, peringatan stok rendah.",
+            "category": "development",
+            "priority": "P1",
+            "estimatedDays": 2,
+            "dependencies": [
+              "TASK-002"
+            ],
+            "source": "CLARIFIED",
+            "technicalReason": "Dua dapur belanja sendiri, stok tidak boleh digabung"
+          },
+          {
+            "taskId": "TASK-008",
+            "title": "Invoice bulanan korporat",
+            "description": "Rekap pesanan sebulan per pelanggan korporat, cetak invoice, termin 14 hari.",
+            "category": "development",
+            "priority": "P1",
+            "estimatedDays": 2,
+            "dependencies": [
+              "TASK-005"
+            ],
+            "source": "BRIEF",
+            "technicalReason": "Pelanggan korporat minta tagihan bulanan, bukan per pesanan"
+          }
+        ]
+      },
+      {
+        "phaseId": "PH-004",
+        "phaseName": "Access, Reporting & Deployment",
+        "estimatedDays": 3,
+        "tasks": [
+          {
+            "taskId": "TASK-009",
+            "title": "Role-based access (4 role)",
+            "description": "Owner (semua), admin (pesanan, menu, invoice, laporan), dapur (pesanan, stok, tanpa harga), kurir (jadwal hari ini, tanpa harga).",
+            "category": "development",
+            "priority": "P0",
+            "estimatedDays": 1,
+            "dependencies": [
+              "TASK-005"
+            ],
+            "source": "CLARIFIED",
+            "technicalReason": "Klien eksplisit melarang kurir melihat harga"
+          },
+          {
+            "taskId": "TASK-010",
+            "title": "Laporan penjualan harian per dapur",
+            "description": "Rekap omzet dan jumlah porsi per dapur per hari, plus rekap bulanan gabungan.",
+            "category": "development",
+            "priority": "P1",
+            "estimatedDays": 1,
+            "dependencies": [
+              "TASK-005"
+            ],
+            "source": "CLARIFIED",
+            "technicalReason": "Owner perlu membandingkan performa dua dapur"
+          },
+          {
+            "taskId": "TASK-011",
+            "title": "QA, UAT & handover",
+            "description": "Uji alur pesanan end-to-end, UAT dengan admin, handover 1 jam.",
+            "category": "testing",
+            "priority": "P0",
+            "estimatedDays": 1,
+            "dependencies": [
+              "TASK-009",
+              "TASK-010"
+            ],
+            "source": "AI_RECOMMENDATION",
+            "technicalReason": "Admin non-teknis perlu dilatih sebelum go-live"
+          }
+        ]
+      }
+    ]
+  },
+  "effortEstimation": {
+    "totalDays": 16,
+    "role": "Full-stack Developer",
+    "breakdown": {
+      "Requirements & Design": 3,
+      "Core Development": 6,
+      "Inventory & Invoicing": 4,
+      "Access, Reporting & Deployment": 3
+    },
+    "qaPercentage": "6.3% of total effort",
+    "bufferApplied": "10% for Apps Script integration complexity",
+    "timeline": "3.5 weeks (25 calendar days, 18 working days) - RISK: 16 dev-days vs 18 working days leaves little slack"
+  },
+  "costEstimation": {
+    "totalCost": 14400000,
+    "rateSource": "data/rate-card.md",
+    "role": "Full-stack Developer",
+    "ratePerDay": 1000000,
+    "stackMultiplier": 0.9,
+    "calculation": "16 days x Rp 1,000,000 x 0.9 = Rp 14,400,000",
+    "infrastructureCost": "Rp 0 (Google Sheets + Apps Script free tier)",
+    "totalWithInfra": 14400000
+  },
+  "risks": [
+    {
+      "risk": "Kontradiksi offline vs online belum terselesaikan",
+      "impact": "high",
+      "mitigation": "Selesaikan di TASK-001 sebelum coding; usulkan mode 'read-only cache' sebagai kompromi"
+    },
+    {
+      "risk": "Budget klien Rp 12 juta < estimasi Rp 14,4 juta",
+      "impact": "high",
+      "mitigation": "Tawarkan pemangkasan scope: invoice bulanan ditunda ke fase 2"
+    },
+    {
+      "risk": "Target awal Desember hanya menyisakan 18 hari kerja",
+      "impact": "medium",
+      "mitigation": "Fase 1 go-live tanpa modul invoice, sisanya menyusul"
+    },
+    {
+      "risk": "Admin non-teknis (terbiasa buku tulis)",
+      "impact": "medium",
+      "mitigation": "Handover 1 jam + panduan bergambar"
+    }
+  ],
+  "assumptions": [
+    {
+      "description": "Koneksi internet tersedia saat jam operasional; mode offline hanya cache baca",
+      "riskLevel": "high"
+    },
+    {
+      "description": "Google Sheets cukup sebagai database (gratis, sesuai budget)",
+      "riskLevel": "medium"
+    },
+    {
+      "description": "Satu developer full-stack mengerjakan penuh waktu",
+      "riskLevel": "high"
+    },
+    {
+      "description": "Harga bahan baku diinput manual oleh admin, tidak ada integrasi supplier",
+      "riskLevel": ""
+    },
+    {
+      "description": "Invoice korporat dicetak PDF, pengiriman tetap via email manual",
+      "riskLevel": "low"
+    }
+  ],
+  "informationSources": {
+    "fromBrief": [
+      "Nama usaha: Katering Bu Sari, Sidoarjo",
+      "2 dapur: pusat Sidoarjo kota, satelit Waru",
+      "6 modul: pesanan, menu, jadwal kirim, stok, invoice, laporan",
+      "Pengguna: owner, 1 admin, 2 dapur, 2 kurir",
+      "Target go-live awal Desember 2026",
+      "Budget Rp 12.000.000",
+      "Harus bisa dibuka di HP"
+    ],
+    "fromClarification": [
+      "Hak akses: owner semua, admin operasional, dapur tanpa harga, kurir hanya jadwal",
+      "Stok dipisah per dapur",
+      "Pelanggan harian: tunai/transfer, DP 50% untuk pesanan > Rp 2 juta",
+      "Laporan: harian per dapur + rekap bulanan gabungan, hanya owner & admin",
+      "Kontradiksi offline diselesaikan: pilih online, offline hanya cache baca"
+    ],
+    "fromAssumption": [
+      "Koneksi internet tersedia saat jam operasional; mode offline hanya cache baca",
+      "Satu developer full-stack mengerjakan penuh waktu"
+    ],
+    "fromAIRecommendation": [
+      "Tambahkan handover 1 jam untuk admin non-teknis",
+      "Buat wireframe sebelum development agar klien bisa memvalidasi",
+      "Usulkan dashboard ringkasan harian (tidak diminta eksplisit di brief)"
+    ]
+  }
+}

@@ -1,9 +1,11 @@
 # Panduan Testing Manual — TOF Project Assistant
 
-> **Baru di sini? Mulai dari [`STUDI-KASUS.md`](STUDI-KASUS.md).**
-> Dokumen itu berisi satu proyek utuh (SG Garage) dengan teks chat siap
-> copy-paste per turn, penjelasan apa yang seharusnya terjadi, dan cara
-> memeriksanya. Dokumen ini adalah referensi pendeknya.
+> **Baru di sini? Mulai dari [`CASE-STUDY-02-CHAT.md`](CASE-STUDY-02-CHAT.md) dulu.**
+> Itu studi kasus terbaru (Katering Bu Sari) — brief WhatsApp mentah, teks chat siap
+> copy-paste, angka yang seharusnya muncul, plus peta kepatuhan lomba.
+>
+> Versi SG Garage yang lengkap ada di [`STUDI-KASUS.md`](STUDI-KASUS.md).
+> Dokumen yang sedang kamu baca ini adalah referensi pendeknya.
 
 Panduan ini untuk **kamu**, supaya benar-benar paham cara pakai agent ini.
 Ada dua jalur testing yang berbeda tujuan:
@@ -255,7 +257,7 @@ cat state/projects/*/rejection-feedback.json
 Lima perintah, semuanya harus exit 0 kecuali yang ditandai:
 
 ```bash
-# 1. Self-test 7 modul (95 assertion) — harus semua PASS
+# 1. Self-test 7 modul (123 assertion) — harus semua PASS
 python3 agent/tools/selftest.py
 
 # 2. 24 test case challenge — 23 pass, 1 fail (itu memang disengaja)

@@ -108,6 +108,41 @@ SCREEN_RULES = [
         ],
     },
     {
+        "match": ["pesanan", "katering", "catering", "porsi"],
+        "screens": [
+            ("order-list", "Orders", "list",
+             "All orders for a given day with delivery status",
+             ["Order #", "Customer", "Package", "Portions", "Deliver At", "Status"]),
+            ("order-form", "New Order", "form",
+             "Take a new order and schedule delivery",
+             ["Customer", "Package", "Portions", "Delivery Address",
+              "Deliver At", "Notes"]),
+            ("order-detail", "Order Detail", "detail",
+             "Single order: items, status timeline, delivery note", []),
+        ],
+    },
+    {
+        "match": ["menu", "paket harga", "daftar harga", "price list"],
+        "screens": [
+            ("menu-list", "Menu & Pricing", "list",
+             "Packages, prices per portion, availability",
+             ["Package", "Portions", "Price / Portion", "Min Order", "Active"]),
+            ("menu-form", "Edit Package", "form",
+             "Create or update a menu package",
+             ["Package Name", "Price per Portion", "Minimum Portions",
+              "Active", "Notes"]),
+        ],
+    },
+    {
+        "match": ["jadwal pengiriman", "jadwal antar", "pengiriman", "delivery",
+                  "kurir", "courier"],
+        "screens": [
+            ("delivery-schedule", "Delivery Schedule", "list",
+             "Drop-off sequence for the day, per kitchen",
+             ["Date", "Order", "Address", "Deliver At", "Courier", "Status"]),
+        ],
+    },
+    {
         "match": ["inventory", "stock", "stok", "suku cadang", "part"],
         "screens": [
             ("inventory-list", "Inventory", "list",
@@ -160,6 +195,14 @@ ROLE_HINTS = {
     "admin": ["*"],
     "owner": ["*"],
     "manager": ["*"],
+    # Kitchen staff: orders + stock, but never prices or invoices.
+    "dapur": ["login", "order-*", "inventory-*", "stock-*"],
+    "kitchen": ["login", "order-*", "inventory-*", "stock-*"],
+    "chef": ["login", "order-*", "inventory-*", "stock-*"],
+    # Couriers: today's route only, no prices.
+    "kurir": ["login", "delivery-*"],
+    "courier": ["login", "delivery-*"],
+    "driver": ["login", "delivery-*"],
 }
 
 # Which design file / page each archetype maps to in Figcraft
@@ -260,7 +303,9 @@ class UISpecGenerator:
 
         # Staff roles only — customers are data, not app roles.
         known = ["service advisor", "kasir", "kepala bengkel", "admin", "owner",
-                 "manager", "supervisor", "staff", "mekanik", "gudang"]
+                 "manager", "supervisor", "staff", "mekanik", "gudang",
+                 "dapur", "kitchen", "chef", "kurir", "courier", "driver",
+                 "pramusaji", "waiter"]
         for k in known:
             if k in haystack:
                 found.append(k.title())
@@ -518,6 +563,45 @@ def run_selftest():
           str([n["group"] for n in spec["navigation"]]))
     nav_ids = [i["id"] for g in spec["navigation"] for i in g["items"]]
     check("Login excluded from nav", "login" not in nav_ids)
+
+    # --- 8: second domain (catering) ---
+    print("\n--- Group 8: Non-Garage Domain (catering) ---")
+    catering = {
+        "projectId": "PRJ-KBS-001",
+        "projectName": "Katering Bu Sari",
+        "scope": {"inScope": [
+            "Data pelanggan (perusahaan & perorangan, kontak, alamat antar)",
+            "Pesanan harian (nama pemesan, paket, porsi, alamat, jam kirim)",
+            "Menu paket & harga (dapat diubah owner)",
+            "Jadwal pengiriman harian dengan urutan antar",
+            "Stok bahan baku per dapur (2 dapur)",
+            "Invoice bulanan untuk pelanggan korporat",
+            "Laporan penjualan harian per dapur",
+            "Pengguna & hak akses (owner, admin, dapur, kurir)",
+        ]},
+        "informationSources": {
+            "fromBrief": ["Pengguna: owner, 1 admin, 2 dapur, 2 kurir"],
+        },
+    }
+    cat = gen.build(catering, client={"company": "Katering Bu Sari"})
+    cat_ids = [s["id"] for s in cat["screens"]]
+
+    check("Catering derives order screens",
+          {"order-list", "order-form", "order-detail"} <= set(cat_ids), str(cat_ids))
+    check("Catering derives menu screens",
+          {"menu-list", "menu-form"} <= set(cat_ids), str(cat_ids))
+    check("Catering derives delivery schedule",
+          "delivery-schedule" in cat_ids, str(cat_ids))
+    check("No garage screens leak into catering",
+          not any(i.startswith(("service-", "vehicle-")) for i in cat_ids), str(cat_ids))
+    check("Catering extracts 4 roles",
+          len(cat["roles"]) == 4, f"got {[r['role'] for r in cat['roles']]}")
+
+    by_role = {r["role"].lower(): r["screenCount"] for r in cat["roles"]}
+    check("Courier sees delivery only (no prices)",
+          by_role.get("kurir") == 2, str(by_role))
+    check("Kitchen staff sees fewer screens than owner",
+          0 < by_role.get("dapur", 99) < by_role.get("owner", 0), str(by_role))
 
     print("\n" + "=" * 60)
     print(f"RESULTS: {passed}/{total} passed, {failed} failed")

@@ -606,7 +606,7 @@ Langkah berikutnya:
 
 ```bash
 python3 demo/run_demo.py --fast      # 11 scene untuk rekaman video
-python3 agent/tools/selftest.py      # 118 assertion, semua harus PASS
+python3 agent/tools/selftest.py      # 123 assertion, semua harus PASS
 python3 tests/test_cases.py          # 24 test case, 23 pass + 1 fail (disengaja)
 ```
 

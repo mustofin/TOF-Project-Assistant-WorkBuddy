@@ -126,7 +126,7 @@ Run: `python3 tests/test_cases.py`
 | `agent/tools/gate.py` | Gate self-test (27 tests) |
 | `agent/tools/validator.py` | Validator self-test (14 tests) |
 | `agent/tools/quote_gen.py` | Quotation generator self-test (31 tests) |
-| `agent/tools/ui_spec.py` | UI spec generator self-test (26 tests) |
+| `agent/tools/ui_spec.py` | UI spec generator self-test (33 tests) |
 | `agent/tools/mockup_render.py` | Mockup renderer self-test (18 tests) |
 | `tests/test_cases.py` | Challenge test cases (24 tests) |
 | `demo/run_demo.py` | End-to-end demo runner (10 scenes) |

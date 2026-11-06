@@ -7,7 +7,7 @@
 ## Quick Start
 
 ```bash
-# 1. Run self-tests (7 modules, 118 assertions)
+# 1. Run self-tests (7 modules, 123 self-tests)
 python3 agent/tools/selftest.py
 
 # 2. Run challenge test cases (24 tests)
@@ -57,18 +57,26 @@ TOF-Project-Assistant-WorkBuddy/
 │       ├── gate.py                 # Approval gate + injection detection (27 assertions)
 │       ├── validator.py            # Plan validator (14 assertions)
 │       ├── quote_gen.py            # Quotation generator (31 assertions)
-│       ├── ui_spec.py              # Plan → screen inventory (26 assertions)
+│       ├── ui_spec.py              # Plan → screen inventory (33 assertions)
 │       ├── mockup_render.py        # Spec → HTML → PNG (18 assertions)
 │       ├── audit_logger.py         # JSONL audit log (33 event types)
 │       ├── state_manager.py        # State management + remediation loop
 │       └── selftest.py             # Master test runner
 ├── data/
 │   ├── mock-dataset/               # 3 briefs, client profiles, quotation scenarios
+│   ├── case-study-02/              # Katering Bu Sari: brief + sample plan + build script
 │   ├── rate-card.md                # Developer rates for cost estimation
 │   ├── sample-client-brief.md      # SG Garage sample brief
 │   ├── project-templates/web-app.md
 │   ├── templates/Quotation_Template_Dummy.docx
 │   └── tof-project-tracker.xlsx    # Excel tracker (3 tabs, 15 tasks)
+├── docs/
+│   ├── CASE-STUDY-02-CHAT.md       # Copy-paste chat simulation + compliance map
+│   ├── MANUAL-TESTING.md           # General testing reference
+│   └── STUDI-KASUS.md              # SG Garage end-to-end walkthrough (9 turns)
+├── demo/
+│   ├── run_demo.py                 # 11-scene end-to-end demo (--fast, --persist)
+│   └── check_state.py              # Verify agent claims against disk
 ├── tests/
 │   └── test_cases.py               # 24 challenge test cases
 ├── evidence/
@@ -96,15 +104,16 @@ TOF-Project-Assistant-WorkBuddy/
 |--------|-------|
 | Agent Skills | 6 (Orchestrator, Planner, Validator, Executor, Quotation Gen, UI Designer) |
 | Deterministic Tools | 7 Python modules |
-| Self-Tests | 118 assertions across 7 modules, 100% pass |
+| Self-Tests | 123 self-tests across 7 modules, 100% pass |
 | Challenge Test Cases | 24 tests, 96% pass (23/24) |
 | Audit Event Types | 33 |
 | Transparency Tags | 4 (BRIEF, CLARIFIED, ASSUMPTION, AI_RECOMMENDATION) |
 | Approval States | 6 (DRAFT, PENDING, APPROVED, REJECTED, EXECUTED, FAILED) |
 | Prompt Injection Patterns | 10 |
-| Mock Briefs | 3 (complete, with gaps, with injection) |
-| Sample Plan Tasks | 14 across 4 phases |
-| UI Screens Generated | 14 from plan scope (all traceable) |
+| Mock Briefs | 4 (complete, with gaps, with injection, WhatsApp-style catering) |
+| Sample Plan Tasks | 14 (SG Garage), 11 (Bu Sari) — both 4 phases |
+| UI Screens Generated | 14 (SG Garage), 16 (Bu Sari) — all traceable |
+| Screen Library Domains | 2 (automotive workshop, catering) |
 
 ---
 
