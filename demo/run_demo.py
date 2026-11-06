@@ -18,7 +18,8 @@ Flow:
   Scene 10 Audit trail
 
 Usage:
-    python3 demo/run_demo.py            # full demo
+    python3 demo/run_demo.py            # full demo, 1.2s pauses, runs itself
+    python3 demo/run_demo.py --step     # waits for Enter before each scene (recording)
     python3 demo/run_demo.py --fast     # no pauses (for testing)
     python3 demo/run_demo.py --scene 5  # single scene
 """
@@ -58,6 +59,7 @@ C_MAGENTA = "\033[95m"
 C_BLUE = "\033[94m"
 
 FAST = "--fast" in sys.argv
+STEP = "--step" in sys.argv
 ONLY_SCENE = None
 for i, a in enumerate(sys.argv):
     if a == "--scene" and i + 1 < len(sys.argv):
@@ -77,7 +79,27 @@ def banner(title, subtitle=""):
     print(f"{C_BOLD}{'═' * W}{C_RESET}")
 
 
+_scene_seen = 0
+
+
 def scene(n, title):
+    """Print a scene banner.
+
+    In --step mode the runner waits for Enter before each scene after the
+    first, so you can talk over the terminal while recording instead of racing
+    a fixed 1.2s timer.
+    """
+    global _scene_seen
+    if STEP:
+        if _scene_seen:
+            print(f"{C_DIM}  ⏎  press Enter for SCENE {n}…{C_RESET}", end="", flush=True)
+            try:
+                input()
+            except EOFError:
+                pass
+            print("\033[1A\033[2K", end="")
+        _scene_seen += 1
+
     print()
     print(f"{C_MAGENTA}{'━' * W}{C_RESET}")
     print(f"{C_MAGENTA}{C_BOLD}  SCENE {n}  │  {title}{C_RESET}")
