@@ -129,6 +129,9 @@ def should_run(n):
 # ---------------------------------------------------------------- demo state
 
 TMP = tempfile.mkdtemp(prefix="tof-demo-")
+PERSIST = "--persist" in sys.argv
+if PERSIST:
+    TMP = str(ROOT / "state")
 sm = StateManager(TMP)
 logger = AuditLogger(TMP)
 gate = Gate(TMP)
@@ -354,6 +357,13 @@ def main():
         logger.log(PROJECT_ID, "quotation_generated", "quotation",
                    f"Quotation {quotation['meta']['quoteNumber']} generated")
 
+        # Persist the quotation JSON next to the project (the skill writes the .docx)
+        qdir = Path(TMP) / "projects" / PROJECT_ID / "quotation"
+        qdir.mkdir(parents=True, exist_ok=True)
+        qname = quotation["meta"]["quoteNumber"].replace("/", "-") + ".json"
+        (qdir / qname).write_text(
+            json.dumps(quotation, indent=2, ensure_ascii=False), encoding="utf-8")
+
         say(f"{C_BOLD}Quote No:{C_RESET} {quotation['meta']['quoteNumber']}")
         line("┄")
         for it in quotation["workScope"]:
@@ -379,7 +389,7 @@ def main():
 
         uigen = UISpecGenerator()
         ui_spec = uigen.build(plan, client={"company": "SG Garage"})
-        ui_tmp = Path(TMP) / "ui-design"
+        ui_tmp = Path(TMP) / "projects" / PROJECT_ID / "ui-design"
         ui_tmp.mkdir(parents=True, exist_ok=True)
         (ui_tmp / "ui-spec.json").write_text(
             json.dumps(ui_spec, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -569,4 +579,8 @@ if __name__ == "__main__":
     try:
         main()
     finally:
-        shutil.rmtree(TMP, ignore_errors=True)
+        if not PERSIST:
+            shutil.rmtree(TMP, ignore_errors=True)
+        else:
+            print(f"\n  {C_DIM}State disimpan di: {TMP}{C_RESET}")
+            print(f"  {C_DIM}Lihat hasilnya: python3 demo/check_state.py{C_RESET}\n")
