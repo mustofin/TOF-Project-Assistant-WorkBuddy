@@ -14,7 +14,7 @@ The agent accepts raw client briefs (free-form text), identifies information gap
 - **Unstructured input:** Client briefs arrive as free-form text/documents
 - **Structured output:** Project plans (JSON), Excel tracker tasks, quotation documents (DOCX)
 - **Approval gates:** Every external action requires human approval via a state machine
-- **Audit trail:** All 26 event types logged with timestamp, actor, and metadata
+- **Audit trail:** All 33 event types logged with timestamp, actor, and metadata
 
 ---
 
@@ -48,7 +48,7 @@ The system has 5 layers:
    - **Executor** (approved actions → Excel tracker)
    - **Quotation Generator** (plan → quotation document)
    - **UI Designer** (plan → screen inventory → mockups)
-3. **Deterministic Tools** — 7 Python modules (95 self-tests):
+3. **Deterministic Tools** — 7 Python modules (118 assertions):
    - `gate.py` — Approval state machine + prompt injection detection (27 tests)
    - `validator.py` — Plan quality validator (14 tests)
    - `quote_gen.py` — Quotation calculator with terbilang (31 tests)
@@ -125,7 +125,7 @@ All 5 hackathon accountability rules are enforced:
 | Within permissions | Bounded authority CAN/CANNOT table | gate.py enforces (27 tests) |
 | Asks before acting | Approval state machine blocks execution | 4 blocked transitions tested |
 | Admits limits | 1 test failure documented honestly | TC-002 (keyword vs semantic gap detection) |
-| Keeps a record | JSONL audit log, 26 event types | audit_logger.py (tested) |
+| Keeps a record | JSONL audit log, 33 event types | audit_logger.py (tested) |
 
 ---
 

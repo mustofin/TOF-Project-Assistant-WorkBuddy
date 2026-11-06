@@ -1,5 +1,10 @@
 # Panduan Testing Manual — TOF Project Assistant
 
+> **Baru di sini? Mulai dari [`STUDI-KASUS.md`](STUDI-KASUS.md).**
+> Dokumen itu berisi satu proyek utuh (SG Garage) dengan teks chat siap
+> copy-paste per turn, penjelasan apa yang seharusnya terjadi, dan cara
+> memeriksanya. Dokumen ini adalah referensi pendeknya.
+
 Panduan ini untuk **kamu**, supaya benar-benar paham cara pakai agent ini.
 Ada dua jalur testing yang berbeda tujuan:
 

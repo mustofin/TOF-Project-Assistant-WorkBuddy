@@ -7,10 +7,10 @@
 ## Quick Start
 
 ```bash
-# 1. Run self-tests (5 modules, 72 tests)
+# 1. Run self-tests (7 modules, 118 assertions)
 python3 agent/tools/selftest.py
 
-# 2. Run challenge test cases (20 tests)
+# 2. Run challenge test cases (24 tests)
 python3 tests/test_cases.py
 
 # 3. View architecture diagram
@@ -54,11 +54,11 @@ TOF-Project-Assistant-WorkBuddy/
 │   │   ├── accountability.md       # 8 accountability principles
 │   │   └── approval-policy.md      # State machine + remediation loop
 │   └── tools/
-│       ├── gate.py                 # Approval gate + injection detection (27 tests)
-│       ├── validator.py            # Plan validator (14 tests)
-│       ├── quote_gen.py            # Quotation generator (31 tests)
-│       ├── ui_spec.py              # Plan → screen inventory (26 tests)
-│       ├── mockup_render.py        # Spec → HTML → PNG (18 tests)
+│       ├── gate.py                 # Approval gate + injection detection (27 assertions)
+│       ├── validator.py            # Plan validator (14 assertions)
+│       ├── quote_gen.py            # Quotation generator (31 assertions)
+│       ├── ui_spec.py              # Plan → screen inventory (26 assertions)
+│       ├── mockup_render.py        # Spec → HTML → PNG (18 assertions)
 │       ├── audit_logger.py         # JSONL audit log (33 event types)
 │       ├── state_manager.py        # State management + remediation loop
 │       └── selftest.py             # Master test runner
@@ -70,7 +70,7 @@ TOF-Project-Assistant-WorkBuddy/
 │   ├── templates/Quotation_Template_Dummy.docx
 │   └── tof-project-tracker.xlsx    # Excel tracker (3 tabs, 15 tasks)
 ├── tests/
-│   └── test_cases.py               # 20 challenge test cases
+│   └── test_cases.py               # 24 challenge test cases
 ├── evidence/
 │   ├── test-results.json           # Full test results in JSON
 │   └── selftest-results.txt        # Self-test output log
@@ -96,7 +96,7 @@ TOF-Project-Assistant-WorkBuddy/
 |--------|-------|
 | Agent Skills | 6 (Orchestrator, Planner, Validator, Executor, Quotation Gen, UI Designer) |
 | Deterministic Tools | 7 Python modules |
-| Self-Tests | 95 tests, 100% pass |
+| Self-Tests | 118 assertions across 7 modules, 100% pass |
 | Challenge Test Cases | 24 tests, 96% pass (23/24) |
 | Audit Event Types | 33 |
 | Transparency Tags | 4 (BRIEF, CLARIFIED, ASSUMPTION, AI_RECOMMENDATION) |
@@ -113,7 +113,7 @@ TOF-Project-Assistant-WorkBuddy/
 | Rule | Implementation | Evidence |
 |------|---------------|----------|
 | Shows sources | 4 transparency tags | 23 tagged items in sample plan |
-| Within permissions | Bounded authority CAN/CANNOT table | gate.py enforces (27 tests) |
+| Within permissions | Bounded authority CAN/CANNOT table | gate.py enforces (27 assertions) |
 | Asks before acting | Approval state machine | 4 blocked transitions tested |
 | Admits limits | 1 test failure documented | TC-002 (keyword vs semantic) |
-| Keeps a record | JSONL audit log | 26 event types, append-only |
+| Keeps a record | JSONL audit log | 33 event types, append-only |

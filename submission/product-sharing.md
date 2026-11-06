@@ -30,7 +30,7 @@ We built TOF Project Assistant as an **accountable** AI that follows 5 rules:
 
 4. **Admits limits** — We documented 1 test failure (TC-002) where keyword-based gap detection can't match LLM semantic analysis. We show this honestly rather than hiding it.
 
-5. **Keeps a record** — 26 event types are logged in append-only JSONL audit files. Every action has a UUID, timestamp, actor, and approval reference.
+5. **Keeps a record** — 33 event types are logged in append-only JSONL audit files. Every action has a UUID, timestamp, actor, and approval reference.
 
 ---
 
@@ -41,7 +41,7 @@ We built TOF Project Assistant as an **accountable** AI that follows 5 rules:
 | Information sources | Mixed, unlabeled | 4 transparency tags on every item |
 | Execution | Direct, no approval | State machine with 6 states |
 | Assumptions | Hidden in output | Explicitly flagged with risk level |
-| Audit trail | None or manual | 26 event types, automatic JSONL |
+| Audit trail | None or manual | 33 event types, automatic JSONL |
 | Prompt injection | Vulnerable | 10-pattern detection in gate.py |
 | Quotation generation | Manual (2-3 hours) | Automated (< 1 min) with terbilang |
 | Failure reporting | Hidden | 1 documented failure (TC-002) |

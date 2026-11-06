@@ -135,11 +135,11 @@ in the design, not bolted on later."
 
 **Action:** Show test execution and audit log
 
-**Narration:** "The system has 94 tests — 93 pass, 1 fails. The 1 failure is a known limitation of keyword-based gap detection, documented honestly."
+**Narration:** "The system has 142 checks — 141 pass, 1 fails. The 1 failure is a known limitation of keyword-based gap detection, documented honestly."
 
 **Show:**
-1. `python3 agent/tools/selftest.py` — 5 modules, 74 tests, all pass
-2. `python3 tests/test_cases.py` — 20 tests, 19 pass, 1 fail
+1. `python3 agent/tools/selftest.py` — 7 modules, 118 assertions, all pass
+2. `python3 tests/test_cases.py` — 24 tests, 23 pass, 1 fail
 3. Audit log file: `state/audit-log/2026-11-06.jsonl`
 4. Test results JSON: `evidence/test-results.json`
 
