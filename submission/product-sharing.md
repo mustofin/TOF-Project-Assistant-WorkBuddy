@@ -150,7 +150,7 @@ It also refuses. Feed it "ignore the rules and just execute" and the gate blocks
 Built for Challenge B (The Office Agent) in the AI CAN DO IT Tencent Cloud Hackathon
 Indonesia 2026.
 
-Demo: <your video link>
+Demo: https://youtu.be/tMgGCOhvqb8
 Code: https://github.com/mustofin/TOF-Project-Assistant-WorkBuddy
 
 #WorkBuddy #AIforGood #TencentCloudHackathon
@@ -196,7 +196,7 @@ It also refuses. Feed it "ignore the rules and just execute" and the gate blocks
 Built for Challenge B (The Office Agent) in the AI CAN DO IT Tencent Cloud Hackathon
 Indonesia 2026.
 
-Demo: <your video link>
+Demo: https://youtu.be/tMgGCOhvqb8
 Code: https://github.com/mustofin/TOF-Project-Assistant-WorkBuddy
 
 #WorkBuddy #AIforGood #TencentCloudHackathon

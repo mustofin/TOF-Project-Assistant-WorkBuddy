@@ -32,8 +32,12 @@ Status legend: **[READY]** nothing to do · **[YOU]** only you can do this · **
 ## 11. Project Title *
 
 ```
-TOF Project Assistant
+TOF Project Assistant — Accountable AI project manager
 ```
+
+Same string you used for the Project Link row. The short name **TOF Project Assistant**
+is what the cover image, the video title and the repository use — the descriptor is a
+subtitle, so the two do not contradict each other.
 
 ## 12. Short Blurb * — hard limit under 10 words
 
@@ -70,9 +74,14 @@ Challenge B label, and the five accountability rules.
 https://tof-project-assistant.apps.workbuddy.host/?sharecode=QJRYZAPOGO
 ```
 
-**[READY]** Published and verified reachable. The page is self-contained (14 screenshots,
-1.0 MB) and states plainly that the agent itself runs in WorkBuddy, so nobody mistakes the
-page for the product.
+**[READY]** Published and verified reachable — HTTP 200, 24 KB. The page is self-contained
+(14 screenshots) and states plainly that the agent itself runs in WorkBuddy, so nobody
+mistakes the page for the product.
+
+> **Do not drop the `?sharecode=QJRYZAPOGO`.** Checked on 7 Nov 2026: the bare host
+> `https://tof-project-assistant.apps.workbuddy.host/` returns **HTTP 403** with a
+> "link incomplete" page. The sharecode is what authorises the read. A judge who opens the
+> bare URL sees an error, not the project.
 
 Source of the page: `submission/site/`. Rebuild with `python3 submission/site/build_site.py`
 if you change anything — it reads the screenshots and numbers from the repo, so the page
@@ -81,13 +90,15 @@ cannot drift from the code.
 ## 16. Demo Video Link * — browser-accessible URL
 
 ```
-<paste your unlisted YouTube / Drive link here>
+https://youtu.be/tMgGCOhvqb8
 ```
 
-**[YOU]** Not recorded yet. The script is written: `submission/demo-script.md`, 5–8 minutes.
-Recommended scene order — Turn 1 (asks) → Turn 2 (waits) → Turn 8 (refuses) → Turn 7
-(rejects and revises) → Turn 6 (UI). That sequence shows all four required moments.
-Upload as **unlisted**, not private — a private link cannot be opened by a judge.
+**[READY]** Uploaded and checked on 7 Nov 2026 — the YouTube oEmbed endpoint returns
+HTTP 200 with title **"Demo TOF Project Assistant"** and channel **mustofin**. A 200 from
+oEmbed means the video is reachable without logging in, so it is public or unlisted, not
+private. That is the only check that matters for this field.
+
+The same link is already filled into `submission/product-sharing.md` for the social post.
 
 ## 17. WorkBuddy / CodeBuddy Conversation History * — min 3 screenshots, max 10 files
 
@@ -157,8 +168,26 @@ It re-runs both test suites, re-reads the Excel tracker against `plan.json`, cou
 blurb, and asks git whether the code is actually pushed. It must print
 **VERDICT: READY TO SUBMIT**.
 
-Current state: **13 passed · 1 warning · 1 blocker** — the only blocker is the unpushed
-repository. The warning is item 16 (video), which cannot be verified from disk.
+Current state (7 Nov 2026, 22:52): **19 passed · 2 warnings · 0 blockers** — **READY TO SUBMIT**.
+
+| Status | Item | What it is |
+|---|---|---|
+| warning | 7. Demo video | link is live; the script does not fetch URLs, so it was checked by hand |
+| warning | F5. Conversation history | 3–5 chat screenshots — only you can capture those |
+
+Both warnings are things that cannot sit on disk. Neither is a defect.
+
+The blocker that appeared at 22:40 — `PRJ-LBW-001` had a `plan.json` but no sheet in the
+tracker — is fixed. It exposed two real defects:
+
+1. The sheet had never been written. Fixed by running `tracker_sync.py --sync`.
+2. `tracker_sync.py` only counted task IDs beginning with `TASK`. The laundry plan uses
+   `T-01…T-10`, so the checker called all ten rows missing and the Dashboard read 0 tasks —
+   drift reported by the very tool built to prevent drift. It now matches the ID *shape*
+   (`^[A-Za-z][A-Za-z0-9]*-\d+$`), so any ID convention works and stale-row detection
+   still fires. Self-test 29/29.
+
+All three projects now verify clean: `PRJ-SGG-001`, `PRJ-KBS-001`, `PRJ-LBW-001`.
 
 ---
 
@@ -166,14 +195,14 @@ repository. The warning is item 16 (video), which cannot be verified from disk.
 
 | # | Task | Owner | Blocks submit? |
 |---|---|---|---|
-| 1 | `git push origin main`, then make the repo public | you | **yes** |
-| 2 | Record the 5–8 min demo video, upload unlisted | you | **yes** |
+| 1 | ~~`git push origin main` + make repo public~~ — done, `0` commits ahead | done | no |
+| 2 | ~~Record the 5–8 min demo video~~ — uploaded: `https://youtu.be/tMgGCOhvqb8` | done | no |
 | 3 | Screenshot 3–5 turns of your chat history | you | **yes** |
 | 4 | Publish the social media post with the 3 hashtags | you | **yes** |
 | 5 | ~~Decide the Project Link~~ — published, paste the URL above | done | no |
 | 6 | Fill team name, captain, email, phone | you | **yes** |
-| 7 | Cover image, PDF, description, blurb, project link | done | no |
+| 7 | Cover image, PDF, description, blurb, project link, video link | done | no |
 | 8 | Select "The Office Agent" | done | no |
 
-Everything in rows 7–8 is on disk and verified. Rows 1–6 cannot be done from here —
-they need your account, your voice, or your chat history.
+Everything in rows 1, 2, 5, 7, 8 is on disk and verified. Rows 3, 4 and 6 cannot be done
+from here — they need your chat history, your social account, and your personal details.

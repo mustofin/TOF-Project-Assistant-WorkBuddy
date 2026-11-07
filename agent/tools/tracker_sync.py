@@ -78,6 +78,18 @@ DASH_FIRST_PROJECT_ROW = 8
 DASH_LAST_PROJECT_ROW = 12
 DASH_TOTAL_ROW = 13
 
+# A task row is identified by the SHAPE of its ID, not by a literal prefix.
+# The SG Garage plan used TASK-001..TASK-015, the catering and laundry plans used
+# T-01..T-10. A verifier that hardcoded "TASK" counted every T-xx row as absent and
+# reported the Dashboard as 0 tasks — the exact class of drift this module exists
+# to prevent. Matching the ID shape keeps stale-row detection while staying
+# convention-agnostic.
+TASK_ID_RE = re.compile(r"^[A-Za-z][A-Za-z0-9]*-\d+$")
+
+
+def _is_task_row(task_id: str) -> bool:
+    return bool(TASK_ID_RE.match((task_id or "").strip()))
+
 # Tracker's Settings sheet defines these vocabularies; map plan values onto them.
 CATEGORY_MAP = {
     "requirements": "Requirements/Design",
@@ -326,7 +338,7 @@ def recompute_dashboard(tracker_path: str | Path) -> list[dict]:
         done = 0
         for r in range(DATA_START_ROW, ws.max_row + 1):
             tid = str(ws.cell(r, 1).value or "").strip()
-            if not tid.upper().startswith("TASK"):
+            if not _is_task_row(tid):
                 continue
             total += 1
             if str(ws.cell(r, 9).value or "").strip().lower() in DONE_STATUSES:
@@ -388,7 +400,7 @@ def verify(tracker_path: str | Path, plan: dict, sheet_name: str | None = None) 
     actual_ids: list[str] = []
     for r in range(DATA_START_ROW, ws.max_row + 1):
         tid = str(ws.cell(r, 1).value or "").strip()
-        if not tid.upper().startswith("TASK"):
+        if not _is_task_row(tid):
             continue
         actual_ids.append(tid)
 
@@ -436,7 +448,7 @@ def verify(tracker_path: str | Path, plan: dict, sheet_name: str | None = None) 
     plan_days = plan.get("effortEstimation", {}).get("totalDays")
     sheet_days_total = sum(
         ws.cell(r, 7).value for r in range(DATA_START_ROW, ws.max_row + 1)
-        if str(ws.cell(r, 1).value or "").upper().startswith("TASK")
+        if _is_task_row(str(ws.cell(r, 1).value or ""))
         and isinstance(ws.cell(r, 7).value, (int, float))
     )
     if isinstance(plan_days, (int, float)) and sheet_days_total != plan_days:
